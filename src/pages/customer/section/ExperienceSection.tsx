@@ -55,9 +55,9 @@ const ExperienceSection: React.FC<ExperienceSectionProps> = ({ experienceRef }) 
       <h1>EXPERIENCE</h1>
       <div className="experiences">
         {experiences.map(
-          (experience) => {
+          (experience, i) => {
             return (
-              <div className="experience">
+              <div key={i} className="experience">
                 <div className="image">
                   <img src={experience.image} />
                 </div>

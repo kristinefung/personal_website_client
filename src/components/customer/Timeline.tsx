@@ -14,9 +14,9 @@ const Timeline: React.FC<TimelineProps> = ({ datas }) => {
         <div className="timeline">
             <div className='center-line'></div>
             <div className='wrapper'>
-                {datas.map((data) => {
+                {datas.map((data, i) => {
                     return (
-                        <div className='row'>
+                        <div key={i} className='row'>
                             <div className='container'>
                                 <div className="data">
                                     <div className="header">

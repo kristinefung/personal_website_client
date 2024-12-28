@@ -9,7 +9,6 @@ const ImageWithBorder: React.FC<ImageWithBorderProps> = ({ className, src }) => 
 
     const imageRef = useRef<HTMLImageElement | null>(null);
     const [imageSize, setImageSize] = useState({ width: 0, height: 0 });
-    console.log(imageRef.current);
 
     useEffect(() => {
         if (imageRef.current) {
