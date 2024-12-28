@@ -1,4 +1,5 @@
 import React from 'react';
+import './HomeSection.css';
 
 interface HomeSectionProps {
   homeRef: React.RefObject<HTMLDivElement>;

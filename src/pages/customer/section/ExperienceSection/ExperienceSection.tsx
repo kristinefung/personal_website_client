@@ -1,12 +1,14 @@
 import React from 'react';
-import DockerIcon from '../../../assets/language_icon/docker.png';
-import FlutterIcon from '../../../assets/language_icon/flutter.png';
-import GolangIcon from '../../../assets/language_icon/golang.png';
-import HtmlIcon from '../../../assets/language_icon/html.png';
-import MssqlIcon from '../../../assets/language_icon/mssql.png';
-import MysqlIcon from '../../../assets/language_icon/mysql.png';
-import NodejsIcon from '../../../assets/language_icon/nodejs.png';
-import ReactjsIcon from '../../../assets/language_icon/reactjs.png';
+import DockerIcon from '../../../../assets/language_icon/docker.png';
+import FlutterIcon from '../../../../assets/language_icon/flutter.png';
+import GolangIcon from '../../../../assets/language_icon/golang.png';
+import HtmlIcon from '../../../../assets/language_icon/html.png';
+import MssqlIcon from '../../../../assets/language_icon/mssql.png';
+import MysqlIcon from '../../../../assets/language_icon/mysql.png';
+import NodejsIcon from '../../../../assets/language_icon/nodejs.png';
+import ReactjsIcon from '../../../../assets/language_icon/reactjs.png';
+
+import './ExperienceSection.css';
 
 interface ExperienceSectionProps {
   experienceRef: React.RefObject<HTMLDivElement>;

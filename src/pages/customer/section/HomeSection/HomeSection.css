@@ -1,0 +1,58 @@
+#home-section {
+    position: relative;
+}
+
+#home-section .background {
+    width: 100%;
+    font-size: 180px;
+    font-family: "Noto Serif", serif;
+    font-weight: 900;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: -1;
+    transform: rotate(335deg);
+    -webkit-transform: rotate(335deg);
+    color: #19213b;
+
+}
+
+#home-section .foreground {
+    margin: 0;
+    padding: 50px;
+    min-height: calc(100vh - 100px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+}
+
+#home-section .foreground .title p.small {
+    margin: 0;
+    color: #868a97;
+    font-size: 20px;
+    font-weight: 900;
+}
+
+#home-section .foreground .title p.large {
+    margin: 0;
+    font-size: 60px;
+    font-family: "Noto Serif", serif;
+    font-weight: 900;
+    line-height: 70px;
+}
+
+#home-section .foreground .title p.large .first-letter {
+    font-size: 70px;
+}
+
+#home-section .foreground .title p.large .fullstop {
+    color: #4eb7dc;
+    font-size: 70px;
+    font-family: "Nunito Sans", sans-serif;
+    font-weight: 900;
+}

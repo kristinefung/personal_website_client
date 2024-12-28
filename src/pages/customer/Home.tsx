@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
-import { useState, useEffect, useRef } from 'react';
+import Navbar from "../../components/customer/NavBar/NavBar";
+import HomeSection from "./section/HomeSection/HomeSection";
+import AboutSection from './section/AboutSection/AboutSection';
+import ProjectSection from './section/ProjectSection/ProjectSection';
+import ExperienceSection from './section/ExperienceSection/ExperienceSection';
+import ContactSection from './section/ContactSection/ContactSection';
 
-import Navbar from "../../components/customer/NavBar";
-import HomeSection from "./section/HomeSection";
-import AboutSection from './section/AboutSection';
-import ProjectSection from './section/ProjectSection';
-import ExperienceSection from './section/ExperienceSection';
-import ContactSection from './section/ContactSection';
+import './Home.css';
 
 /*https://www.behance.net/gallery/140168573/Full-Stack-Developer-Portfolio-Website*/
 const Home: React.FC = () => {

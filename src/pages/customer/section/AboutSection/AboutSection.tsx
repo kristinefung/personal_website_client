@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import Timeline from '../../../components/customer/Timeline';
-import ImageWithBorder from '../../../components/customer/ImageWithBorder';
-import imageProfilePic from '../../../assets/profile_pic.jpeg';
-import '../../../styles/Timeline.css';
-import WorkService from '../../../services/api/workService';
-import EducationService from '../../../services/api/educationService';
-import { readableDate } from '../../../utils/common';
+import Timeline from '../../../../components/customer/Timeline/Timeline';
+import ImageWithBorder from '../../../../components/customer/ImageWithBorder/ImageWithBorder';
+import imageProfilePic from '../../../../assets/profile_pic.jpeg';
+import WorkService from '../../../../services/api/workService';
+import EducationService from '../../../../services/api/educationService';
+import { readableDate } from '../../../../utils/common';
+
+import './AboutSection.css';
 
 interface AboutSectionProps {
   aboutRef: React.RefObject<HTMLDivElement>;

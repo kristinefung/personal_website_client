@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import './ImageWithBorder.css';
 
 interface ImageWithBorderProps {
     className: string;

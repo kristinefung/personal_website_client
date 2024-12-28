@@ -1,0 +1,153 @@
+#contact-section {
+    border-top-left-radius: 100px;
+    border-top-right-radius: 100px;
+    background: linear-gradient(135deg, #4720bce2, #50a6dbe7);
+}
+
+#contact-section .header {
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#contact-section .body {
+    display: flex;
+    justify-content: space-around;
+    gap: 80px
+}
+
+#contact-section .body .left {
+    flex: 1;
+    padding-left: 50px;
+}
+
+#contact-section .body .left .contact {
+    display: flex;
+    gap: 20px;
+    padding: 5px 0;
+    align-items: center;
+}
+
+#contact-section .body .left .contact .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #50a6db, #4720bc);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.287);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#contact-section .body .right {
+    flex: 1;
+    padding-right: 50px;
+}
+
+#contact-section .body .right form {
+    width: 100%;
+    padding: 30px 0;
+    background: linear-gradient(135deg, #50a6db, #4720bc);
+    border-radius: 20px;
+}
+
+#contact-section .body .right form .row {
+    display: flex;
+    gap: 10px;
+    padding: 5px 20px;
+}
+
+#contact-section .body .right form .row>* {
+    flex: 1;
+}
+
+#contact-section .body .right form input[type="text"] {
+    background: #101630;
+    color: #FFF;
+    height: 25px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+#contact-section .body .right form input[type="text"].error {
+    border: 1px solid #e30000;
+}
+
+#contact-section .body .right form input[type="text"].error::placeholder {
+    color: #e30000;
+}
+
+#contact-section .body .right form textarea {
+    background: #101630;
+    color: #FFF;
+    height: 100px;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    resize: none;
+}
+
+#contact-section .body .right form textarea.error {
+    border: 1px solid #e30000;
+}
+
+#contact-section .body .right form textarea.error::placeholder {
+    color: #e30000;
+}
+
+#contact-section .body .right form button {
+    background: #101630;
+    color: #FFF;
+    height: 35px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 16px;
+}
+
+#contact-section hr {
+    margin: 60px 50px 20px 50px;
+    border: 0.5px solid #868a97;
+}
+
+#contact-section .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px 20px 50px;
+}
+
+#contact-section .footer .logo {
+    flex: 1;
+}
+
+#contact-section .footer .copy-right {
+    flex: 1;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+}
+
+#contact-section .footer .social-media {
+    flex: 1;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: right;
+}
+
+#contact-section .footer .social-media .icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    background: linear-gradient(135deg, #50a6db, #4720bc);
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.287);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #FFF;
+}

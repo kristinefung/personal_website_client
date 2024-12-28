@@ -1,7 +1,8 @@
 import React from 'react';
-import ImageWithBorder from '../../../components/customer/ImageWithBorder';
-import imageProject1 from '../../../assets/project_1.jpeg';
-import '../../../styles/Timeline.css';
+import ImageWithBorder from '../../../../components/customer/ImageWithBorder/ImageWithBorder';
+import imageProject1 from '../../../../assets/project_1.jpeg';
+
+import './ProjectionSection.css';
 
 interface ProjectSectionProps {
   projectRef: React.RefObject<HTMLDivElement>;

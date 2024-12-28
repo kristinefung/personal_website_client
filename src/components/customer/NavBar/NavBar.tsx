@@ -1,5 +1,6 @@
 import React from 'react';
-import imageLogo from '../../assets/logo.png'
+import imageLogo from '../../../assets/logo.png';
+import './NavBar.css';
 
 interface NavbarProps {
     scrollToSec: (ref: React.RefObject<HTMLDivElement>) => void;
