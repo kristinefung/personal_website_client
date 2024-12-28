@@ -125,7 +125,7 @@
 }
 
 #contact-section .footer .copy-right {
-    flex: 1;
+    flex: 2;
     font-size: 14px;
     display: flex;
     justify-content: center;
@@ -150,4 +150,19 @@
     justify-content: center;
     cursor: pointer;
     color: #FFF;
+}
+
+
+@media only screen and (max-width: 768px) {
+    #contact-section .body {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
+
+    #contact-section .body .left,
+    #contact-section .body .right {
+        padding-left: 50px;
+        padding-right: 50px;
+    }
 }

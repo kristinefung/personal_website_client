@@ -51,7 +51,6 @@
         linear-gradient(135deg, #50a6db, #4720bc) border-box;
 }
 
-
 .timeline .wrapper .row .container .header {
     display: flex;
     justify-content: space-between;
@@ -113,4 +112,38 @@
 
 .timeline .wrapper .row:nth-child(even) .container::after {
     left: -9px;
+}
+
+
+@media only screen and (max-width: 768px) {
+
+    .timeline .center-line {
+        left: 50px;
+    }
+
+    .timeline .wrapper .row:nth-child(odd),
+    .timeline .wrapper .row:nth-child(even) {
+        justify-content: flex-end;
+    }
+
+    .timeline .wrapper .row .container {
+        width: calc(100% - 130px);
+    }
+
+    .timeline .wrapper .row:nth-child(odd) .container .data,
+    .timeline .wrapper .row:nth-child(even) .container .data {
+        background:
+            linear-gradient(#101630 0 0) padding-box,
+            linear-gradient(135deg, #50a6db, #4720bc) border-box;
+    }
+
+    .timeline .wrapper .row:nth-child(odd) .container::before,
+    .timeline .wrapper .row:nth-child(even) .container::before {
+        left: -13px;
+    }
+
+    .timeline .wrapper .row:nth-child(odd) .container::after,
+    .timeline .wrapper .row:nth-child(even) .container::after {
+        left: -9px;
+    }
 }

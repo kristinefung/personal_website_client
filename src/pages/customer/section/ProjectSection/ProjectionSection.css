@@ -52,3 +52,12 @@
     width: 300px;
     margin-left: 60px;
 }
+
+@media only screen and (max-width: 768px) {
+
+    #portfolio-section .project:nth-child(odd),
+    #portfolio-section .project:nth-child(even) {
+        flex-direction: column;
+        align-items: center;
+    }
+}
