@@ -38,14 +38,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
       const timelineDatas: TimelineData[] = [];
 
       worksResp.map(
-        (work) => {
-          timelineDatas.push({
-            title: work.title,
-            subTitle: work.companyName,
-            date: readableDate(work.startMonth, work.startYear, work.endMonth, work.endYear, work.isCurrent === 1),
-            description: work.description
-          })
-        }
+        (work) => timelineDatas.push({
+          title: work.title,
+          subTitle: work.companyName,
+          date: readableDate(work.startMonth, work.startYear, work.endMonth, work.endYear, work.isCurrent === 1),
+          description: work.description
+        })
       );
 
       setWorks(timelineDatas);
@@ -68,14 +66,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
       const timelineDatas: TimelineData[] = [];
 
       educationsResp.map(
-        (education) => {
-          timelineDatas.push({
-            title: `${education.degree} in ${education.subject}`,
-            subTitle: education.schoolName,
-            date: readableDate(education.startMonth, education.startYear, education.endMonth, education.endYear, education.isCurrent === 1),
-            description: education.description
-          })
-        }
+        (education) => timelineDatas.push({
+          title: `${education.degree} in ${education.subject}`,
+          subTitle: education.schoolName,
+          date: readableDate(education.startMonth, education.startYear, education.endMonth, education.endYear, education.isCurrent === 1),
+          description: education.description
+        })
       );
 
       setEducations(timelineDatas);

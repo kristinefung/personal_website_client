@@ -4,6 +4,8 @@ import Logo from '../../../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
+import type { Enquiry } from '../../../services/api/enquiryService';
+import EnquiryService from '../../../services/api/enquiryService';
 
 interface ContactSectionProps {
   contactRef: React.RefObject<HTMLDivElement>;
@@ -18,16 +20,37 @@ type Errors = {
 }
 
 const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
-  const enq = {
-    name: '',
-    company_name: '',
-    email: '',
-    phone_no: '',
-    comment: '',
-  };
-  // const enquiryService = EnquiryService();
-  const [enquiry, setEnquiry] = useState(enq);
+
+  const enquiryService = EnquiryService();
+  const [enquiry, setEnquiry] = useState<Enquiry>({});
   const [errors, setErrors] = useState<Errors>({});
+
+  const fetchCreateEnquiry = async () => {
+    // setIsLoading(true);
+    try {
+      await enquiryService.createEnquiry(enquiry);
+      alert("Success Create");
+    } catch (error) {
+      console.log(error);
+    } finally {
+      // setIsLoading(false);
+    }
+  };
+
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    // const { isValid, newErrors } = validateEnquiry(enquiry);
+    // setErrors(newErrors);
+    await fetchCreateEnquiry();
+    setEnquiry({
+      name: "",
+      companyName: "",
+      email: "",
+      phoneNo: "",
+      comment: "",
+    });
+
+  };
 
   return (
     <section ref={contactRef} id='contact-section'>
@@ -75,9 +98,9 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
               <input
                 type="text"
                 placeholder={errors.companyName ? errors.companyName : "Company name"}
-                value={enquiry.company_name}
+                value={enquiry.companyName}
                 className={errors.companyName ? 'error' : ''}
-                onChange={(e) => { setEnquiry({ ...enquiry, company_name: e.target.value }) }}
+                onChange={(e) => { setEnquiry({ ...enquiry, companyName: e.target.value }) }}
                 autoComplete="new-password"
               />
             </div>
@@ -93,9 +116,9 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
               <input
                 type="text"
                 placeholder={errors.phoneNo ? errors.phoneNo : "Phone no."}
-                value={enquiry.phone_no}
+                value={enquiry.phoneNo}
                 className={errors.phoneNo ? 'error' : ''}
-                onChange={(e) => { setEnquiry({ ...enquiry, phone_no: e.target.value }) }}
+                onChange={(e) => { setEnquiry({ ...enquiry, phoneNo: e.target.value }) }}
                 autoComplete="new-password"
               />
             </div>
@@ -109,8 +132,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
               />
             </div>
             <div className="row">
-              {/* <button type="submit" onClick={(e) => { handleSubmit(e) }}>Send</button> */}
-              <button type="submit" onClick={(e) => { }}>Send</button>
+              <button type="submit" onClick={(e) => { handleSubmit(e) }}>Send</button>
               <div></div>
             </div>
           </form>
