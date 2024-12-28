@@ -4,11 +4,17 @@ import { useState, useEffect, useRef } from 'react';
 
 import Navbar from "../../components/customer/NavBar";
 import HomeSection from "./section/HomeSection";
+import AboutSection from './section/AboutSection';
 
 /*https://www.behance.net/gallery/140168573/Full-Stack-Developer-Portfolio-Website*/
 const Home: React.FC = () => {
     const homeRef = useRef<HTMLDivElement>(null);
-    const navRefs = { homeRef }
+    const aboutRef = useRef<HTMLDivElement>(null);
+
+    const navRefs = {
+        homeRef,
+        aboutRef
+    }
 
     const scrollToSec = (ref: React.RefObject<HTMLDivElement>) => {
         ref.current?.scrollIntoView({ behavior: 'smooth' });
@@ -23,6 +29,7 @@ const Home: React.FC = () => {
                     navRefs={navRefs}
                 />
                 <HomeSection homeRef={homeRef} />
+                <AboutSection aboutRef={aboutRef} />
             </div>
         </>
     )
