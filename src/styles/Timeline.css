@@ -1,0 +1,116 @@
+.timeline {
+    position: relative;
+}
+
+.timeline .center-line {
+    position: absolute;
+    height: 100%;
+    width: 4px;
+    background: #4eb7dc;
+    left: 50%;
+    /* transform: translateX(-50%); */
+}
+
+.timeline .wrapper .row {
+    display: flex;
+}
+
+.timeline .wrapper .row:nth-child(odd) {
+    justify-content: flex-start;
+}
+
+.timeline .wrapper .row:nth-child(even) {
+    justify-content: flex-end;
+}
+
+.timeline .wrapper .row .container {
+    width: calc(50% - 80px);
+    padding: 30px 40px;
+    position: relative;
+}
+
+.timeline .wrapper .row .container .data {
+    padding: 10px;
+    border: 5px solid transparent;
+    border-radius: 15px;
+    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+.timeline .wrapper .row:nth-child(odd) .container .data {
+    background:
+        linear-gradient(#101630 0 0) padding-box,
+        linear-gradient(225deg, #50a6db, #4720bc) border-box;
+}
+
+.timeline .wrapper .row:nth-child(even) .container .data {
+    background:
+        linear-gradient(#101630 0 0) padding-box,
+        linear-gradient(135deg, #50a6db, #4720bc) border-box;
+}
+
+
+.timeline .wrapper .row .container .header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.timeline .wrapper .row .container .header .title {
+    color: #4eb7dc;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.timeline .wrapper .row .container .header .sub-title {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.timeline .wrapper .row .container .header .right {
+    color: #868a97
+}
+
+.timeline .wrapper .row .container .body {
+    text-align: justify;
+}
+
+.timeline .wrapper .row .container::before {
+    position: absolute;
+    content: "";
+    height: 30px;
+    width: 30px;
+    background: #4eb7dc;
+    border-radius: 50%;
+}
+
+.timeline .wrapper .row:nth-child(odd) .container::before {
+    right: -17px;
+}
+
+.timeline .wrapper .row:nth-child(even) .container::before {
+    left: -13px;
+}
+
+.timeline .wrapper .row:first-child .container::after {
+    background: #4eb7dc;
+}
+
+.timeline .wrapper .row .container::after {
+    position: absolute;
+    content: "";
+    height: 22px;
+    width: 22px;
+    background: #101630;
+    top: 34px;
+    border-radius: 50%;
+}
+
+.timeline .wrapper .row:nth-child(odd) .container::after {
+    right: -13px;
+}
+
+.timeline .wrapper .row:nth-child(even) .container::after {
+    left: -9px;
+}

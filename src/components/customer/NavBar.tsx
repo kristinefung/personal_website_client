@@ -7,6 +7,7 @@ interface NavbarProps {
         homeRef: React.RefObject<HTMLDivElement>;
         aboutRef: React.RefObject<HTMLDivElement>;
         projectRef: React.RefObject<HTMLDivElement>;
+        experienceRef: React.RefObject<HTMLDivElement>;
     };
 }
 
@@ -30,6 +31,9 @@ const Navbar: React.FC<NavbarProps> = ({ scrollToSec, navRefs }) => {
                 </li>
                 <li>
                     <a onClick={() => scrollToSec(navRefs.projectRef)}>PROJECT</a>
+                </li>
+                <li>
+                    <a onClick={() => scrollToSec(navRefs.experienceRef)}>EXPERIENCE</a>
                 </li>
             </ul>
         </div>
