@@ -1,27 +1,100 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Timeline from '../../../components/customer/Timeline';
 import ImageWithBorder from '../../../components/customer/ImageWithBorder';
 import imageProfilePic from '../../../assets/profile_pic.jpeg';
 import '../../../styles/Timeline.css';
+import WorkService from '../../../services/api/workService';
+import EducationService from '../../../services/api/educationService';
+import { readableDate } from '../../../utils/common';
 
 interface AboutSectionProps {
   aboutRef: React.RefObject<HTMLDivElement>;
 }
 
-const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
-  const works = [{
-    title: "string",
-    subTitle: "string",
-    date: "string",
-    description: "string"
-  }];
+type TimelineData = {
+  title: string;
+  subTitle: string;
+  date: string;
+  description: string;
+}
 
-  const educations = [{
-    title: "string",
-    subTitle: "string",
-    date: "string",
-    description: "string"
-  }];
+const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
+
+  const [works, setWorks] = useState<TimelineData[]>([]);
+  const [isLoadingWork, setIsLoadingWork] = useState<boolean>(true);
+  const [workError, setWorkError] = useState<string | null>(null);
+
+  const [educations, setEducations] = useState<TimelineData[]>([]);
+  const [isLoadingEducation, setIsLoadingEducation] = useState<boolean>(true);
+  const [educationError, setEducationError] = useState<string | null>(null);
+
+  const workService = WorkService();
+  const educationService = EducationService();
+
+  const fetchWorks = async () => {
+    setIsLoadingWork(true);
+    try {
+      const worksResp = await workService.getAllWorks();
+      const timelineDatas: TimelineData[] = [];
+
+      worksResp.map(
+        (work) => {
+          timelineDatas.push({
+            title: work.title,
+            subTitle: work.companyName,
+            date: readableDate(work.startMonth, work.startYear, work.endMonth, work.endYear, work.isCurrent === 1),
+            description: work.description
+          })
+        }
+      );
+
+      setWorks(timelineDatas);
+
+    } catch (err) {
+      if (err instanceof Error) {
+        setWorkError(err.message);
+      } else {
+        setWorkError("An unknown error occurred");
+      }
+    } finally {
+      setIsLoadingWork(false);
+    }
+  };
+
+  const fetchEducations = async () => {
+    setIsLoadingEducation(true);
+    try {
+      const educationsResp = await educationService.getAllEducations();
+      const timelineDatas: TimelineData[] = [];
+
+      educationsResp.map(
+        (education) => {
+          timelineDatas.push({
+            title: `${education.degree} in ${education.subject}`,
+            subTitle: education.schoolName,
+            date: readableDate(education.startMonth, education.startYear, education.endMonth, education.endYear, education.isCurrent === 1),
+            description: education.description
+          })
+        }
+      );
+
+      setEducations(timelineDatas);
+
+    } catch (err) {
+      if (err instanceof Error) {
+        setWorkError(err.message);
+      } else {
+        setWorkError("An unknown error occurred");
+      }
+    } finally {
+      setIsLoadingWork(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchWorks();
+    fetchEducations();
+  }, []);
 
   return (
     <section ref={aboutRef} id='about-section'>
