@@ -6,6 +6,8 @@ import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
 import type { Enquiry } from '../../../services/api/enquiryService';
 import EnquiryService from '../../../services/api/enquiryService';
+import { EnquirySchema } from '../../../utils/validator';
+import { z } from 'zod';
 
 interface ContactSectionProps {
   contactRef: React.RefObject<HTMLDivElement>;
@@ -22,8 +24,10 @@ type Errors = {
 const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
 
   const enquiryService = EnquiryService();
+
   const [enquiry, setEnquiry] = useState<Enquiry>({});
   const [errors, setErrors] = useState<Errors>({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchCreateEnquiry = async () => {
     // setIsLoading(true);
@@ -39,16 +43,34 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // const { isValid, newErrors } = validateEnquiry(enquiry);
-    // setErrors(newErrors);
-    await fetchCreateEnquiry();
-    setEnquiry({
-      name: "",
-      companyName: "",
-      email: "",
-      phoneNo: "",
-      comment: "",
-    });
+
+    try {
+      setIsLoading(true);
+
+      EnquirySchema.parse(enquiry);
+      await enquiryService.createEnquiry(enquiry);
+      alert("Success! Form submitted.");
+      setEnquiry({
+        name: "",
+        companyName: "",
+        email: "",
+        phoneNo: "",
+        comment: "",
+      });
+      setErrors({});
+    } catch (err) {
+
+      if (err instanceof z.ZodError) {
+        const validationErrors: { name?: string; email?: string } = {};
+        err.errors.forEach((error) => {
+          const field = error.path[0] as keyof typeof validationErrors;
+          validationErrors[field] = error.message;
+        });
+        setErrors(validationErrors);
+      }
+    } finally {
+      setIsLoading(false);
+    }
 
   };
 
