@@ -78,12 +78,12 @@ const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
 
     } catch (err) {
       if (err instanceof Error) {
-        setWorkError(err.message);
+        setEducationError(err.message);
       } else {
-        setWorkError("An unknown error occurred");
+        setEducationError("An unknown error occurred");
       }
     } finally {
-      setIsLoadingWork(false);
+      setIsLoadingEducation(false);
     }
   };
 
