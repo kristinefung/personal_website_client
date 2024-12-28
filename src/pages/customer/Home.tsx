@@ -7,6 +7,7 @@ import HomeSection from "./section/HomeSection";
 import AboutSection from './section/AboutSection';
 import ProjectSection from './section/ProjectSection';
 import ExperienceSection from './section/ExperienceSection';
+import ContactSection from './section/ContactSection';
 
 /*https://www.behance.net/gallery/140168573/Full-Stack-Developer-Portfolio-Website*/
 const Home: React.FC = () => {
@@ -14,12 +15,14 @@ const Home: React.FC = () => {
     const aboutRef = useRef<HTMLDivElement>(null);
     const projectRef = useRef<HTMLDivElement>(null);
     const experienceRef = useRef<HTMLDivElement>(null);
+    const contactRef = useRef<HTMLDivElement>(null);
 
     const navRefs = {
         homeRef,
         aboutRef,
         projectRef,
-        experienceRef
+        experienceRef,
+        contactRef
     }
 
     const scrollToSec = (ref: React.RefObject<HTMLDivElement>) => {
@@ -38,6 +41,7 @@ const Home: React.FC = () => {
                 <AboutSection aboutRef={aboutRef} />
                 <ProjectSection projectRef={projectRef} />
                 <ExperienceSection experienceRef={experienceRef} />
+                <ContactSection contactRef={contactRef} />
             </div>
         </>
     )
