@@ -1,3 +1,5 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 interface Education {
     id: number;
     degree: string;
@@ -13,13 +15,12 @@ interface Education {
 }
 
 const EducationService = () => {
-    const baseUrl = 'http://localhost:4000';
     // const educationApi = EducationApi(baseUrl);
     // const tokenStorage = TokenStorage();
 
     const getAllEducations = async (): Promise<Education[]> => {
 
-        const response = await fetch(`${baseUrl}/educations`, {
+        const response = await fetch(`${API_BASE_URL}/educations`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

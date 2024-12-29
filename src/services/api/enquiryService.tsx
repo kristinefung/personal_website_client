@@ -1,3 +1,5 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export type Enquiry = {
     id?: number;
     name?: string;
@@ -8,7 +10,6 @@ export type Enquiry = {
 }
 
 const EnquiryService = () => {
-    const baseUrl = 'http://localhost:4000';
     // const enquiryApi = EnquiryApi(baseUrl);
     // const tokenStorage = TokenStorage();
 
@@ -47,7 +48,7 @@ const EnquiryService = () => {
     // };
 
     const createEnquiry = async (enquiry: Enquiry): Promise<void> => {
-        const response = await fetch(`${baseUrl}/enquiries`, {
+        const response = await fetch(`${API_BASE_URL}/enquiries`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

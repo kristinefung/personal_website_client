@@ -1,3 +1,5 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 interface Work {
     id: number;
     title: string;
@@ -12,13 +14,12 @@ interface Work {
 }
 
 const WorkService = () => {
-    const baseUrl = 'http://localhost:4000';
     // const workApi = WorkApi(baseUrl);
     // const tokenStorage = TokenStorage();
 
     const getAllWorks = async (): Promise<Work[]> => {
 
-        const response = await fetch(`${baseUrl}/works`, {
+        const response = await fetch(`${API_BASE_URL}/works`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json'

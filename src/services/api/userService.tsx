@@ -1,16 +1,17 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 interface LoginCredential {
     email: string;
     password: string;
 }
 
 const UserService = () => {
-    const baseUrl = 'http://localhost:4000';
     // const userApi = UserApi(baseUrl);
     // const tokenStorage = TokenStorage();
 
     const login = async (loginCredential: LoginCredential): Promise<string> => {
 
-        const response = await fetch(`${baseUrl}/login`, {
+        const response = await fetch(`${API_BASE_URL}/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
