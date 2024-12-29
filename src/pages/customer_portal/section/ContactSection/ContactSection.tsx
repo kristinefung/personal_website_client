@@ -93,7 +93,10 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
                 <FontAwesomeIcon icon={faEnvelope} />
               </div>
               <div className="text">
-                kristinefunghk@gmail.com
+                <a href='mailto:kristinefunghk@gmail.com'>
+                  kristinefunghk@gmail.com
+                </a>
+
               </div>
             </div>
             <div className="contact">
