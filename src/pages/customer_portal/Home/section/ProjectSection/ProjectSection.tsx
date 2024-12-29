@@ -1,6 +1,6 @@
 import React from 'react';
-import ImageWithBorder from '../../../../../components/customer_portal/ImageWithBorder/ImageWithBorder';
-import imageProject1 from '../../../../assets/project_1.jpeg';
+import ImageWithBorder from 'src/components/customer_portal/ImageWithBorder/ImageWithBorder';
+import imageProject1 from 'src/assets/project_1.jpeg';
 
 import './ProjectionSection.css';
 

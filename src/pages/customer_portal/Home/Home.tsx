@@ -2,12 +2,12 @@ import React, { useRef, useState } from 'react';
 
 import { Drawer, IconButton } from '@mui/material';
 
-import Navbar from "../../../components/customer_portal/NavBar/NavBar";
-import HomeSection from "./section/HomeSection/HomeSection";
-import AboutSection from './section/AboutSection/AboutSection';
-import ProjectSection from './section/ProjectSection/ProjectSection';
-import ExperienceSection from './section/ExperienceSection/ExperienceSection';
-import ContactSection from './section/ContactSection/ContactSection';
+import Navbar from "src/components/customer_portal/NavBar/NavBar";
+import HomeSection from "src/pages/customer_portal/Home/section/HomeSection/HomeSection";
+import AboutSection from 'src/pages/customer_portal/Home/section/AboutSection/AboutSection';
+import ProjectSection from 'src/pages/customer_portal/Home/section/ProjectSection/ProjectSection';
+import ExperienceSection from 'src/pages/customer_portal/Home/section/ExperienceSection/ExperienceSection';
+import ContactSection from 'src/pages/customer_portal/Home/section/ContactSection/ContactSection';
 
 import './Home.css';
 
