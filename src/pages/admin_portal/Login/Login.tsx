@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import UserService from 'src/services/api/userService';
 
@@ -15,6 +16,8 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
     const [message, setMessage] = useState('');
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState('');
+
+    const navigate = useNavigate();
 
     const userService = UserService();
 
@@ -45,6 +48,7 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
         if (token) {
             localStorage.setItem("token", token);
             setAuth(true);
+            navigate('/dashboard');
         }
     };
 

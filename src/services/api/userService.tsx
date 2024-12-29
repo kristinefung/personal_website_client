@@ -30,8 +30,24 @@ const UserService = () => {
         return usersResp.data.userSessionToken;
     };
 
+    const verifyUserSessionToken = async (token: string): Promise<void> => {
+
+        const response = await fetch(`${API_BASE_URL}/verify-user-session-token`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+    };
+
     return {
         login,
+        verifyUserSessionToken,
     };
 };
 
