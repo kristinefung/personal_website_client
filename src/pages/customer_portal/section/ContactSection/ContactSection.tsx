@@ -25,21 +25,15 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactRef }) => {
 
   const enquiryService = EnquiryService();
 
-  const [enquiry, setEnquiry] = useState<Enquiry>({});
+  const [enquiry, setEnquiry] = useState<Enquiry>({
+    name: "",
+    companyName: "",
+    email: "",
+    phoneNo: "",
+    comment: ""
+  });
   const [errors, setErrors] = useState<Errors>({});
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  const fetchCreateEnquiry = async () => {
-    // setIsLoading(true);
-    try {
-      await enquiryService.createEnquiry(enquiry);
-      alert("Success Create");
-    } catch (error) {
-      console.log(error);
-    } finally {
-      // setIsLoading(false);
-    }
-  };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
