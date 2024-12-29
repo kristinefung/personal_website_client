@@ -1,13 +1,26 @@
-import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Home from './pages/customer_portal/Home';
+import Login from './pages/admin_portal/Login/Login';
+
+import './App.css';
 
 const App: React.FC = () => {
+
+  const [isAuthenticated, setIsAuthenticated] = useState(
+    () => localStorage.getItem('token') || false
+  );
+
+  const setAuth = (value: boolean) => {
+    setIsAuthenticated(value);
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/dashboard" replace />} />
       </Routes>
     </BrowserRouter >
   );
