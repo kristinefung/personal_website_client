@@ -1,4 +1,5 @@
 import React from 'react';
+
 import ImageWithBorder from 'src/components/customer_portal/ImageWithBorder/ImageWithBorder';
 import imageProject1 from 'src/assets/project_1.jpeg';
 

@@ -1,6 +1,8 @@
 import { useState } from 'react';
+
+import UserService from 'src/services/api/userService';
+
 import './Login.css';
-import UserService from '../../../services/api/userService';
 
 interface LoginProps {
     setAuth: (auth: boolean) => void;

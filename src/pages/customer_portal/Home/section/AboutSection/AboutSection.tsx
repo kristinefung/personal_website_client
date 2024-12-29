@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
+
+import imageProfilePic from 'src/assets/profile_pic.jpeg';
 import Timeline from 'src/components/customer_portal/Timeline/Timeline';
 import ImageWithBorder from 'src/components/customer_portal/ImageWithBorder/ImageWithBorder';
-import imageProfilePic from 'src/assets/profile_pic.jpeg';
 import WorkService from 'src/services/api/workService';
 import EducationService from 'src/services/api/educationService';
 import { readableDate } from 'src/utils/common';

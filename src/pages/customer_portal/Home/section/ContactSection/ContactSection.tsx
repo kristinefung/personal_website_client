@@ -1,12 +1,15 @@
-import { useState, useRef } from 'react';
-import Logo from 'src/assets/logo.png';
+import { useState } from 'react';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
+import { z } from 'zod';
+
+import Logo from 'src/assets/logo.png';
 import type { Enquiry } from 'src/services/api/enquiryService';
 import EnquiryService from 'src/services/api/enquiryService';
 import { EnquirySchema } from 'src/utils/validator';
-import { z } from 'zod';
+
 import './ContactSection.css';
 
 interface ContactSectionProps {
