@@ -165,4 +165,17 @@
         padding-left: 50px;
         padding-right: 50px;
     }
+
+    #contact-section .body .right form .row {
+        flex-direction: column;
+    }
+
+    #contact-section .body .right form .row>* {
+        flex: none;
+    }
+
+    #contact-section .body .right form button[type="submit"]+div {
+        display: none;
+    }
+
 }

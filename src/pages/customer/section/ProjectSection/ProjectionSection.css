@@ -1,16 +1,16 @@
 #portfolio-section {
     margin: 0;
-    padding: 50px 50px 50px 80px;
+    padding: 50px;
     min-height: calc(100vh - 100px);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 40px;
+    gap: 80px;
 }
 
 #portfolio-section h1 {
-    margin: 80px 0 0 0;
+    margin: 0;
 }
 
 #portfolio-section .projects {
@@ -29,7 +29,7 @@
 #portfolio-section .project {
     display: flex;
     gap: 50px;
-    margin: 80px 0;
+    margin: 0;
 }
 
 #portfolio-section .project .text {
@@ -54,6 +54,11 @@
 }
 
 @media only screen and (max-width: 768px) {
+
+    #portfolio-section {
+        gap: 40px;
+    }
+
 
     #portfolio-section .project:nth-child(odd),
     #portfolio-section .project:nth-child(even) {
