@@ -1,11 +1,11 @@
 import { useState, useRef } from 'react';
-import Logo from '../../../../assets/logo.png';
+import Logo from '../../../../../assets/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import { faLinkedinIn, faGithub } from '@fortawesome/free-brands-svg-icons';
-import type { Enquiry } from '../../../../services/api/enquiryService';
-import EnquiryService from '../../../../services/api/enquiryService';
-import { EnquirySchema } from '../../../../utils/validator';
+import type { Enquiry } from '../../../../../services/api/enquiryService';
+import EnquiryService from '../../../../../services/api/enquiryService';
+import { EnquirySchema } from '../../../../../utils/validator';
 import { z } from 'zod';
 import './ContactSection.css';
 

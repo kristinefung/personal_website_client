@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Timeline from '../../../../components/customer_portal/Timeline/Timeline';
-import ImageWithBorder from '../../../../components/customer_portal/ImageWithBorder/ImageWithBorder';
+import Timeline from '../../../../../components/customer_portal/Timeline/Timeline';
+import ImageWithBorder from '../../../../../components/customer_portal/ImageWithBorder/ImageWithBorder';
 import imageProfilePic from '../../../../assets/profile_pic.jpeg';
-import WorkService from '../../../../services/api/workService';
-import EducationService from '../../../../services/api/educationService';
-import { readableDate } from '../../../../utils/common';
+import WorkService from '../../../../../services/api/workService';
+import EducationService from '../../../../../services/api/educationService';
+import { readableDate } from '../../../../../utils/common';
 
 import './AboutSection.css';
 
