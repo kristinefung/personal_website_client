@@ -1,4 +1,6 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
+
+import { Drawer, IconButton } from '@mui/material';
 
 import Navbar from "../../components/customer/NavBar/NavBar";
 import HomeSection from "./section/HomeSection/HomeSection";
@@ -17,6 +19,13 @@ const Home: React.FC = () => {
     const experienceRef = useRef<HTMLDivElement>(null);
     const contactRef = useRef<HTMLDivElement>(null);
 
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const containerRef = useRef(null);
+
+    const handleDrawerToggle = () => {
+        setDrawerOpen((prevState) => !prevState);
+    };
+
     const navRefs = {
         homeRef,
         aboutRef,
@@ -32,11 +41,50 @@ const Home: React.FC = () => {
     document.body.setAttribute('id', 'website-page');
     return (
         <>
-            <div id='website'>
+            <div id='website' ref={containerRef}>
                 <Navbar
                     scrollToSec={scrollToSec}
                     navRefs={navRefs}
+                    handleDrawerToggle={handleDrawerToggle}
                 />
+                <Drawer
+                    container={contactRef.current}
+                    anchor="right"
+                    variant="temporary"
+                    open={drawerOpen}
+                    onClose={handleDrawerToggle}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                    }}
+                    className='drawer'
+                >
+                    <ul className="menu">
+                        <li>
+                            <a onClick={() => scrollToSec(navRefs.homeRef)}>HOME</a>
+                        </li>
+                        <li>
+                            <a onClick={() => scrollToSec(navRefs.aboutRef)}>ABOUT</a>
+                        </li>
+                        <li>
+                            <a onClick={() => scrollToSec(navRefs.projectRef)}>PROJECT</a>
+                        </li>
+                        <li>
+                            <a onClick={() => scrollToSec(navRefs.experienceRef)}>EXPERIENCE</a>
+                        </li>
+                        <li>
+                            <a
+                                className="btn-normal"
+                                onClick={() => scrollToSec(navRefs.contactRef)}
+                            >
+                                CONTACT
+                            </a>
+                        </li>
+                    </ul>
+                </Drawer>
+
                 <HomeSection homeRef={homeRef} />
                 <AboutSection aboutRef={aboutRef} />
                 <ProjectSection projectRef={projectRef} />

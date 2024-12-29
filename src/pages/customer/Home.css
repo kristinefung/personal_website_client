@@ -22,3 +22,82 @@ body#website-page {
     cursor: pointer;
     font-weight: 700;
 }
+
+/******************************************** 
+*               NavBar
+********************************************/
+
+#website .navbar {
+    position: fixed;
+    top: 0px;
+    backdrop-filter: blur(10px);
+    background: #101630d0;
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 99;
+}
+
+#website .navbar .logo {
+    margin: 0 20px;
+}
+
+#website .navbar .logo img {
+    cursor: pointer;
+}
+
+#website .navbar .desktop-menu {
+    display: block;
+}
+
+#website .navbar .mobile-menu {
+    display: none;
+}
+
+#website .menu {
+    margin: 0 20px;
+    display: flex;
+    text-decoration: none;
+    list-style: none;
+}
+
+#website .menu li {
+    margin: 2px 5px;
+}
+
+#website .menu li a {
+    padding: 10px 20px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+#website .MuiDrawer-paper {
+    box-sizing: border-box;
+    width: 200px;
+    color: #FFF;
+    background: #101630;
+}
+
+@media only screen and (max-width: 768px) {
+    #website .navbar .desktop-menu {
+        display: none;
+    }
+
+    #website .navbar .mobile-menu {
+        display: block;
+    }
+
+    #website .menu {
+        flex-direction: column;
+        align-items: center;
+        margin-top: 80px;
+        padding: 0;
+        gap: 30px;
+    }
+
+    #website .menu li a {
+        font-size: 20px;
+    }
+}
