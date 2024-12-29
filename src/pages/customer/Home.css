@@ -3,6 +3,7 @@ body#website-page {
     color: #FFF;
     font-family: "Roboto", sans-serif;
     margin: 0;
+    overflow-x: hidden;
 }
 
 /******************************************** 
@@ -78,6 +79,7 @@ body#website-page {
     width: 200px;
     color: #FFF;
     background: #101630;
+    display: none;
 }
 
 @media only screen and (max-width: 768px) {
@@ -99,5 +101,9 @@ body#website-page {
 
     #website .menu li a {
         font-size: 20px;
+    }
+
+    #website .MuiDrawer-paper {
+        display: block;
     }
 }

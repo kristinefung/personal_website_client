@@ -56,10 +56,6 @@ const Home: React.FC = () => {
                     ModalProps={{
                         keepMounted: true,
                     }}
-                    sx={{
-                        display: { xs: 'block', sm: 'none' },
-                    }}
-                    className='drawer'
                 >
                     <ul className="menu">
                         <li>
