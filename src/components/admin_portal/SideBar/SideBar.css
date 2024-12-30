@@ -33,10 +33,7 @@
     transition: all 0.5s ease-in-out;
 }
 
-.dashboard-sidebar ul li.active {
-    background: #37373f;
-}
-
+.dashboard-sidebar ul li.active,
 .dashboard-sidebar ul li:hover {
     background: #37373f;
 }
@@ -47,9 +44,11 @@
     gap: 10px;
     font-size: 16px;
     color: #a0a4ae;
+    transition: all 0.5s ease-in-out;
 }
 
-.dashboard-sidebar ul li.active a {
+.dashboard-sidebar ul li.active a,
+.dashboard-sidebar ul li:hover a {
     color: #FFFFFF;
 }
 
