@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 
 import UserService from 'src/services/api/userService';
 
+import SideBar from 'src/components/admin_portal/SideBar/SideBar';
+
 import './Dashboard.css';
 
 interface DashboardProps {
@@ -28,8 +30,12 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
 
     document.body.setAttribute('id', 'dashboard-page');
     return (
-        <div>
-            Dashboard
+        <div className='dashboard'>
+            <SideBar />
+            <div className='dashboard-body'>
+
+                Dashboard
+            </div>
         </div>
     );
 }

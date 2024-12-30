@@ -1,0 +1,11 @@
+#dashboard-page {
+    margin: 0;
+}
+
+.dashboard {
+    display: flex;
+}
+
+.dashboard .dashboard-body {
+    margin-left: 180px;
+}
