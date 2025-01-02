@@ -1,6 +1,7 @@
 #dashboard-page {
     margin: 0;
     background: #242528;
+    color: #FFFFFF;
 }
 
 .dashboard {
@@ -9,4 +10,8 @@
 
 .dashboard .dashboard-body {
     margin-left: 180px;
+    display: flex;
+    gap: 20px;
+    width: calc(100% - 180px - 20px - 20px);
+    padding: 20px;
 }

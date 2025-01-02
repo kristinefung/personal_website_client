@@ -1,0 +1,19 @@
+.dashboard-container {
+    /* Allow items to grow and shrink */
+    background-color: #37373f;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100px;
+}
+
+.dashboard-container .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dashboard-container .body {
+    overflow-x: auto;
+    white-space: nowrap;
+}
