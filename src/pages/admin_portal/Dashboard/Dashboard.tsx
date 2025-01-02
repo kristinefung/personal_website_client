@@ -4,6 +4,7 @@ import { Outlet } from 'react-router-dom';
 import UserService from 'src/services/api/userService';
 
 import SideBar from 'src/components/admin_portal/SideBar/SideBar';
+import Header from 'src/components/admin_portal/Header/Header';
 
 import './Dashboard.css';
 
@@ -34,6 +35,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
         <div className='dashboard'>
             <SideBar />
             <div className='dashboard-body'>
+                <Header />
                 <Outlet></Outlet>
             </div>
         </div>
