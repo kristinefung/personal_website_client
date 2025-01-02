@@ -34,9 +34,11 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
     return (
         <div className='dashboard'>
             <SideBar />
-            <div className='dashboard-body'>
+            <div className='dashboard-main'>
                 <Header />
-                <Outlet></Outlet>
+                <div className='dashboard-body'>
+                    <Outlet></Outlet>
+                </div>
             </div>
         </div>
     );

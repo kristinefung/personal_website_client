@@ -8,10 +8,16 @@
     display: flex;
 }
 
-.dashboard .dashboard-body {
+.dashboard .dashboard-main {
+    display: flex;
+    flex-direction: column;
     margin-left: 180px;
+    width: calc(100% - 180px - 20px - 20px);
+    padding: 0 20px;
+}
+
+.dashboard .dashboard-body {
     display: flex;
     gap: 20px;
-    width: calc(100% - 180px - 20px - 20px);
-    padding: 20px;
+    width: 100%;
 }
