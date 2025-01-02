@@ -16,12 +16,17 @@
     align-items: center;
     justify-content: center;
     display: flex;
-    height: 60px;
+    height: 40px;
+    padding: 10px;
+}
+
+.dashboard-sidebar .menu-item {
+    padding: 10px 0;
 }
 
 .dashboard-sidebar ul {
     list-style: none;
-    padding: 0;
+    padding: 0 0 0 10px;
     margin: 0;
 }
 
@@ -50,10 +55,6 @@
 .dashboard-sidebar ul li.active a,
 .dashboard-sidebar ul li:hover a {
     color: #FFFFFF;
-}
-
-.dashboard-sidebar .menu-bottom {
-    margin-bottom: 20px;
 }
 
 .dashboard-sidebar .menu-bottom ul li a {

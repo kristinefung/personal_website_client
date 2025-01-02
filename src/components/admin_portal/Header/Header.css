@@ -2,5 +2,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
+    height: 40px;
+    padding: 10px 0;
+}
+
+.dashboard-header .logout-btn {
+    color: #FFF;
+    cursor: pointer;
+    font-size: 18px;
+    background-color: transparent;
+    border: none;
 }
