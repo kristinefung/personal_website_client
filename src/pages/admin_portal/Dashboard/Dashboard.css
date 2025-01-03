@@ -22,3 +22,16 @@
     width: 100%;
     padding: 10px 0;
 }
+
+table.dashboard-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 20px 10px;
+    border: none;
+}
+
+table.dashboard-table th,
+table.dashboard-table td {
+    text-align: left;
+    border: none;
+}
