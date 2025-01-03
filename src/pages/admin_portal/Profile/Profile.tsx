@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import DashboardContainer from 'src/components/admin_portal/DashboardContainer/DashboardContainer';
+import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
 import WorkService, { type Work } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';
 
@@ -13,6 +14,8 @@ const Profile: React.FC<ProfileProps> = () => {
     const [works, setWorks] = useState<Work[]>([]);
     const [isLoadingWork, setIsLoadingWork] = useState(true);
     const [workError, setWorkError] = useState<string | null>(null);
+
+    const [open, setOpen] = useState(false);
 
     const workService = WorkService();
 
@@ -62,7 +65,9 @@ const Profile: React.FC<ProfileProps> = () => {
                                 {work.createdAt.toString()}
                             </td>
                             <td>
-                                Edit
+                                <button onClick={() => setOpen(true)}>
+                                    Edit
+                                </button>
                             </td>
                         </tr>
                     )
@@ -87,6 +92,12 @@ const Profile: React.FC<ProfileProps> = () => {
                 </div>)}
                 flex={1}
             /> */}
+            <PopupForm
+                open={open}
+                setOpen={setOpen}
+                title='Edit Work'
+                form={<></>}
+            />
         </>
     );
 }
