@@ -28,6 +28,8 @@ table.dashboard-table {
     border-collapse: separate;
     border-spacing: 20px 10px;
     border: none;
+    margin-left: -20px;
+    margin-right: -20px;
 }
 
 table.dashboard-table th,
