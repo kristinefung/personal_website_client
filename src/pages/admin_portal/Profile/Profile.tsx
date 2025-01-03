@@ -84,14 +84,6 @@ const Profile: React.FC<ProfileProps> = () => {
                 body={workTable}
                 flex={1}
             />
-            {/* <DashboardContainer
-                title='Experience'
-                buttonGroup={(<div>Button</div>)}
-                body={(<div className='test'>
-                    <div style={{ width: '1500px' }}>Item 2</div>
-                </div>)}
-                flex={1}
-            /> */}
             <PopupForm
                 open={open}
                 setOpen={setOpen}

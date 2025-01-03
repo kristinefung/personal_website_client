@@ -1,4 +1,4 @@
-import { Modal, Box } from '@mui/material';
+import { Modal, Box, Button } from '@mui/material';
 
 import './PopupForm.css';
 
@@ -15,6 +15,7 @@ const boxStyle = {
     left: '50%',
     transform: 'translate(-50%, -50%)',
     width: '70%',
+    maxWidth: '800px',
     height: '70%',
     bgcolor: '#242528',
     borderRadius: '15px',
@@ -36,6 +37,7 @@ const formStle = {
 const buttonStle = {
     display: 'flex',
     justifyContent: 'end',
+    gap: '20px',
 }
 
 const PopupForm: React.FC<PopupFormProps> = ({ open, setOpen, title, form }) => {
@@ -55,8 +57,17 @@ const PopupForm: React.FC<PopupFormProps> = ({ open, setOpen, title, form }) => 
                         {form}
                     </div>
                     <div style={buttonStle}>
-                        <button onClick={() => setOpen(false)}>Close</button>
-                        <button>Update</button>
+                        <Button
+                            onClick={() => setOpen(false)}
+                            sx={{ color: '#FFFFFF' }}
+                            variant='outlined'>
+                            Close
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="secondary">
+                            Update
+                        </Button>
                     </div>
                 </Box>
             </Modal>
