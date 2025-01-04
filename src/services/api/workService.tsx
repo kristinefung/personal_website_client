@@ -51,14 +51,25 @@ const WorkService = () => {
         return worksResp.data.work;
     };
 
-    // const updateWorkById = async (id: number, work: Work): Promise<Work> => {
-    //     const authToken = await tokenStorage.getAuthToken();
-    //     const workResp: ApiResponse<Work> = await workApi.updateWorkById(authToken, id, work);
-    //     if (workResp.status !== 0) {
-    //         throw new Error(workResp.message);
-    //     }
-    //     return workResp.data;
-    // };
+    const updateWorkById = async (id: number, work: Work): Promise<void> => {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`${API_BASE_URL}/works/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(work),
+        });
+
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+
+        return;
+    };
 
     // const createWork = async (work: Work): Promise<{ data: Work | null; errMsg: string | null }> => {
     //     const authToken = await tokenStorage.getAuthToken();
@@ -81,7 +92,7 @@ const WorkService = () => {
     return {
         getAllWorks,
         getWorkById,
-        // updateWorkById,
+        updateWorkById,
         // createWork,
         // deleteWorkById
     };
