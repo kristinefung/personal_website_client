@@ -34,13 +34,22 @@ const WorkService = () => {
         return worksResp.data.works;
     };
 
-    // const getWorkById = async (id: number): Promise<Work> => {
-    //     const workResp: ApiResponse<Work> = await workApi.getWorkById(id);
-    //     if (workResp.status !== 0) {
-    //         throw new Error(workResp.message);
-    //     }
-    //     return workResp.data;
-    // };
+    const getWorkById = async (id: number): Promise<Work> => {
+
+        const response = await fetch(`${API_BASE_URL}/works/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const worksResp = await response.json();
+        return worksResp.data.work;
+    };
 
     // const updateWorkById = async (id: number, work: Work): Promise<Work> => {
     //     const authToken = await tokenStorage.getAuthToken();
@@ -71,7 +80,7 @@ const WorkService = () => {
 
     return {
         getAllWorks,
-        // getWorkById,
+        getWorkById,
         // updateWorkById,
         // createWork,
         // deleteWorkById
