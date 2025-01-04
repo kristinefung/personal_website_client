@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 
 import DashboardContainer from 'src/components/admin_portal/DashboardContainer/DashboardContainer';
 import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
+import WorkForm from 'src/components/admin_portal/_form/WorkForm';
 import WorkService, { type Work } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';
 
@@ -12,28 +13,34 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = () => {
     const [works, setWorks] = useState<Work[]>([]);
-    const [isLoadingWork, setIsLoadingWork] = useState(true);
-    const [workError, setWorkError] = useState<string | null>(null);
+    const [isLoadingWorks, setIsLoadingWorks] = useState(true);
+    const [worksError, setWorksError] = useState<string | null>(null);
 
     const [open, setOpen] = useState(false);
+    const [popupWork, setPopupWork] = useState<Work>({});
 
     const workService = WorkService();
 
     const fetchWorks = async () => {
-        setIsLoadingWork(true);
+        setIsLoadingWorks(true);
         try {
             const works = await workService.getAllWorks();
             setWorks(works);
         } catch (err) {
             if (err instanceof Error) {
-                setWorkError(err.message);
+                setWorksError(err.message);
             } else {
-                setWorkError("Unknown error");
+                setWorksError("Unknown error");
             }
         } finally {
-            setIsLoadingWork(false);
+            setIsLoadingWorks(false);
         }
     };
+
+    const handlePopup = async (w: Work) => {
+        setPopupWork(w);
+        setOpen(true)
+    }
 
     useEffect(() => {
         fetchWorks();
@@ -59,13 +66,13 @@ const Profile: React.FC<ProfileProps> = () => {
                                 {work.title}
                             </td>
                             <td>
-                                {readableDate(work.startMonth, work.startYear, work.endMonth, work.endYear, work.isCurrent === 1)}
+                                {readableDate(work.startMonth!, work.startYear!, work.endMonth!, work.endYear!, work.isCurrent === 1)}
                             </td>
                             <td>
-                                {work.createdAt.toString()}
+                                {work.createdAt!.toString()}
                             </td>
                             <td>
-                                <button onClick={() => setOpen(true)}>
+                                <button onClick={() => handlePopup(work)}>
                                     Edit
                                 </button>
                             </td>
@@ -88,7 +95,12 @@ const Profile: React.FC<ProfileProps> = () => {
                 open={open}
                 setOpen={setOpen}
                 title='Edit Work'
-                form={<></>}
+                form={
+                    <WorkForm
+                        workData={popupWork}
+                        setOpen={setOpen}
+                    />
+                }
             />
         </>
     );

@@ -29,17 +29,6 @@ const titleStle = {
     fontSize: '20px',
 }
 
-const formStle = {
-    height: '85%',
-    overflow: 'scroll',
-}
-
-const buttonStle = {
-    display: 'flex',
-    justifyContent: 'end',
-    gap: '20px',
-}
-
 const PopupForm: React.FC<PopupFormProps> = ({ open, setOpen, title, form }) => {
     return (
         <div className='popup-form'>
@@ -53,22 +42,7 @@ const PopupForm: React.FC<PopupFormProps> = ({ open, setOpen, title, form }) => 
                     <div style={titleStle}>
                         {title}
                     </div>
-                    <div style={formStle}>
-                        {form}
-                    </div>
-                    <div style={buttonStle}>
-                        <Button
-                            onClick={() => setOpen(false)}
-                            sx={{ color: '#FFFFFF' }}
-                            variant='outlined'>
-                            Close
-                        </Button>
-                        <Button
-                            variant="contained"
-                            color="secondary">
-                            Update
-                        </Button>
-                    </div>
+                    {form}
                 </Box>
             </Modal>
         </div>

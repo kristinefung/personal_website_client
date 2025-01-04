@@ -1,16 +1,16 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export type Work = {
-    id: number;
-    title: string;
-    companyName: string;
-    description: string;
-    startMonth: number;
-    startYear: number;
-    endMonth: number;
-    endYear: number;
-    isCurrent: number;
-    createdAt: Date;
+    id?: number;
+    title?: string;
+    companyName?: string;
+    description?: string;
+    startMonth?: number;
+    startYear?: number;
+    endMonth?: number;
+    endYear?: number;
+    isCurrent?: number;
+    createdAt?: Date;
 }
 
 const WorkService = () => {
