@@ -1,3 +1,12 @@
+const getRandomString = (length: number) => {
+    let str = '';
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for (let i = 0; i < length; i++) {
+        str += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return str;
+}
+
 const getMonthOptions = () => {
     const months = [
         { label: 'Select month', value: 0 },
@@ -45,6 +54,7 @@ const readableDate = (
 }
 
 export {
+    getRandomString,
     getMonthOptions,
     readableDate,
 }
