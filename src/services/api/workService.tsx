@@ -92,21 +92,31 @@ const WorkService = () => {
         return worksResp.data.work;
     };
 
-    // const deleteWorkById = async (id: number): Promise<Work> => {
-    //     const authToken = await tokenStorage.getAuthToken();
-    //     const workResp: ApiResponse<Work> = await workApi.deleteWorkById(authToken, id);
-    //     if (workResp.status !== 0) {
-    //         throw new Error(workResp.message);
-    //     }
-    //     return workResp.data;
-    // };
+    const deleteWorkById = async (id: number): Promise<void> => {
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`${API_BASE_URL}/works/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+
+        return;
+    };
 
     return {
         getAllWorks,
         getWorkById,
         updateWorkById,
         createWork,
-        // deleteWorkById
+        deleteWorkById
     };
 };
 
