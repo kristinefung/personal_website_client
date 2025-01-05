@@ -9,6 +9,9 @@
     color: #a2a2a5;
 }
 
+/******************************************** 
+*               Input Text
+********************************************/
 .form-element.input-text input[type=text] {
     border: 1px solid #4a4a54;
     background: #37373f;
@@ -17,6 +20,9 @@
     color: #FFFFFF;
 }
 
+/******************************************** 
+*                Text Area
+********************************************/
 .form-element.textarea textarea {
     border: 1px solid #4a4a54;
     background: #37373f;
@@ -26,4 +32,11 @@
     height: 100px;
     min-height: 100px;
     resize: vertical;
+}
+
+/******************************************** 
+*               Checkbox
+********************************************/
+.form-element input[type=checkbox] {
+    align-self: self-start;
 }
