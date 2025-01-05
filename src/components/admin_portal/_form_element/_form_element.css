@@ -40,3 +40,17 @@
 .form-element input[type=checkbox] {
     align-self: self-start;
 }
+
+/******************************************** 
+*               DropdownList
+********************************************/
+.form-element select {
+    padding: 8px 10px;
+    color: #FFFFFF;
+    border: 1px solid #4a4a54;
+    border-radius: 8px;
+    background: #37373f;
+    cursor: pointer;
+    width: 100%;
+    transition: border-color 0.3s ease;
+}
