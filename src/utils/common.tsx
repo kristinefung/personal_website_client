@@ -27,6 +27,19 @@ const getMonthOptions = () => {
     return months;
 }
 
+const getYearOptions = () => {
+    const currentYear = new Date().getFullYear();
+    const years = Array.from({ length: 101 }, (_, i) => {
+        return {
+            label: (currentYear - i).toString(),
+            value: currentYear - i
+        }
+    });
+    years.unshift({ label: 'Select year', value: 0 });
+
+    return years;
+}
+
 const readableDate = (
     startMonth: number,
     startYear: Number,
@@ -56,5 +69,6 @@ const readableDate = (
 export {
     getRandomString,
     getMonthOptions,
+    getYearOptions,
     readableDate,
 }

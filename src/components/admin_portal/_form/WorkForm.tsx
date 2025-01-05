@@ -1,9 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 
+import { getMonthOptions, getYearOptions } from 'src/utils/common';
 import WorkService, { type Work } from 'src/services/api/workService';
 import InputText from '../_form_element/InputText';
 import Textarea from '../_form_element/Textarea';
+import Checkbox from '../_form_element/Checkbox';
+import DropdownList from '../_form_element/DropdownList';
 
 interface WorkFormProps {
   workData: Work;
@@ -84,6 +87,52 @@ const WorkForm: React.FC<WorkFormProps> = ({
               value={work.description ?? ''}
               onChange={(e) => setWork({ ...work, description: e.target.value })}
             // errorMsg={workErrors.title}
+            />
+          </div>
+          <div className='row'>
+            <Checkbox
+              label={"Is current work*"}
+              isChecked={work.isCurrent === 1}
+              onChange={(e) => setWork({
+                ...work,
+                isCurrent: e.target.checked ? 1 : 0,
+                endMonth: e.target.checked ? undefined : work.endMonth,
+                endYear: e.target.checked ? undefined : work.endYear,
+              })}
+            />
+          </div>
+          <div className='row'>
+            <DropdownList
+              label={"Start date*"}
+              value={work.startMonth?.toString()!}
+              onChange={(e) => setWork({ ...work, startMonth: Number(e.target.value) })}
+              options={getMonthOptions()}
+            // errorMsg={errors.start_month}
+            />
+            <DropdownList
+              label={""}
+              value={work.startYear?.toString()!}
+              onChange={(e) => setWork({ ...work, startYear: Number(e.target.value) })}
+              options={getYearOptions()}
+            // errorMsg={errors.start_year}
+            />
+          </div>
+          <div className='row'>
+            < DropdownList
+              label={"End date*"}
+              value={work.endMonth?.toString()!}
+              onChange={(e) => setWork({ ...work, endMonth: Number(e.target.value) })}
+              options={getMonthOptions()}
+              isDisabled={work.isCurrent === 1}
+            // errorMsg={errors.end_month}
+            />
+            <DropdownList
+              label={""}
+              value={work.endYear?.toString()!}
+              onChange={(e) => setWork({ ...work, endYear: Number(e.target.value) })}
+              options={getYearOptions()}
+              isDisabled={work.isCurrent === 1}
+            // errorMsg={errors.end_year}
             />
           </div>
         </form>
