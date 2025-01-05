@@ -1,0 +1,29 @@
+.form-element {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.form-element label {
+    padding: 5px 0;
+    color: #a2a2a5;
+}
+
+.form-element.input-text input[type=text] {
+    border: 1px solid #4a4a54;
+    background: #37373f;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #FFFFFF;
+}
+
+.form-element.textarea textarea {
+    border: 1px solid #4a4a54;
+    background: #37373f;
+    border-radius: 8px;
+    padding: 8px 10px;
+    color: #FFFFFF;
+    height: 100px;
+    min-height: 100px;
+    resize: vertical;
+}

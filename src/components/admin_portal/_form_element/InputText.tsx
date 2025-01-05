@@ -1,7 +1,7 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
 
-import './InputText.css';
+import './_form_element.css';
 
 // Define the props interface
 interface InputTextProps {
