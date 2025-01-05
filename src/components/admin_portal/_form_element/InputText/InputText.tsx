@@ -1,6 +1,8 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
 
+import './InputText.css';
+
 // Define the props interface
 interface InputTextProps {
   label: string;
@@ -8,19 +10,20 @@ interface InputTextProps {
   onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   errorMsg?: string; // Optional prop
   isDisabled?: boolean; // Optional prop with default value
+  flex?: number;
 }
-
 const InputText: React.FC<InputTextProps> = ({
   label,
   value,
   onChange,
   errorMsg,
-  isDisabled = false
+  isDisabled = false,
+  flex = 1,
 }) => {
   const id = 'text-' + getRandomString(10);
 
   return (
-    <div className='form-element'>
+    <div className='form-element input-text'>
       <div className='row'>
         <label htmlFor={id}>{label}</label>
         {errorMsg && <div className='error-msg'>{errorMsg}</div>}
