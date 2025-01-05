@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 
 import WorkService, { type Work } from 'src/services/api/workService';
-import InputText from '../_form_element/InputText/InputText';
+import InputText from '../_form_element/InputText';
+import Textarea from '../_form_element/Textarea';
 
 interface WorkFormProps {
   workData: Work;
@@ -75,6 +76,14 @@ const WorkForm: React.FC<WorkFormProps> = ({
               value={work.companyName ?? ''}
               onChange={(e) => setWork({ ...work, companyName: e.target.value })}
             // errorMsg={workErrors.companyName}
+            />
+          </div>
+          <div className='row'>
+            <Textarea
+              label={"Description*"}
+              value={work.description ?? ''}
+              onChange={(e) => setWork({ ...work, description: e.target.value })}
+            // errorMsg={workErrors.title}
             />
           </div>
         </form>
