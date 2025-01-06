@@ -9,6 +9,7 @@ import Checkbox from '../_form_element/Checkbox';
 import DropdownList from '../_form_element/DropdownList';
 
 interface WorkFormProps {
+  action: "UPDATE" | "CREATE";
   workData: Work;
   setOpen: (open: boolean) => void;
   // formStyle?: React.CSSProperties;
@@ -39,6 +40,7 @@ const buttonStyle = {
 
 
 const WorkForm: React.FC<WorkFormProps> = ({
+  action,
   workData,
   setOpen,
 }) => {
@@ -52,6 +54,21 @@ const WorkForm: React.FC<WorkFormProps> = ({
     setIsUpdateLoading(true);
     try {
       await workService.updateWorkById(work.id!, work);
+    } catch (err) {
+      if (err instanceof Error) {
+        setUpdateError(err.message);
+      } else {
+        setUpdateError("Unknown error");
+      }
+    } finally {
+      setIsUpdateLoading(false);
+    }
+  };
+
+  const fetchCreateWork = async () => {
+    setIsUpdateLoading(true);
+    try {
+      await workService.createWork(work);
     } catch (err) {
       if (err instanceof Error) {
         setUpdateError(err.message);
@@ -144,12 +161,23 @@ const WorkForm: React.FC<WorkFormProps> = ({
           variant='outlined'>
           Close
         </Button>
-        <Button
-          onClick={() => fetchUpdateWork()}
-          variant="contained"
-          color="secondary">
-          Update
-        </Button>
+        {
+          action == "CREATE" ?
+            <Button
+              onClick={() => fetchCreateWork()}
+              variant="contained"
+              color="secondary">
+              Create
+            </Button> :
+            <Button
+              onClick={() => fetchUpdateWork()}
+              variant="contained"
+              color="secondary">
+              Update
+            </Button>
+        }
+
+
       </div>
     </>
   );

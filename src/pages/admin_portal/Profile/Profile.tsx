@@ -16,13 +16,11 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = () => {
+    const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
     const optionsOpen = Boolean(anchorEl);
     const handleOptionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
-    };
-    const handleOptionsClose = () => {
-        setAnchorEl(null);
     };
 
     const [works, setWorks] = useState<Work[]>([]);
@@ -50,10 +48,15 @@ const Profile: React.FC<ProfileProps> = () => {
         }
     };
 
-    const handlePopup = async (w: Work) => {
+    const handlePopup = async (w: Work, a: "CREATE" | "UPDATE") => {
+        setAction(a);
         setPopupWork(w);
-        setWorkFormOpen(true)
+        setWorkFormOpen(true);
+        setAnchorEl(null);
     }
+    const handleOptionsClose = () => {
+        setAnchorEl(null);
+    };
 
     useEffect(() => {
         fetchWorks();
@@ -87,7 +90,7 @@ const Profile: React.FC<ProfileProps> = () => {
                             <td>
                                 <IconButton
                                     style={{ color: '#FFFFFF', padding: '5px' }}
-                                    onClick={() => handlePopup(work)}>
+                                    onClick={() => handlePopup(work, "UPDATE")}>
                                     <EditIcon />
                                 </IconButton>
                             </td>
@@ -104,17 +107,16 @@ const Profile: React.FC<ProfileProps> = () => {
                 title='Work'
                 buttonGroup={(
                     <div>
-                        <Button
+                        <IconButton
                             id="basic-button"
                             aria-controls={optionsOpen ? 'basic-menu' : undefined}
                             aria-haspopup="true"
                             aria-expanded={optionsOpen ? 'true' : undefined}
+                            aria-label="More options" style={{ color: '#FFFFFF' }}
                             onClick={handleOptionsClick}
                         >
-                            <IconButton aria-label="More options" style={{ color: '#FFFFFF' }}>
-                                <MoreVertIcon />
-                            </IconButton>
-                        </Button>
+                            <MoreVertIcon />
+                        </IconButton>
                         <Menu
                             id="basic-menu"
                             anchorEl={anchorEl}
@@ -124,7 +126,7 @@ const Profile: React.FC<ProfileProps> = () => {
                                 'aria-labelledby': 'basic-button',
                             }}
                         >
-                            <MenuItem onClick={handleOptionsClose}>Create</MenuItem>
+                            <MenuItem onClick={() => handlePopup({}, "CREATE")}>Create</MenuItem>
                         </Menu>
                     </div>
                 )}
@@ -134,9 +136,10 @@ const Profile: React.FC<ProfileProps> = () => {
             <PopupForm
                 open={workFormOpen}
                 setOpen={setWorkFormOpen}
-                title='Edit Work'
+                title={action == "CREATE" ? "Create work" : "Edit work"}
                 form={
                     <WorkForm
+                        action={action}
                         workData={popupWork}
                         setOpen={setWorkFormOpen}
                     />
