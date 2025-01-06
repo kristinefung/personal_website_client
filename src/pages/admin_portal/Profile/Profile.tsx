@@ -1,5 +1,9 @@
 import { useState, useEffect } from 'react';
 
+import IconButton from '@mui/material/IconButton';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import EditIcon from '@mui/icons-material/Edit';
+
 import DashboardContainer from 'src/components/admin_portal/DashboardContainer/DashboardContainer';
 import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
@@ -72,9 +76,11 @@ const Profile: React.FC<ProfileProps> = () => {
                                 {work.createdAt!.toString()}
                             </td>
                             <td>
-                                <button onClick={() => handlePopup(work)}>
-                                    Edit
-                                </button>
+                                <IconButton
+                                    style={{ color: '#FFFFFF', padding: '5px' }}
+                                    onClick={() => handlePopup(work)}>
+                                    <EditIcon />
+                                </IconButton>
                             </td>
                         </tr>
                     )
@@ -87,7 +93,10 @@ const Profile: React.FC<ProfileProps> = () => {
         <>
             <DashboardContainer
                 title='Work'
-                buttonGroup={(<div>Button</div>)}
+                buttonGroup={(
+                    <IconButton aria-label="More options" style={{ color: '#FFFFFF' }}>
+                        <MoreVertIcon />
+                    </IconButton>)}
                 body={workTable}
                 flex={1}
             />
