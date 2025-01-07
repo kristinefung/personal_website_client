@@ -4,6 +4,7 @@ import { IconButton, Button, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 
+import MoreOptionButton from 'src/components/admin_portal/MoreOptionButton';
 import DashboardContainer from 'src/components/admin_portal/DashboardContainer/DashboardContainer';
 import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
@@ -17,11 +18,6 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = () => {
     const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const optionsOpen = Boolean(anchorEl);
-    const handleOptionsClick = (event: React.MouseEvent<HTMLButtonElement>) => {
-        setAnchorEl(event.currentTarget);
-    };
 
     const [works, setWorks] = useState<Work[]>([]);
     const [isLoadingWorks, setIsLoadingWorks] = useState(true);
@@ -52,11 +48,7 @@ const Profile: React.FC<ProfileProps> = () => {
         setAction(a);
         setPopupWork(w);
         setWorkFormOpen(true);
-        setAnchorEl(null);
     }
-    const handleOptionsClose = () => {
-        setAnchorEl(null);
-    };
 
     useEffect(() => {
         fetchWorks();
@@ -106,29 +98,13 @@ const Profile: React.FC<ProfileProps> = () => {
             <DashboardContainer
                 title='Work'
                 buttonGroup={(
-                    <div>
-                        <IconButton
-                            id="basic-button"
-                            aria-controls={optionsOpen ? 'basic-menu' : undefined}
-                            aria-haspopup="true"
-                            aria-expanded={optionsOpen ? 'true' : undefined}
-                            aria-label="More options" style={{ color: '#FFFFFF' }}
-                            onClick={handleOptionsClick}
-                        >
-                            <MoreVertIcon />
-                        </IconButton>
-                        <Menu
-                            id="basic-menu"
-                            anchorEl={anchorEl}
-                            open={optionsOpen}
-                            onClose={handleOptionsClose}
-                            MenuListProps={{
-                                'aria-labelledby': 'basic-button',
-                            }}
-                        >
-                            <MenuItem onClick={() => handlePopup({}, "CREATE")}>Create</MenuItem>
-                        </Menu>
-                    </div>
+                    <>
+                        <MoreOptionButton
+                            options={[
+                                { name: "Create", onClick: () => handlePopup({}, "CREATE") }
+                            ]}
+                        />
+                    </>
                 )}
                 body={workTable}
                 flex={1}
