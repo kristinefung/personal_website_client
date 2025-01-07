@@ -1,4 +1,6 @@
 import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from 'src/store';
 
 import { IconButton, Button, Menu, MenuItem } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
@@ -8,8 +10,9 @@ import MoreOptionButton from 'src/components/admin_portal/MoreOptionButton';
 import DashboardContainer from 'src/components/admin_portal/DashboardContainer/DashboardContainer';
 import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
-import WorkService, { type Work } from 'src/services/api/workService';
+import { type Work } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';
+import { fetchWorks } from 'src/reducer/workReducer';
 
 import './Profile.css';
 
@@ -17,32 +20,13 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = () => {
-    const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
+    const dispatch = useDispatch<AppDispatch>();
+    const { works, loading, error } = useSelector((state: RootState) => state.works);
 
-    const [works, setWorks] = useState<Work[]>([]);
-    const [isLoadingWorks, setIsLoadingWorks] = useState(true);
-    const [worksError, setWorksError] = useState<string | null>(null);
+    const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
 
     const [workFormOpen, setWorkFormOpen] = useState(false);
     const [popupWork, setPopupWork] = useState<Work>({});
-
-    const workService = WorkService();
-
-    const fetchWorks = async () => {
-        setIsLoadingWorks(true);
-        try {
-            const works = await workService.getAllWorks();
-            setWorks(works);
-        } catch (err) {
-            if (err instanceof Error) {
-                setWorksError(err.message);
-            } else {
-                setWorksError("Unknown error");
-            }
-        } finally {
-            setIsLoadingWorks(false);
-        }
-    };
 
     const handlePopup = async (w: Work, a: "CREATE" | "UPDATE") => {
         setAction(a);
@@ -51,8 +35,8 @@ const Profile: React.FC<ProfileProps> = () => {
     }
 
     useEffect(() => {
-        fetchWorks();
-    }, []);
+        dispatch(fetchWorks());
+    }, [dispatch]);
 
     const workTable = (
         <table className='dashboard-table'>

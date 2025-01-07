@@ -3,19 +3,19 @@ import WorkService, { type Work } from 'src/services/api/workService';
 
 interface State {
     loading: boolean;
-    data: Work[];
+    works: Work[];
     error: string;
 }
 
 const initialState: State = {
     loading: false,
-    data: [],
+    works: [],
     error: '',
 };
 
 const workService = WorkService();
 
-export const getAllWorks = createAsyncThunk('works/getAllWorks', async () => {
+export const fetchWorks = createAsyncThunk('works/getAllWorks', async () => {
     const response = await workService.getAllWorks();
     return response;
 });
@@ -26,15 +26,15 @@ const work = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(getAllWorks.pending, (state) => {
+            .addCase(fetchWorks.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(getAllWorks.fulfilled, (state, action) => {
+            .addCase(fetchWorks.fulfilled, (state, action) => {
                 state.loading = false;
-                state.data = action.payload;
+                state.works = action.payload;
                 state.error = '';
             })
-            .addCase(getAllWorks.rejected, (state, action) => {
+            .addCase(fetchWorks.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch data';
             });

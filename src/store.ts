@@ -11,7 +11,7 @@ const store = configureStore({
     reducer: dataReducer,
 });
 
-export type RootState = ReturnType<typeof dataReducer>;
+export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
 
 export default store;
