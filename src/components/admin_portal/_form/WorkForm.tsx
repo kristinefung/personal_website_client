@@ -7,6 +7,7 @@ import InputText from '../_form_element/InputText';
 import Textarea from '../_form_element/Textarea';
 import Checkbox from '../_form_element/Checkbox';
 import DropdownList from '../_form_element/DropdownList';
+import Message, { AlertState } from '../_form_element/Message';
 
 interface WorkFormProps {
   action: "UPDATE" | "CREATE";
@@ -48,12 +49,23 @@ const WorkForm: React.FC<WorkFormProps> = ({
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
   const [updateError, setUpdateError] = useState("");
 
+  const [successAlert, setSuccessAlert] = useState<AlertState>({
+    message: '',
+    severity: 'success',
+    visible: false,
+  });
+
   const workService = WorkService();
 
   const fetchUpdateWork = async () => {
     setIsUpdateLoading(true);
     try {
       await workService.updateWorkById(work.id!, work);
+      setSuccessAlert({
+        message: 'Data updated successfully!',
+        severity: 'success',
+        visible: true,
+      });
     } catch (err) {
       if (err instanceof Error) {
         setUpdateError(err.message);
@@ -78,6 +90,10 @@ const WorkForm: React.FC<WorkFormProps> = ({
     } finally {
       setIsUpdateLoading(false);
     }
+  };
+
+  const handleSuccessAlertClose = () => {
+    setSuccessAlert({ ...successAlert, visible: false });
   };
 
   return (
@@ -186,6 +202,15 @@ const WorkForm: React.FC<WorkFormProps> = ({
           >
             <CircularProgress color="secondary" />
           </Backdrop>
+        )
+      }
+      {
+        successAlert.visible && (
+          <Message
+            text={successAlert.message}
+            open={successAlert.visible}
+            onClose={handleSuccessAlertClose}
+          />
         )
       }
     </>
