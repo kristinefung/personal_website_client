@@ -11,7 +11,6 @@ import InputText from '../_form_element/InputText';
 import Textarea from '../_form_element/Textarea';
 import Checkbox from '../_form_element/Checkbox';
 import DropdownList from '../_form_element/DropdownList';
-import SuccessSnackbar, { AlertState } from '../_form_element/SuccessSnackbar';
 
 interface WorkFormProps {
   action: "UPDATE" | "CREATE";

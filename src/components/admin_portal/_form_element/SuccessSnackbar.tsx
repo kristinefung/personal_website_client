@@ -1,32 +1,24 @@
-import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from 'src/store';
 
-import Alert, { AlertColor } from '@mui/material/Alert';
+import Alert from '@mui/material/Alert';
 import Snackbar from '@mui/material/Snackbar';
-import { clearSnackbar, showSuccessSnackbar } from 'src/reducer/ui';
+import { clearSnackbar } from 'src/reducer/ui';
 
 interface SuccessSnackbarProps {
-}
-
-export interface AlertState {
-    SuccessSnackbar: string;
-    severity: AlertColor;
-    visible: boolean;
 }
 
 const SuccessSnackbar: React.FC<SuccessSnackbarProps> = ({
 }) => {
     const { successSnackbarOpen, successSnackbarMessage } = useSelector((state: RootState) => state.ui);
 
-    console.log(successSnackbarOpen);
-
     const dispatch = useDispatch<AppDispatch>();
     const handleSuccessSnackbarClose = () => {
         dispatch(clearSnackbar());
     };
+
     return (
-        <div>
+        <>
             <Snackbar
                 anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
                 open={successSnackbarOpen}
@@ -38,7 +30,7 @@ const SuccessSnackbar: React.FC<SuccessSnackbarProps> = ({
                     {successSnackbarMessage}
                 </Alert>
             </Snackbar>
-        </div>
+        </>
     );
 }
 
