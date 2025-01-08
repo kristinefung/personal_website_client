@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@mui/material';
+import { Button, Backdrop, CircularProgress } from '@mui/material';
 
 import { getMonthOptions, getYearOptions } from 'src/utils/common';
 import WorkService, { type Work } from 'src/services/api/workService';
@@ -179,6 +179,15 @@ const WorkForm: React.FC<WorkFormProps> = ({
 
 
       </div>
+      {
+        isUpdateLoading && (
+          <Backdrop
+            open={true}
+          >
+            <CircularProgress color="secondary" />
+          </Backdrop>
+        )
+      }
     </>
   );
 };
