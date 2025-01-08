@@ -1,13 +1,17 @@
 import { useState, useEffect } from 'react';
 import { Button, Backdrop, CircularProgress } from '@mui/material';
 
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState, AppDispatch } from 'src/store';
+import { clearSnackbar, showSuccessSnackbar } from 'src/reducer/ui';
+
 import { getMonthOptions, getYearOptions } from 'src/utils/common';
 import WorkService, { type Work } from 'src/services/api/workService';
 import InputText from '../_form_element/InputText';
 import Textarea from '../_form_element/Textarea';
 import Checkbox from '../_form_element/Checkbox';
 import DropdownList from '../_form_element/DropdownList';
-import Message, { AlertState } from '../_form_element/Message';
+import SuccessSnackbar, { AlertState } from '../_form_element/SuccessSnackbar';
 
 interface WorkFormProps {
   action: "UPDATE" | "CREATE";
@@ -49,23 +53,14 @@ const WorkForm: React.FC<WorkFormProps> = ({
   const [isUpdateLoading, setIsUpdateLoading] = useState(false);
   const [updateError, setUpdateError] = useState("");
 
-  const [successAlert, setSuccessAlert] = useState<AlertState>({
-    message: '',
-    severity: 'success',
-    visible: false,
-  });
-
+  const dispatch = useDispatch<AppDispatch>();
   const workService = WorkService();
 
   const fetchUpdateWork = async () => {
     setIsUpdateLoading(true);
     try {
       await workService.updateWorkById(work.id!, work);
-      setSuccessAlert({
-        message: 'Data updated successfully!',
-        severity: 'success',
-        visible: true,
-      });
+      dispatch(showSuccessSnackbar("Success!"));
     } catch (err) {
       if (err instanceof Error) {
         setUpdateError(err.message);
@@ -92,9 +87,6 @@ const WorkForm: React.FC<WorkFormProps> = ({
     }
   };
 
-  const handleSuccessAlertClose = () => {
-    setSuccessAlert({ ...successAlert, visible: false });
-  };
 
   return (
     <>
@@ -202,15 +194,6 @@ const WorkForm: React.FC<WorkFormProps> = ({
           >
             <CircularProgress color="secondary" />
           </Backdrop>
-        )
-      }
-      {
-        successAlert.visible && (
-          <Message
-            text={successAlert.message}
-            open={successAlert.visible}
-            onClose={handleSuccessAlertClose}
-          />
         )
       }
     </>
