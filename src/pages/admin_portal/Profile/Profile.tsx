@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from 'src/store';
 
-import { IconButton, Button, Menu, MenuItem } from '@mui/material';
+import { IconButton, Skeleton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -21,7 +21,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { works, loading, error } = useSelector((state: RootState) => state.works);
+    const { works: works, loading: getAllWorksLoading, error: getAllWorksError } = useSelector((state: RootState) => state.works);
 
     const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
 
@@ -48,31 +48,45 @@ const Profile: React.FC<ProfileProps> = () => {
                     <th>Created at</th>
                     <th>Action</th>
                 </tr>
-                {works.map((work) => {
-                    return (
-                        <tr key={work.id}>
-                            <td>
-                                {work.companyName}
-                            </td>
-                            <td>
-                                {work.title}
-                            </td>
-                            <td>
-                                {readableDate(work.startMonth!, work.startYear!, work.endMonth!, work.endYear!, work.isCurrent === 1)}
-                            </td>
-                            <td>
-                                {work.createdAt!.toString()}
-                            </td>
-                            <td>
-                                <IconButton
-                                    style={{ color: '#FFFFFF', padding: '5px' }}
-                                    onClick={() => handlePopup(work, "UPDATE")}>
-                                    <EditIcon />
-                                </IconButton>
-                            </td>
-                        </tr>
+                {
+                    getAllWorksLoading ? (
+                        Array.from(new Array(5)).map((_, index) => (
+                            <tr key={index}>
+                                <td><Skeleton variant="text" width="100%" /></td>
+                                <td><Skeleton variant="text" width="100%" /></td>
+                                <td><Skeleton variant="text" width="100%" /></td>
+                                <td><Skeleton variant="text" width="100%" /></td>
+                                <td><Skeleton variant="text" width="100%" /></td>
+                            </tr>
+                        ))
+                    ) : (
+                        works.map((work) => {
+                            return (
+                                <tr key={work.id}>
+                                    <td>
+                                        {work.companyName}
+                                    </td>
+                                    <td>
+                                        {work.title}
+                                    </td>
+                                    <td>
+                                        {readableDate(work.startMonth!, work.startYear!, work.endMonth!, work.endYear!, work.isCurrent === 1)}
+                                    </td>
+                                    <td>
+                                        {work.createdAt!.toString()}
+                                    </td>
+                                    <td>
+                                        <IconButton
+                                            style={{ color: '#FFFFFF', padding: '5px' }}
+                                            onClick={() => handlePopup(work, "UPDATE")}>
+                                            <EditIcon />
+                                        </IconButton>
+                                    </td>
+                                </tr>
+                            )
+                        })
                     )
-                })}
+                }
             </tbody>
         </table>
     )
