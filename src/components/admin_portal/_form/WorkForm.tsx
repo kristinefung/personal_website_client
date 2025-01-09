@@ -12,6 +12,8 @@ import Textarea from '../_form_element/Textarea';
 import Checkbox from '../_form_element/Checkbox';
 import DropdownList from '../_form_element/DropdownList';
 
+import { fetchUpdateWork, fetchCreateWork, resetWorksState } from 'src/reducer/work/createOrUpdateWork';
+
 interface WorkFormProps {
   action: "UPDATE" | "CREATE";
   workData: Work;
@@ -48,44 +50,34 @@ const WorkForm: React.FC<WorkFormProps> = ({
   workData,
   setOpen,
 }) => {
-  const [work, setWork] = useState<Work>(workData);
-  const [isUpdateLoading, setIsUpdateLoading] = useState(false);
-  const [updateError, setUpdateError] = useState("");
-
   const dispatch = useDispatch<AppDispatch>();
-  const workService = WorkService();
 
-  const fetchUpdateWork = async () => {
-    setIsUpdateLoading(true);
-    try {
-      await workService.updateWorkById(work.id!, work);
+  const { loading, success, error } = useSelector((state: RootState) => state.createOrUpdateWorkReducer);
+  const [work, setWork] = useState<Work>(workData);
+
+  const handleOnClickCreate = async () => {
+    dispatch(fetchCreateWork({ work: work }));
+  }
+
+  const handleOnClickUpdate = async () => {
+    dispatch(fetchUpdateWork({ work: work, id: work.id! }));
+  }
+
+  const handleOnClickClose = async () => {
+    setOpen(false);
+  }
+
+  useEffect(() => {
+    if (success) {
       dispatch(showSnackbar({ severity: "success", message: "Success!" }));
-    } catch (err) {
-      if (err instanceof Error) {
-        setUpdateError(err.message);
-      } else {
-        setUpdateError("Unknown error");
-      }
-    } finally {
-      setIsUpdateLoading(false);
     }
-  };
+  }, [success]);
 
-  const fetchCreateWork = async () => {
-    setIsUpdateLoading(true);
-    try {
-      await workService.createWork(work);
-    } catch (err) {
-      if (err instanceof Error) {
-        setUpdateError(err.message);
-      } else {
-        setUpdateError("Unknown error");
-      }
-    } finally {
-      setIsUpdateLoading(false);
+  useEffect(() => {
+    if (error) {
+      dispatch(showSnackbar({ severity: "error", message: error }));
     }
-  };
-
+  }, [error]);
 
   return (
     <>
@@ -163,7 +155,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
       </div>
       <div style={buttonStyle}>
         <Button
-          onClick={() => setOpen(false)}
+          onClick={() => handleOnClickClose()}
           sx={{ color: '#FFFFFF' }}
           variant='outlined'>
           Close
@@ -171,13 +163,13 @@ const WorkForm: React.FC<WorkFormProps> = ({
         {
           action == "CREATE" ?
             <Button
-              onClick={() => fetchCreateWork()}
+              onClick={() => handleOnClickCreate()}
               variant="contained"
               color="secondary">
               Create
             </Button> :
             <Button
-              onClick={() => fetchUpdateWork()}
+              onClick={() => handleOnClickUpdate()}
               variant="contained"
               color="secondary">
               Update
@@ -187,7 +179,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
 
       </div>
       {
-        isUpdateLoading && (
+        loading && (
           <Backdrop
             open={true}
           >

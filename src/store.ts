@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import { configureStore } from '@reduxjs/toolkit'
 
-import workReducer from 'src/reducer/workReducer'
+import works from 'src/reducer/work/index'
 import uiReducer from 'src/reducer/ui'
 
 const dataReducer = combineReducers({
-    works: workReducer,
+    getAllWorksReducer: works.getAllWorksReducer,
+    createOrUpdateWorkReducer: works.createOrUpdateWorkReducer,
     ui: uiReducer,
 });
 

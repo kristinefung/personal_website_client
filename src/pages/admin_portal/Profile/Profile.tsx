@@ -12,7 +12,7 @@ import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
 import { type Work } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';
-import { fetchWorks } from 'src/reducer/workReducer';
+import { fetchGetAllWorks } from 'src/reducer/work/getAllWorks';
 
 import './Profile.css';
 
@@ -21,7 +21,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = () => {
     const dispatch = useDispatch<AppDispatch>();
-    const { works: works, loading: getAllWorksLoading, error: getAllWorksError } = useSelector((state: RootState) => state.works);
+    const { works: works, loading: getAllWorksLoading, error: getAllWorksError } = useSelector((state: RootState) => state.getAllWorksReducer);
 
     const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
 
@@ -35,7 +35,7 @@ const Profile: React.FC<ProfileProps> = () => {
     }
 
     useEffect(() => {
-        dispatch(fetchWorks());
+        dispatch(fetchGetAllWorks());
     }, [dispatch]);
 
     const workTable = (

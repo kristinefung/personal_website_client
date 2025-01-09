@@ -1,44 +1,47 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import WorkService, { type Work } from 'src/services/api/workService';
 
+const workService = WorkService();
+
 interface State {
     loading: boolean;
     works: Work[];
+    success: boolean;
     error: string;
 }
 
 const initialState: State = {
     loading: false,
     works: [],
+    success: false,
     error: '',
 };
 
-const workService = WorkService();
-
-export const fetchWorks = createAsyncThunk('works/getAllWorks', async () => {
+export const fetchGetAllWorks = createAsyncThunk('works/getAllWorks', async () => {
     const response = await workService.getAllWorks();
     return response;
 });
 
-const work = createSlice({
+const getAllWorks = createSlice({
     name: 'works',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
         builder
-            .addCase(fetchWorks.pending, (state) => {
+            .addCase(fetchGetAllWorks.pending, (state) => {
                 state.loading = true;
             })
-            .addCase(fetchWorks.fulfilled, (state, action) => {
+            .addCase(fetchGetAllWorks.fulfilled, (state, action) => {
                 state.loading = false;
                 state.works = action.payload;
+                state.success = true;
                 state.error = '';
             })
-            .addCase(fetchWorks.rejected, (state, action) => {
+            .addCase(fetchGetAllWorks.rejected, (state, action) => {
                 state.loading = false;
                 state.error = action.error.message || 'Failed to fetch data';
             });
     },
 });
 
-export default work.reducer;
+export default getAllWorks.reducer;
