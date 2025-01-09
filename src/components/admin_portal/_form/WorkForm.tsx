@@ -64,6 +64,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
   }
 
   const handleOnClickClose = async () => {
+    dispatch(resetWorksState());
     setOpen(false);
   }
 

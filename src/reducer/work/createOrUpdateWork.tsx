@@ -69,5 +69,5 @@ const createOrUpdateWork = createSlice({
     },
 });
 
-export const resetWorksState = createOrUpdateWork.actions;
+export const { resetWorksState } = createOrUpdateWork.actions;
 export default createOrUpdateWork.reducer;
