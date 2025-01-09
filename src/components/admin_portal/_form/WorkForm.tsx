@@ -56,29 +56,28 @@ const WorkForm: React.FC<WorkFormProps> = ({
   const [work, setWork] = useState<Work>(workData);
 
   const handleOnClickCreate = async () => {
-    dispatch(fetchCreateWork({ work: work }));
+    const result = await dispatch(fetchCreateWork({ work: work }));
+
+    if (fetchCreateWork.fulfilled.match(result)) {
+      dispatch(showSnackbar({ severity: "success", message: "Success!" }));
+    } else {
+      dispatch(showSnackbar({ severity: "error", message: error }));
+    }
   }
 
   const handleOnClickUpdate = async () => {
-    dispatch(fetchUpdateWork({ work: work, id: work.id! }));
+    const result = await dispatch(fetchUpdateWork({ work: work, id: work.id! }));
+
+    if (fetchUpdateWork.fulfilled.match(result)) {
+      dispatch(showSnackbar({ severity: "success", message: "Success!" }));
+    } else {
+      dispatch(showSnackbar({ severity: "error", message: error }));
+    }
   }
 
   const handleOnClickClose = async () => {
-    dispatch(resetWorksState());
     setOpen(false);
   }
-
-  useEffect(() => {
-    if (success) {
-      dispatch(showSnackbar({ severity: "success", message: "Success!" }));
-    }
-  }, [success]);
-
-  useEffect(() => {
-    if (error) {
-      dispatch(showSnackbar({ severity: "error", message: error }));
-    }
-  }, [error]);
 
   return (
     <>
