@@ -63,8 +63,11 @@ const createOrUpdateWork = createSlice({
                 state.error = '';
             })
             .addCase(fetchCreateWork.rejected, (state, action) => {
-                state.loading = false;
-                state.error = action.error.message || 'Failed to fetch data';
+                return {
+                    ...state,
+                    loading: false,
+                    error: action.error.message || 'Failed to fetch data',
+                }
             });
     },
 });

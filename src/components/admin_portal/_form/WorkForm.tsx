@@ -61,7 +61,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
     if (fetchCreateWork.fulfilled.match(result)) {
       dispatch(showSnackbar({ severity: "success", message: "Success!" }));
     } else {
-      dispatch(showSnackbar({ severity: "error", message: error }));
+      dispatch(showSnackbar({ severity: "error", message: result.error.message || '' }));
     }
   }
 
@@ -71,7 +71,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
     if (fetchUpdateWork.fulfilled.match(result)) {
       dispatch(showSnackbar({ severity: "success", message: "Success!" }));
     } else {
-      dispatch(showSnackbar({ severity: "error", message: error }));
+      dispatch(showSnackbar({ severity: "error", message: result.error.message || '' }));
     }
   }
 
