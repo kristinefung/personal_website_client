@@ -3,7 +3,7 @@ import { Button, Backdrop, CircularProgress } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState, AppDispatch } from 'src/store';
-import { clearSnackbar, showSuccessSnackbar } from 'src/reducer/ui';
+import { clearSnackbar, showSnackbar } from 'src/reducer/ui';
 
 import { getMonthOptions, getYearOptions } from 'src/utils/common';
 import WorkService, { type Work } from 'src/services/api/workService';
@@ -59,7 +59,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
     setIsUpdateLoading(true);
     try {
       await workService.updateWorkById(work.id!, work);
-      dispatch(showSuccessSnackbar("Success!"));
+      dispatch(showSnackbar({ severity: "success", message: "Success!" }));
     } catch (err) {
       if (err instanceof Error) {
         setUpdateError(err.message);

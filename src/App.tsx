@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 
-import SuccessSnackbar from './components/admin_portal/_form_element/SuccessSnackbar';
+import SuccessSnackbar from './components/admin_portal/_form_element/Snackbar';
 
 import Home from './pages/customer_portal/Home/Home';
 import Login from './pages/admin_portal/Login/Login';

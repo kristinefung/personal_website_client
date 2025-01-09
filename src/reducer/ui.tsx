@@ -1,25 +1,30 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 
+import { AlertColor } from '@mui/material/Alert';
+
 interface State {
-    successSnackbarOpen: boolean;
-    successSnackbarMessage: string;
-    errorSnackbarOpen: boolean;
-    errorSnackbarMessage: string;
+    open: boolean;
+    severity: AlertColor;
+    message: string;
 }
 
 const initialState: State = {
-    successSnackbarOpen: false,
-    successSnackbarMessage: '',
-    errorSnackbarOpen: false,
-    errorSnackbarMessage: '',
+    open: false,
+    severity: 'success',
+    message: '',
 };
 
-export const showSuccessSnackbar = createAsyncThunk(
-    'ui/showSuccessSnackbar',
-    async (message: string) => {
-        console.log("showSuccessSnackbar");
-        return message
+interface SnackbarProps {
+    severity: AlertColor;
+    message: string;
+}
+
+export const showSnackbar = createAsyncThunk(
+    'ui/showSnackbar',
+    async (snackbarProps: SnackbarProps) => {
+        return snackbarProps;
     });
+
 export const clearSnackbar = createAsyncThunk(
     'ui/clearSnackbar',
     async () => { });
@@ -31,12 +36,13 @@ const ui = createSlice({
     },
     extraReducers: (builder) => {
         builder
-            .addCase(showSuccessSnackbar.fulfilled, (state, action) => {
-                state.successSnackbarOpen = true;
-                state.successSnackbarMessage = action.payload;
+            .addCase(showSnackbar.fulfilled, (state, action) => {
+                state.open = true;
+                state.severity = action.payload.severity;
+                state.message = action.payload.message;
             })
             .addCase(clearSnackbar.fulfilled, (state, action) => {
-                state.successSnackbarOpen = false;
+                state.open = false;
             });
     },
 });
