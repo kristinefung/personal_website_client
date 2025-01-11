@@ -10,7 +10,7 @@ import MoreOptionButton from 'src/components/admin_portal/MoreOptionButton';
 import DashboardContainer from 'src/components/admin_portal/DashboardContainer/DashboardContainer';
 import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
-import { type Work } from 'src/services/api/workService';
+import { IWork } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';
 import { fetchGetAllWorks } from 'src/reducer/work/getAllWorks';
 
@@ -26,9 +26,9 @@ const Profile: React.FC<ProfileProps> = () => {
     const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
 
     const [workFormOpen, setWorkFormOpen] = useState(false);
-    const [popupWork, setPopupWork] = useState<Work>({});
+    const [popupWork, setPopupWork] = useState<IWork>({});
 
-    const handlePopup = async (w: Work, a: "CREATE" | "UPDATE") => {
+    const handlePopup = async (w: IWork, a: "CREATE" | "UPDATE") => {
         setAction(a);
         setPopupWork(w);
         setWorkFormOpen(true);

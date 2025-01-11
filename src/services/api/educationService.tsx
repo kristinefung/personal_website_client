@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-interface Education {
+export interface IEducation {
     id: number;
     degree: string;
     subject: string;
@@ -18,7 +18,7 @@ const EducationService = () => {
     // const educationApi = EducationApi(baseUrl);
     // const tokenStorage = TokenStorage();
 
-    const getAllEducations = async (): Promise<Education[]> => {
+    const getAllEducations = async (): Promise<IEducation[]> => {
 
         const response = await fetch(`${API_BASE_URL}/educations`, {
             method: 'GET',

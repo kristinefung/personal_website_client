@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export type Work = {
+export interface IWork {
     id?: number;
     title?: string;
     companyName?: string;
@@ -17,7 +17,7 @@ const WorkService = () => {
     // const workApi = WorkApi(baseUrl);
     // const tokenStorage = TokenStorage();
 
-    const getAllWorks = async (): Promise<Work[]> => {
+    const getAllWorks = async (): Promise<IWork[]> => {
 
         const response = await fetch(`${API_BASE_URL}/works`, {
             method: 'GET',
@@ -34,7 +34,7 @@ const WorkService = () => {
         return worksResp.data.works;
     };
 
-    const getWorkById = async (id: number): Promise<Work> => {
+    const getWorkById = async (id: number): Promise<IWork> => {
 
         const response = await fetch(`${API_BASE_URL}/works/${id}`, {
             method: 'GET',
@@ -51,7 +51,7 @@ const WorkService = () => {
         return worksResp.data.work;
     };
 
-    const updateWorkById = async (id: number, work: Work): Promise<void> => {
+    const updateWorkById = async (id: number, work: IWork): Promise<void> => {
         const token = localStorage.getItem("token");
 
         const response = await fetch(`${API_BASE_URL}/works/${id}`, {
@@ -71,7 +71,7 @@ const WorkService = () => {
         return;
     };
 
-    const createWork = async (work: Work): Promise<Work> => {
+    const createWork = async (work: IWork): Promise<IWork> => {
 
         const token = localStorage.getItem("token");
 

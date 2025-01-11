@@ -1,6 +1,6 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-export type Enquiry = {
+export interface IEnquiry {
     id?: number;
     name?: string;
     email?: string;
@@ -47,7 +47,7 @@ const EnquiryService = () => {
     //     return enquiryResp.data;
     // };
 
-    const createEnquiry = async (enquiry: Enquiry): Promise<void> => {
+    const createEnquiry = async (enquiry: IEnquiry): Promise<void> => {
         const response = await fetch(`${API_BASE_URL}/enquiries`, {
             method: 'POST',
             headers: {
