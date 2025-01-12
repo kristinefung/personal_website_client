@@ -32,7 +32,7 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
 
     document.body.setAttribute('id', 'dashboard-page');
     return (
-        <div className='dashboard'>
+        <div className='dashboard flex'>
             <SideBar />
             <div className='dashboard-main'>
                 <Header />

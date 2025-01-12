@@ -23,7 +23,7 @@ const InputText: React.FC<InputTextProps> = ({
   const id = 'text-' + getRandomString(10);
 
   return (
-    <div className='form-element input-text'>
+    <div className='form-element input-text flex flex-1 flex-col'>
       <div className='row'>
         <label htmlFor={id}>{label}</label>
         {errorMsg && <div className='error-msg'>{errorMsg}</div>}

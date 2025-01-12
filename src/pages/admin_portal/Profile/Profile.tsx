@@ -14,8 +14,6 @@ import { IWork } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';
 import { fetchGetAllWorks } from 'src/reducer/work/getAllWorks';
 
-import './Profile.css';
-
 interface ProfileProps {
 }
 

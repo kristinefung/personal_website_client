@@ -15,7 +15,7 @@ const Header: React.FC<HeaderProps> = () => {
     };
 
     return (
-        <div className='dashboard-header'>
+        <div className='dashboard-header flex justify-between items-center'>
             <div className='left'>
 
             </div>

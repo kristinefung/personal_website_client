@@ -21,7 +21,7 @@ const Textarea: React.FC<TextareaProps> = ({
     const id = 'textarea-' + getRandomString(10);
 
     return (
-        <div className='form-element textarea'>
+        <div className='form-element textarea flex flex-1 flex-col'>
             <div className='row'>
                 <label htmlFor={id}>{label}</label>
                 <div className='error-msg'>{errorMsg}</div>

@@ -26,7 +26,7 @@ const DropdownList: React.FC<DropdownListProps> = ({
     const id = 'dropdownlist-' + getRandomString(10);
 
     return (
-        <div className='form-element dropdown-list'>
+        <div className='form-element dropdown-list flex flex-1 flex-col'>
             <div className='row'>
                 <label htmlFor={id}>{label}</label>
                 <div className='error-msg'>{errorMsg}</div>

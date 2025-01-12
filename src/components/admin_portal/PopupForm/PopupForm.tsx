@@ -1,7 +1,5 @@
 import { Modal, Box, Button } from '@mui/material';
 
-import './PopupForm.css';
-
 interface PopupFormProps {
     open: boolean;
     setOpen: (open: boolean) => void;

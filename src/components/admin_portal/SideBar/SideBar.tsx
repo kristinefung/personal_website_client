@@ -12,7 +12,7 @@ const SideBar: React.FC<SideBarProps> = () => {
     const location = useLocation();
 
     return (
-        <div className='dashboard-sidebar'>
+        <div className='dashboard-sidebar flex flex-col justify-between fixed top-0 left-0 bg-stone-500'>
             <div className='menu-top'>
                 <div className='menu-title'>
                     Dashboard

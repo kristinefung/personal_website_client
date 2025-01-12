@@ -4,10 +4,6 @@
     color: #FFFFFF;
 }
 
-.dashboard {
-    display: flex;
-}
-
 .dashboard .dashboard-main {
     display: flex;
     flex-direction: column;

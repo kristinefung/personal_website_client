@@ -19,7 +19,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
     const id = 'Checkbox-' + getRandomString(10);
 
     return (
-        <div className='form-element checkbox'>
+        <div className='form-element checkbox flex flex-1 flex-col'>
             <label htmlFor={id}>{label}</label>
             <input
                 id={id}

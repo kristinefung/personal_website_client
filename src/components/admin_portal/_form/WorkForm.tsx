@@ -6,7 +6,7 @@ import { RootState, AppDispatch } from 'src/store';
 import { clearSnackbar, showSnackbar } from 'src/reducer/ui';
 
 import { getMonthOptions, getYearOptions } from 'src/utils/common';
-import WorkService, { type Work } from 'src/services/api/workService';
+import WorkService, { IWork } from 'src/services/api/workService';
 import InputText from '../_form_element/InputText';
 import Textarea from '../_form_element/Textarea';
 import Checkbox from '../_form_element/Checkbox';
@@ -16,7 +16,7 @@ import { fetchUpdateWork, fetchCreateWork, resetWorksState } from 'src/reducer/w
 
 interface WorkFormProps {
   action: "UPDATE" | "CREATE";
-  workData: Work;
+  workData: IWork;
   setOpen: (open: boolean) => void;
   // formStyle?: React.CSSProperties;
   // buttonStyle?: React.CSSProperties;
@@ -53,7 +53,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
   const dispatch = useDispatch<AppDispatch>();
 
   const { loading, success, error } = useSelector((state: RootState) => state.createOrUpdateWorkReducer);
-  const [work, setWork] = useState<Work>(workData);
+  const [work, setWork] = useState<IWork>(workData);
 
   const handleOnClickCreate = async () => {
     const result = await dispatch(fetchCreateWork({ work: work }));
@@ -82,8 +82,8 @@ const WorkForm: React.FC<WorkFormProps> = ({
   return (
     <>
       <div style={formStyle}>
-        <form className="form work-form" >
-          <div className='row'>
+        <form className="form work-form flex flex-col gap-5" >
+          <div className='flex flex-row gap-5 items-end'>
             <InputText
               label={"Title*"}
               value={work.title ?? ''}
@@ -97,7 +97,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
             // errorMsg={workErrors.companyName}
             />
           </div>
-          <div className='row'>
+          <div className='flex flex-row gap-5 items-end'>
             <Textarea
               label={"Description*"}
               value={work.description ?? ''}
@@ -105,7 +105,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
             // errorMsg={workErrors.title}
             />
           </div>
-          <div className='row'>
+          <div className='flex flex-row gap-5 items-end'>
             <Checkbox
               label={"Is current work*"}
               isChecked={work.isCurrent === 1}
@@ -117,7 +117,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
               })}
             />
           </div>
-          <div className='row'>
+          <div className='flex flex-row gap-5 items-end'>
             <DropdownList
               label={"Start date*"}
               value={work.startMonth?.toString()!}
@@ -133,7 +133,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
             // errorMsg={errors.start_year}
             />
           </div>
-          <div className='row'>
+          <div className='flex flex-row gap-5 items-end'>
             < DropdownList
               label={"End date*"}
               value={work.endMonth?.toString()!}
