@@ -1,8 +1,6 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
 
-import './_form_element.css';
-
 // Define the props interface
 interface TextareaProps {
     label: string;
@@ -23,12 +21,12 @@ const Textarea: React.FC<TextareaProps> = ({
     return (
         <div className='form-element textarea flex flex-1 flex-col'>
             <div className='row'>
-                <label htmlFor={id}>{label}</label>
+                <label className='py-1 text-[#a2a2a5]' htmlFor={id}>{label}</label>
                 <div className='error-msg'>{errorMsg}</div>
             </div>
             <textarea
                 id={id}
-                className={errorMsg ? 'error-field' : ''}
+                className='border border-[#4a4a54] bg-[#37373f] rounded-lg p-2.5 text-white h-[100px] min-h-[100px] resize-y'
                 value={value}
                 onChange={onChange}
                 disabled={isDisabled}

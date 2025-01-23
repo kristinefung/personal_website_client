@@ -1,8 +1,6 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
 
-import './_form_element.css';
-
 // Define the props interface
 interface DropdownListProps {
     label: string;
@@ -28,12 +26,12 @@ const DropdownList: React.FC<DropdownListProps> = ({
     return (
         <div className='form-element dropdown-list flex flex-1 flex-col'>
             <div className='row'>
-                <label htmlFor={id}>{label}</label>
+                <label className='py-1 text-[#a2a2a5]' htmlFor={id}>{label}</label>
                 <div className='error-msg'>{errorMsg}</div>
             </div>
             <select
                 id={id}
-                className={errorMsg ? 'error-field' : ''}
+                className='p-2.5 text-white border border-[#4a4a54] rounded-lg bg-[#37373f] cursor-pointer w-full transition-colors duration-300 ease-in-out'
                 value={value}
                 onChange={onChange}
                 disabled={isDisabled}

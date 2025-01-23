@@ -1,8 +1,6 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
 
-import './_form_element.css';
-
 // Define the props interface
 interface CheckboxProps {
     label: string;
@@ -20,9 +18,10 @@ const Checkbox: React.FC<CheckboxProps> = ({
 
     return (
         <div className='form-element checkbox flex flex-1 flex-col'>
-            <label htmlFor={id}>{label}</label>
+            <label className="ml-2 py-1 text-[#a2a2a5]" htmlFor={id}>{label}</label>
             <input
                 id={id}
+                className='self-start"'
                 type="checkbox"
                 checked={isChecked}
                 onChange={onChange}

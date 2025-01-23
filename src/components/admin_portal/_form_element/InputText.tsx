@@ -1,8 +1,6 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
 
-import './_form_element.css';
-
 // Define the props interface
 interface InputTextProps {
   label: string;
@@ -25,12 +23,12 @@ const InputText: React.FC<InputTextProps> = ({
   return (
     <div className='form-element input-text flex flex-1 flex-col'>
       <div className='row'>
-        <label htmlFor={id}>{label}</label>
+        <label className='py-1 text-[#a2a2a5]' htmlFor={id}>{label}</label>
         {errorMsg && <div className='error-msg'>{errorMsg}</div>}
       </div>
       <input
-        id={id} // Adding id for accessibility
-        className={errorMsg ? 'error-field' : ''}
+        id={id}
+        className='border border-[#4a4a54] bg-[#37373f] rounded-lg p-2.5 text-white'
         type="text"
         value={value}
         onChange={onChange}
