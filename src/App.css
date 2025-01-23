@@ -8,3 +8,9 @@ a {
     color: #FFFFFF;
     text-decoration: none;
 }
+
+body#dashboard-page {
+    margin: 0;
+    background: #242528;
+    color: #FFFFFF;
+}

@@ -37,14 +37,14 @@ const Profile: React.FC<ProfileProps> = () => {
     }, [dispatch]);
 
     const workTable = (
-        <table className='dashboard-table'>
+        <table className='dashboard-table  w-full border-separate border-spacing-x-[30px] border-spacing-y-[10px] border-none mx-[-30px]'>
             <tbody>
                 <tr>
-                    <th>Company name</th>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Created at</th>
-                    <th>Action</th>
+                    <th className="text-left border-none">Company name</th>
+                    <th className="text-left border-none">Title</th>
+                    <th className="text-left border-none">Date</th>
+                    <th className="text-left border-none">Created at</th>
+                    <th className="text-left border-none">Action</th>
                 </tr>
                 {
                     getAllWorksLoading ? (

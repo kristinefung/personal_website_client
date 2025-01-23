@@ -6,8 +6,8 @@ import SuccessSnackbar from './components/admin_portal/_form_element/Snackbar';
 
 import Home from './pages/customer_portal/Home/Home';
 import Login from './pages/admin_portal/Login/Login';
-import Dashboard from './pages/admin_portal/Dashboard/Dashboard';
-import Profile from './pages/admin_portal/Profile/Profile';
+import Dashboard from './pages/admin_portal/Dashboard';
+import Profile from './pages/admin_portal/Profile';
 
 import adminTheme from 'src/theme';
 import './App.css';

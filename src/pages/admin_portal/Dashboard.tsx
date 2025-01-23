@@ -6,8 +6,6 @@ import UserService from 'src/services/api/userService';
 import SideBar from 'src/components/admin_portal/SideBar';
 import Header from 'src/components/admin_portal/Header';
 
-import './Dashboard.css';
-
 interface DashboardProps {
     setAuth: (auth: boolean) => void;
 }
@@ -34,9 +32,9 @@ const Dashboard: React.FC<DashboardProps> = ({ setAuth }) => {
     return (
         <div className='dashboard flex'>
             <SideBar />
-            <div className='dashboard-main'>
+            <div className='dashboard-main flex flex-col ml-[180px] w-[calc(100%-180px-20px-20px)] px-5'>
                 <Header />
-                <div className='dashboard-body'>
+                <div className='dashboard-body  flex gap-[20px] w-full py-2.5'>
                     <Outlet></Outlet>
                 </div>
             </div>
