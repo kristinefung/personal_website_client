@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import UserService from 'src/services/api/userService';
 
-import SideBar from 'src/components/admin_portal/SideBar/SideBar';
+import SideBar from 'src/components/admin_portal/SideBar';
 import Header from 'src/components/admin_portal/Header/Header';
 
 import './Dashboard.css';

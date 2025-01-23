@@ -7,7 +7,12 @@ export default {
         400: '#37373f',
         500: '#242528',
       }
-    }
+    },
+    extend: {
+      colors: {
+        'white': '#FFFFFF',
+      },
+    },
   },
   plugins: [],
 }
