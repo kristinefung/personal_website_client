@@ -1,13 +1,13 @@
 import React from 'react';
 
-interface DashboardContainerProps {
+interface CardProps {
     title: string;
     buttonGroup: React.ReactElement<HTMLDivElement>;
     body: React.ReactElement<HTMLDivElement>;
     flex?: number;
 }
 
-const DashboardContainer: React.FC<DashboardContainerProps> = ({ title, buttonGroup, body, flex = 'none' }) => {
+const Card: React.FC<CardProps> = ({ title, buttonGroup, body, flex = 'none' }) => {
 
     return (
         <div className='dashboard-container bg-[#37373f] text-white p-5 rounded-lg w-[100px]' style={{ flex: flex }}>
@@ -26,4 +26,4 @@ const DashboardContainer: React.FC<DashboardContainerProps> = ({ title, buttonGr
     );
 }
 
-export default DashboardContainer;
+export default Card;

@@ -7,7 +7,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 
 import MoreOptionButton from 'src/components/admin_portal/MoreOptionButton';
-import DashboardContainer from 'src/components/admin_portal/DashboardContainer';
+import Card from 'src/components/admin_portal/Card';
 import PopupForm from 'src/components/admin_portal/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
 import { IWork } from 'src/services/api/workService';
@@ -91,7 +91,7 @@ const Profile: React.FC<ProfileProps> = () => {
 
     return (
         <>
-            <DashboardContainer
+            <Card
                 title='Work'
                 buttonGroup={(
                     <>
