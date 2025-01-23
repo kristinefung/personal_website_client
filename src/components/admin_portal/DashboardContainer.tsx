@@ -1,7 +1,5 @@
 import React from 'react';
 
-import './DashboardContainer.css';
-
 interface DashboardContainerProps {
     title: string;
     buttonGroup: React.ReactElement<HTMLDivElement>;
@@ -12,8 +10,8 @@ interface DashboardContainerProps {
 const DashboardContainer: React.FC<DashboardContainerProps> = ({ title, buttonGroup, body, flex = 'none' }) => {
 
     return (
-        <div className='dashboard-container' style={{ flex: flex }}>
-            <div className='header'>
+        <div className='dashboard-container bg-[#37373f] text-white p-5 rounded-lg w-[100px]' style={{ flex: flex }}>
+            <div className='header flex justify-between items-center'>
                 <div className='title'>
                     {title}
                 </div>
@@ -21,7 +19,7 @@ const DashboardContainer: React.FC<DashboardContainerProps> = ({ title, buttonGr
                     {buttonGroup}
                 </div>
             </div>
-            <div className='body'>
+            <div className='body overflow-x-auto whitespace-nowrap'>
                 {body}
             </div>
         </div>
