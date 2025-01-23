@@ -1,8 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 
-import './Header.css';
-
 interface HeaderProps {
 }
 
@@ -15,12 +13,12 @@ const Header: React.FC<HeaderProps> = () => {
     };
 
     return (
-        <div className='dashboard-header flex justify-between items-center'>
+        <div className='dashboard-header flex justify-between items-center h-10 py-2'>
             <div className='left'>
 
             </div>
             <div className='right'>
-                <button className='logout-btn' onClick={handleLogout}>
+                <button className='logout-btn text-white cursor-pointer text-lg bg-transparent border-none' onClick={handleLogout}>
                     <FontAwesomeIcon icon={faRightFromBracket} />
                 </button>
             </div>

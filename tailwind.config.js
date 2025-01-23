@@ -11,6 +11,7 @@ export default {
     extend: {
       colors: {
         'white': '#FFFFFF',
+        'transparent': 'transparent'
       },
     },
   },
