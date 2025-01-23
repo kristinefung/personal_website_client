@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom';
 
 import UserService from 'src/services/api/userService';
 
-import './Login.css';
-
 interface LoginProps {
     setAuth: (auth: boolean) => void;
 }
@@ -54,25 +52,27 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
 
     document.body.setAttribute('id', 'login-page');
     return (
-        <div className="login-container">
-            <div className='head'>
+        <div className="login-container bg-white w-[350px] h-[500px] rounded-md">
+            <div className='head  h-[150px] flex flex-col justify-center items-center text-[40px]'>
                 Login
             </div>
-            <form className="form" onSubmit={handleSubmit}>
+            <form className="form h-[300px] flex flex-col justify-center items-center" onSubmit={handleSubmit}>
                 <input
                     type="text"
+                    className="h-[30px] w-[250px] my-[15px] mx-[20px] text-[18px]"
                     placeholder="Email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                 />
                 <input
                     type="password"
+                    className="h-[30px] w-[250px] my-[15px] mx-[20px] text-[18px]"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                 />
-                <button type="submit">Login</button>
-                <div className='message'>
+                <button type="submit" className="h-[40px] w-[250px] my-[15px] mx-[20px] border-none text-[18px] text-white bg-[#376ae3] cursor-pointer">Login</button>
+                <div className='message h-[50px] text-[#d50a0a]'>
                     {message}
                 </div>
             </form>

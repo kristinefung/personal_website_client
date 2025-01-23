@@ -8,7 +8,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import MoreOptionButton from 'src/components/admin_portal/MoreOptionButton';
 import DashboardContainer from 'src/components/admin_portal/DashboardContainer/DashboardContainer';
-import PopupForm from 'src/components/admin_portal/PopupForm/PopupForm';
+import PopupForm from 'src/components/admin_portal/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
 import { IWork } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';

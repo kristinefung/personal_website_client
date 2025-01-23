@@ -14,3 +14,11 @@ body#dashboard-page {
     background: #242528;
     color: #FFFFFF;
 }
+
+body#login-page {
+    background: linear-gradient(to right, #376ae3, #03287c);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
