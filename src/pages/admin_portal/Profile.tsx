@@ -20,7 +20,7 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { allWorks, allWorksLoading, setAllWorks } = useWorkStore();
+    const { works, worksLoading, fetchAllWorks } = useWorkStore();
 
     const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
 
@@ -34,7 +34,7 @@ const Profile: React.FC<ProfileProps> = () => {
     }
 
     useEffect(() => {
-        setAllWorks();
+        fetchAllWorks();
     }, [dispatch]);
 
     const workTable = (
@@ -48,7 +48,7 @@ const Profile: React.FC<ProfileProps> = () => {
                     <th className="text-left border-none">Action</th>
                 </tr>
                 {
-                    allWorksLoading ? (
+                    worksLoading ? (
                         Array.from(new Array(5)).map((_, index) => (
                             <tr key={index}>
                                 <td><Skeleton variant="text" width="100%" /></td>
@@ -59,7 +59,7 @@ const Profile: React.FC<ProfileProps> = () => {
                             </tr>
                         ))
                     ) : (
-                        allWorks && allWorks.map((work) => {
+                        works && works.map((work) => {
                             return (
                                 <tr key={work.id}>
                                     <td>
