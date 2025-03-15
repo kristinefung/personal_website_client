@@ -1,7 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from 'src/store';
-
 import { IconButton, Skeleton } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
@@ -18,7 +15,6 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = () => {
-    const dispatch = useDispatch<AppDispatch>();
 
     const { works, worksLoading, fetchAllWorks } = useWorkStore();
 
@@ -35,7 +31,7 @@ const Profile: React.FC<ProfileProps> = () => {
 
     useEffect(() => {
         fetchAllWorks();
-    }, [dispatch]);
+    }, []);
 
     const workTable = (
         <table className='dashboard-table  w-full border-separate border-spacing-x-[30px] border-spacing-y-[10px] border-none mx-[-30px]'>
@@ -113,7 +109,7 @@ const Profile: React.FC<ProfileProps> = () => {
                 form={
                     <WorkForm
                         action={action}
-                        workData={popupWork}
+                        popupWork={popupWork}
                         setOpen={setWorkFormOpen}
                     />
                 }

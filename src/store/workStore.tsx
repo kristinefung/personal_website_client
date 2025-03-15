@@ -5,20 +5,17 @@ const workService = WorkService();
 
 type State = {
     worksLoading: boolean;
+    workFormLoading: boolean;
     works: IWork[] | null;
-    work: IWork | null;
-    setWork: (work: IWork) => void;
     fetchAllWorks: () => Promise<void>;
     fetchUpdateWork: (work: IWork) => void;
+    fetchCreateWork: (work: IWork) => void;
 }
 
 const useWorkStore = create<State>((set) => ({
     worksLoading: false,
+    workFormLoading: false,
     works: null,
-    work: null,
-    setWork: (work) => {
-        set({ work: work });
-    },
     fetchAllWorks: async () => {
         set({ worksLoading: true });
         try {
@@ -33,7 +30,7 @@ const useWorkStore = create<State>((set) => ({
         }
     },
     fetchUpdateWork: async (work) => {
-        set({ worksLoading: true });
+        // set({ worksLoading: true });
         try {
             const response = await workService.updateWorkById(work.id!, work);
         }
@@ -41,7 +38,19 @@ const useWorkStore = create<State>((set) => ({
             // TODO
         }
         finally {
-            set({ worksLoading: false });
+            // set({ worksLoading: false });
+        }
+    },
+    fetchCreateWork: async (work) => {
+        // set({ worksLoading: true });
+        try {
+            const response = await workService.createWork(work);
+        }
+        catch (error: unknown) {
+            // TODO
+        }
+        finally {
+            // set({ worksLoading: false });
         }
     },
 }));

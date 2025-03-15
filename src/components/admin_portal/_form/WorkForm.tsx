@@ -1,9 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Button, Backdrop, CircularProgress } from '@mui/material';
 
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState, AppDispatch } from 'src/store';
-import { clearSnackbar, showSnackbar } from 'src/reducer/ui';
 
 import { getMonthOptions, getYearOptions } from 'src/utils/common';
 import WorkService, { IWork } from 'src/services/api/workService';
@@ -11,26 +8,14 @@ import InputText from '../_form_element/InputText';
 import Textarea from '../_form_element/Textarea';
 import Checkbox from '../_form_element/Checkbox';
 import DropdownList from '../_form_element/DropdownList';
-
-import { fetchUpdateWork, fetchCreateWork, resetWorksState } from 'src/reducer/work/createOrUpdateWork';
+import useWorkStore from 'src/store/workStore';
 
 interface WorkFormProps {
   action: "UPDATE" | "CREATE";
-  workData: IWork;
+  popupWork: IWork;
   setOpen: (open: boolean) => void;
   // formStyle?: React.CSSProperties;
   // buttonStyle?: React.CSSProperties;
-}
-
-type WorkErrors = {
-  title?: string;
-  companyName?: string;
-  description?: string;
-  startMonth?: number;
-  startYear?: number;
-  endMonth?: number;
-  endYear?: number;
-  isCurrent?: number;
 }
 
 const formStyle = {
@@ -47,32 +32,19 @@ const buttonStyle = {
 
 const WorkForm: React.FC<WorkFormProps> = ({
   action,
-  workData,
+  popupWork,
   setOpen,
 }) => {
-  const dispatch = useDispatch<AppDispatch>();
+  const [work, setWork] = useState<IWork>(popupWork);
 
-  const { loading, success, error } = useSelector((state: RootState) => state.createOrUpdateWorkReducer);
-  const [work, setWork] = useState<IWork>(workData);
+  const { workFormLoading, fetchCreateWork, fetchUpdateWork } = useWorkStore();
 
   const handleOnClickCreate = async () => {
-    const result = await dispatch(fetchCreateWork({ work: work }));
-
-    if (fetchCreateWork.fulfilled.match(result)) {
-      dispatch(showSnackbar({ severity: "success", message: "Success!" }));
-    } else {
-      dispatch(showSnackbar({ severity: "error", message: result.error.message || '' }));
-    }
+    fetchCreateWork(work)
   }
 
   const handleOnClickUpdate = async () => {
-    const result = await dispatch(fetchUpdateWork({ work: work, id: work.id! }));
-
-    if (fetchUpdateWork.fulfilled.match(result)) {
-      dispatch(showSnackbar({ severity: "success", message: "Success!" }));
-    } else {
-      dispatch(showSnackbar({ severity: "error", message: result.error.message || '' }));
-    }
+    fetchUpdateWork(work)
   }
 
   const handleOnClickClose = async () => {
@@ -86,13 +58,13 @@ const WorkForm: React.FC<WorkFormProps> = ({
           <div className='flex flex-row gap-5 items-end'>
             <InputText
               label={"Title*"}
-              value={work.title ?? ''}
+              value={work?.title ?? ''}
               onChange={(e) => setWork({ ...work, title: e.target.value })}
             // errorMsg={workErrors.title}
             />
             <InputText
               label={"Company name*"}
-              value={work.companyName ?? ''}
+              value={work?.companyName ?? ''}
               onChange={(e) => setWork({ ...work, companyName: e.target.value })}
             // errorMsg={workErrors.companyName}
             />
@@ -100,7 +72,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
           <div className='flex flex-row gap-5 items-end'>
             <Textarea
               label={"Description*"}
-              value={work.description ?? ''}
+              value={work?.description ?? ''}
               onChange={(e) => setWork({ ...work, description: e.target.value })}
             // errorMsg={workErrors.title}
             />
@@ -108,12 +80,12 @@ const WorkForm: React.FC<WorkFormProps> = ({
           <div className='flex flex-row gap-5 items-end'>
             <Checkbox
               label={"Is current work*"}
-              isChecked={work.isCurrent === 1}
+              isChecked={work?.isCurrent === 1}
               onChange={(e) => setWork({
                 ...work,
                 isCurrent: e.target.checked ? 1 : 0,
-                endMonth: e.target.checked ? undefined : work.endMonth,
-                endYear: e.target.checked ? undefined : work.endYear,
+                endMonth: e.target.checked ? undefined : work?.endMonth,
+                endYear: e.target.checked ? undefined : work?.endYear,
               })}
             />
           </div>
@@ -179,7 +151,7 @@ const WorkForm: React.FC<WorkFormProps> = ({
 
       </div>
       {
-        loading && (
+        workFormLoading && (
           <Backdrop
             open={true}
           >
