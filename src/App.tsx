@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from '@mui/material/styles';
 
@@ -8,6 +8,8 @@ import Home from './pages/customer_portal/Home/Home';
 import Login from './pages/admin_portal/Login';
 import Dashboard from './pages/admin_portal/Dashboard';
 import Profile from './pages/admin_portal/Profile';
+
+import Layout from './components/admin_portal/navigation/Layout';
 
 import adminTheme from 'src/theme';
 import './App.css';
@@ -32,7 +34,8 @@ const App: React.FC = () => {
           <Route path='/dashboard' element={
             isAuthenticated ?
               <ThemeProvider theme={adminTheme}>
-                <Dashboard setAuth={setAuth} />
+                {/* <Dashboard setAuth={setAuth} /> */}
+                <Layout setAuth={setAuth} />
               </ThemeProvider> :
               < Navigate to="/login" replace />
           } >

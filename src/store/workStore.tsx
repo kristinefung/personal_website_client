@@ -4,18 +4,25 @@ import WorkService, { IWork } from 'src/services/api/workService';
 const workService = WorkService();
 
 type State = {
+    workLoading: boolean;
     worksLoading: boolean;
-    workFormLoading: boolean;
+    work: IWork | null;
     works: IWork[] | null;
+    workFormId: number | null;
+    fetchWorkById: (id: number) => Promise<void>;
     fetchAllWorks: () => Promise<void>;
-    fetchUpdateWork: (work: IWork) => void;
-    fetchCreateWork: (work: IWork) => void;
+    fetchUpdateWork: (work: IWork) => Promise<void>;
+    fetchCreateWork: (work: IWork) => Promise<void>;
+    setWork: (work: IWork) => void;
+    setWorkFormId: (id: number | null) => void;
 }
 
 const useWorkStore = create<State>((set) => ({
+    workLoading: false,
     worksLoading: false,
-    workFormLoading: false,
+    work: null,
     works: null,
+    workFormId: null,
     fetchAllWorks: async () => {
         set({ worksLoading: true });
         try {
@@ -27,6 +34,19 @@ const useWorkStore = create<State>((set) => ({
         }
         finally {
             set({ worksLoading: false });
+        }
+    },
+    fetchWorkById: async (id: number) => {
+        set({ workLoading: true });
+        try {
+            const response = await workService.getWorkById(id);
+            set({ work: response });
+        }
+        catch (error: unknown) {
+            // TODO
+        }
+        finally {
+            set({ workLoading: false });
         }
     },
     fetchUpdateWork: async (work) => {
@@ -52,6 +72,13 @@ const useWorkStore = create<State>((set) => ({
         finally {
             // set({ worksLoading: false });
         }
+    },
+    setWork: (work) => {
+        set({ work: work });
+    },
+    setWorkFormId: (id) => {
+        console.log(id);
+        set({ workFormId: id });
     },
 }));
 
