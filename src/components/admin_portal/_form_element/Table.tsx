@@ -1,6 +1,7 @@
 import * as React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import adminTheme from 'src/theme';
 
 import {
     Table as MuiTable,
@@ -38,7 +39,7 @@ const Table: React.FC<Props> = (props) => {
 
     return (
         <>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ backgroundColor: adminTheme.palette.primary.main, color: '#fff' }}>
                 <Toolbar
                     sx={[
                         {
@@ -79,7 +80,7 @@ const Table: React.FC<Props> = (props) => {
                                     Array.from(new Array(5)).map((_, index) => (
                                         <TableRow key={index} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                             {props.columns.map((column) => (
-                                                <TableCell key={column.id} align="left">
+                                                <TableCell key={column.id} align="left" >
                                                     <Skeleton variant="text" width="100%" />
                                                 </TableCell>
                                             ))}
@@ -91,16 +92,15 @@ const Table: React.FC<Props> = (props) => {
                                     <TableRow key={rowIndex} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                                         {props.columns.map((column) => (
                                             column.id === 'action' ?
-                                                <TableCell key={column.id} align="left">
+                                                <TableCell key={column.id} align="left" >
                                                     <Tooltip title="Edit">
                                                         <IconButton onClick={() => props.handleOnClickEdit(Number(row["action"]))}>
                                                             <EditIcon />
-                                                            {Number(row["action"])}
                                                         </IconButton>
                                                     </Tooltip>
                                                 </TableCell>
                                                 :
-                                                <TableCell key={column.id} align="left">
+                                                <TableCell key={column.id} align="left" >
                                                     {row[column.id]}
                                                 </TableCell>
                                         ))}

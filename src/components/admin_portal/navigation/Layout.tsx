@@ -9,7 +9,7 @@ import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
 
 import Drawer from './Drawer';
-import theme from '../../../theme';
+import adminTheme from 'src/theme';
 
 const drawerWidth = 220;
 const appbarHeight = 60;
@@ -56,7 +56,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
         fetchVerifyToken();
     }, []);
 
-
+    document.body.setAttribute('id', 'dashboard-page');
     return (
 
         <>

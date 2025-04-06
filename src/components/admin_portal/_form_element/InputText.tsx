@@ -1,5 +1,6 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
+import TextField from '@mui/material/TextField';
 
 // Define the props interface
 interface InputTextProps {
@@ -21,20 +22,18 @@ const InputText: React.FC<InputTextProps> = ({
   const id = 'text-' + getRandomString(10);
 
   return (
-    <div className='form-element input-text flex flex-1 flex-col'>
-      <div className='row'>
-        <label className='py-1 text-[#a2a2a5]' htmlFor={id}>{label}</label>
-        {errorMsg && <div className='error-msg'>{errorMsg}</div>}
-      </div>
-      <input
+    <>
+      <TextField
         id={id}
-        className='border border-[#4a4a54] bg-[#37373f] rounded-lg p-2.5 text-white'
-        type="text"
-        value={value}
-        onChange={onChange}
+        label={label}
+        defaultValue={value}
         disabled={isDisabled}
+        error={(errorMsg !== undefined && errorMsg.length !== 0)}
+        helperText={errorMsg}
+        sx={{ flex: flex }}
       />
-    </div>
+    </>
+
   );
 }
 

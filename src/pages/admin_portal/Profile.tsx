@@ -127,18 +127,12 @@ const Profile: React.FC<ProfileProps> = () => {
                 data={data}
                 handleOnClickEdit={handleEditPopup}
             />
-            <PopupForm
-                open={workFormOpen}
+            <WorkForm
+                action={action}
                 setOpen={setWorkFormOpen}
-                title={action == "CREATE" ? "Create work" : "Edit work"}
-                form={
-                    <WorkForm
-                        action={action}
-                        setOpen={setWorkFormOpen}
-                        open={workFormOpen}
-                    />
-                }
+                open={workFormOpen}
             />
+
         </>
     );
 }

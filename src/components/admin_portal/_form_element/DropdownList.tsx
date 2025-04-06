@@ -1,6 +1,9 @@
 import React from 'react';
 import { getRandomString } from 'src/utils/common';
 
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+
 // Define the props interface
 interface DropdownListProps {
     label: string;
@@ -12,6 +15,7 @@ interface DropdownListProps {
     onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
     errorMsg?: string;
     isDisabled?: boolean;
+    flex?: number;
 }
 const DropdownList: React.FC<DropdownListProps> = ({
     label,
@@ -20,29 +24,28 @@ const DropdownList: React.FC<DropdownListProps> = ({
     onChange,
     errorMsg,
     isDisabled = false,
+    flex = 1,
 }) => {
     const id = 'dropdownlist-' + getRandomString(10);
 
     return (
-        <div className='form-element dropdown-list flex flex-1 flex-col'>
-            <div className='row'>
-                <label className='py-1 text-[#a2a2a5]' htmlFor={id}>{label}</label>
-                <div className='error-msg'>{errorMsg}</div>
-            </div>
-            <select
+        <>
+            <TextField
                 id={id}
-                className='p-2.5 text-white border border-[#4a4a54] rounded-lg bg-[#37373f] cursor-pointer w-full transition-colors duration-300 ease-in-out'
-                value={value}
-                onChange={onChange}
-                disabled={isDisabled}
+                select
+                label={label}
+                defaultValue={value}
+                error={(errorMsg !== undefined && errorMsg.length !== 0)}
+                helperText={errorMsg}
+                sx={{ flex: flex }}
             >
                 {options.map((option) => (
-                    <option key={option.value} value={option.value}>
+                    <MenuItem key={option.value} value={option.value}>
                         {option.label}
-                    </option>
+                    </MenuItem>
                 ))}
-            </select>
-        </div>
+            </TextField>
+        </>
     );
 }
 
