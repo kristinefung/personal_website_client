@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { IconButton, Skeleton } from '@mui/material';
+import { IconButton, Skeleton, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -94,26 +94,28 @@ const Profile: React.FC<ProfileProps> = () => {
 
     return (
         <>
-            <Table
-                title='Work'
-                isLoading={useWorkStore.getState().isLoadingWorks}
-                columns={workColumns}
-                data={workData}
-                handleOnClickEdit={handleEditWorkPopup}
-                handleOnClickCreate={handleCreateWorkPopup}
-            />
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <Table
+                    title='Work'
+                    isLoading={useWorkStore.getState().isLoadingWorks}
+                    columns={workColumns}
+                    data={workData}
+                    handleOnClickEdit={handleEditWorkPopup}
+                    handleOnClickCreate={handleCreateWorkPopup}
+                />
+                <Table
+                    title='Education'
+                    isLoading={useEducationStore.getState().isLoadingEducations}
+                    columns={educationColumns}
+                    data={educationData}
+                    handleOnClickEdit={handleEditEducationPopup}
+                    handleOnClickCreate={handleCreateEducationPopup}
+                />
+            </Box>
             <WorkForm
                 action={workFormAction ?? 'CREATE'}
                 setOpen={setWorkFormOpen}
                 open={workFormOpen}
-            />
-            <Table
-                title='Education'
-                isLoading={useEducationStore.getState().isLoadingEducations}
-                columns={educationColumns}
-                data={educationData}
-                handleOnClickEdit={handleEditEducationPopup}
-                handleOnClickCreate={handleCreateEducationPopup}
             />
             <EducationForm
                 action={educationFormAction ?? 'CREATE'}

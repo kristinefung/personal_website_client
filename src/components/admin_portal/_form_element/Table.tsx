@@ -45,7 +45,7 @@ const Table: React.FC<Props> = (props) => {
                 <Toolbar
                 >
                     <Typography
-                        sx={{ flex: '1 1 100%' }}
+                        sx={{ flex: '1 1 100%', color: adminTheme.palette.secondary.main }}
                         variant="h6"
                         id="tableTitle"
                         component="div"
