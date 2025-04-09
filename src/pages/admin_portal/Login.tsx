@@ -1,7 +1,11 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { Button, Box, Typography } from '@mui/material';
+import InputText from 'src/components/admin_portal/_form_element/InputText';
+
 import UserService from 'src/services/api/userService';
+import adminTheme from 'src/theme';
 
 interface LoginProps {
     setAuth: (auth: boolean) => void;
@@ -40,8 +44,7 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
 
     }
 
-    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
+    const handleLogin = async () => {
         const token = await fetchLogin();
         if (token) {
             localStorage.setItem("token", token);
@@ -52,31 +55,52 @@ const Login: React.FC<LoginProps> = ({ setAuth }) => {
 
     document.body.setAttribute('id', 'login-page');
     return (
-        <div className="login-container bg-white w-[350px] h-[500px] rounded-md">
-            <div className='head  h-[150px] flex flex-col justify-center items-center text-[40px]'>
-                Login
-            </div>
-            <form className="form h-[300px] flex flex-col justify-center items-center" onSubmit={handleSubmit}>
-                <input
-                    type="text"
-                    className="h-[30px] w-[250px] my-[15px] mx-[20px] text-[18px]"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-                <input
-                    type="password"
-                    className="h-[30px] w-[250px] my-[15px] mx-[20px] text-[18px]"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-                <button type="submit" className="h-[40px] w-[250px] my-[15px] mx-[20px] border-none text-[18px] text-white bg-[#376ae3] cursor-pointer">Login</button>
-                <div className='message h-[50px] text-[#d50a0a]'>
-                    {message}
-                </div>
-            </form>
-        </div>
+        <>
+            <Box component={"form"}
+                width={"100vw"}
+                sx={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    gap: 2,
+                    width: {
+                        sm: '480px',
+                    }
+                }}>
+                <Box sx={{ color: adminTheme.palette.secondary.main, width: '100%', display: 'flex', justifyContent: 'center' }}>
+                    <Typography variant="h3">
+                        Login
+                    </Typography>
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                    <InputText
+                        label='Email'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <InputText
+                        label='Password'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                    />
+                </Box>
+                <Box sx={{ width: '100%' }}>
+                    <Button
+                        onClick={handleLogin}
+                        variant="contained"
+                        color="secondary"
+                        sx={{ width: '100%' }}
+                    >
+                        Login
+                    </Button>
+                </Box>
+                <Box color={adminTheme.palette.error.light}>
+                    {error}
+                </Box>
+            </Box>
+        </>
     );
 }
 

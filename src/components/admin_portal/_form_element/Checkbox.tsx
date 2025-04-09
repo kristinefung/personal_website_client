@@ -6,6 +6,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import MuiCheckbox from '@mui/material/Checkbox';
 import FormHelperText from '@mui/material/FormHelperText';
+import adminTheme from 'src/theme';
 
 // Define the props interface
 interface CheckboxProps {
@@ -32,10 +33,18 @@ const Checkbox: React.FC<CheckboxProps> = ({
             >
                 <FormControlLabel
                     required={required}
-                    control={<MuiCheckbox />}
+                    control={<MuiCheckbox
+                        checked={isChecked}
+                        onChange={onChange}
+                        sx={{
+                            '&.Mui-checked': {
+                                color: adminTheme.palette.secondary.main,
+                            },
+                        }}
+                    />}
                     label={label}
                 />
-                <FormHelperText>{errorMsg}</FormHelperText>
+                <FormHelperText>{(errorMsg !== undefined && errorMsg.length !== 0) ? errorMsg : " "}</FormHelperText>
             </FormControl>
         </>
     );

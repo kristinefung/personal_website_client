@@ -33,8 +33,7 @@ const Timeline: React.FC<TimelineProps> = ({ datas }) => {
                                             {data.date}
                                         </div>
                                     </div>
-                                    <div className="body">
-                                        {data.description}
+                                    <div className="body" dangerouslySetInnerHTML={{ __html: data.description }}>
                                     </div>
                                     <div className="footer">
                                     </div>

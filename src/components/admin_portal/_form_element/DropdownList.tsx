@@ -3,6 +3,7 @@ import { getRandomString } from 'src/utils/common';
 
 import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
+import adminTheme from 'src/theme';
 
 // Define the props interface
 interface DropdownListProps {
@@ -10,9 +11,9 @@ interface DropdownListProps {
     value: string;
     options: {
         label: string;
-        value: number;
+        value?: number;
     }[];
-    onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+    onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
     errorMsg?: string;
     isDisabled?: boolean;
     flex?: number;
@@ -36,11 +37,15 @@ const DropdownList: React.FC<DropdownListProps> = ({
                 label={label}
                 defaultValue={value}
                 error={(errorMsg !== undefined && errorMsg.length !== 0)}
-                helperText={errorMsg}
+                helperText={(errorMsg !== undefined && errorMsg.length !== 0) ? errorMsg : " "}
+                onChange={onChange}
                 sx={{ flex: flex }}
             >
                 {options.map((option) => (
-                    <MenuItem key={option.value} value={option.value}>
+                    <MenuItem
+                        key={option.value}
+                        value={option.value}
+                    >
                         {option.label}
                     </MenuItem>
                 ))}

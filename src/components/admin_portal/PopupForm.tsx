@@ -1,10 +1,12 @@
 import { Modal, Box, Button } from '@mui/material';
+import adminTheme from 'src/theme';
 
 interface PopupFormProps {
     open: boolean;
     setOpen: (open: boolean) => void;
     title: string;
     form: React.ReactElement<HTMLDivElement>;
+    onClose: () => void;
 }
 
 const boxStyle = {
@@ -25,14 +27,15 @@ const boxStyle = {
 
 const titleStle = {
     fontSize: '20px',
+    color: adminTheme.palette.secondary.main
 }
 
-const PopupForm: React.FC<PopupFormProps> = ({ open, setOpen, title, form }) => {
+const PopupForm: React.FC<PopupFormProps> = ({ open, setOpen, title, form, onClose }) => {
     return (
         <div className='popup-form'>
             <Modal
                 open={open}
-                onClose={() => setOpen(false)}
+                onClose={onClose}
                 aria-labelledby="modal-modal-title"
                 aria-describedby="modal-modal-description"
             >

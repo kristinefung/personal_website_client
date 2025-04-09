@@ -1,3 +1,5 @@
+import { z } from 'zod';
+
 const getRandomString = (length: number) => {
     let str = '';
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
@@ -9,7 +11,7 @@ const getRandomString = (length: number) => {
 
 const getMonthOptions = () => {
     const months = [
-        { label: 'Select month', value: 0 },
+        { label: 'Select month', value: undefined },
         { label: 'Jan', value: 1 },
         { label: 'Feb', value: 2 },
         { label: 'Mar', value: 3 },
@@ -27,15 +29,20 @@ const getMonthOptions = () => {
     return months;
 }
 
-const getYearOptions = () => {
+type YearOption = {
+    label: string;
+    value?: number;
+};
+
+const getYearOptions = (): YearOption[] => {
     const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: 101 }, (_, i) => {
+    const years: YearOption[] = Array.from({ length: 101 }, (_, i) => {
         return {
             label: (currentYear - i).toString(),
             value: currentYear - i
         }
     });
-    years.unshift({ label: 'Select year', value: 0 });
+    years.unshift({ label: 'Select year', value: undefined });
 
     return years;
 }
@@ -66,9 +73,22 @@ const readableDate = (
     return date
 }
 
+const convertZodErrorToLocalError = (err: z.ZodError, validationError: any) => {
+    err.errors.forEach((error) => {
+        const field = error.path[0] as keyof typeof validationError;
+        if (!validationError[field]) {
+            validationError[field] = "";
+        }
+        validationError[field] = error.message;
+    });
+
+    return validationError;
+}
+
 export {
     getRandomString,
     getMonthOptions,
     getYearOptions,
     readableDate,
+    convertZodErrorToLocalError
 }

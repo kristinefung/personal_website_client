@@ -26,23 +26,23 @@ const App: React.FC = () => {
 
   return (
     <>
-      <SuccessSnackbar />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/dashboard" replace />} />
-          <Route path='/dashboard' element={
-            isAuthenticated ?
-              <ThemeProvider theme={adminTheme}>
-                {/* <Dashboard setAuth={setAuth} /> */}
+      <ThemeProvider theme={adminTheme}>
+        <SuccessSnackbar />
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={!isAuthenticated ? <Login setAuth={setAuth} /> : <Navigate to="/dashboard" replace />} />
+            <Route path='/dashboard' element={
+              isAuthenticated ?
                 <Layout setAuth={setAuth} />
-              </ThemeProvider> :
-              < Navigate to="/login" replace />
-          } >
-            <Route path='profile' element={<Profile />} />
-          </Route>
-        </Routes>
-      </BrowserRouter >
+                :
+                < Navigate to="/login" replace />
+            } >
+              <Route path='profile' element={<Profile />} />
+            </Route>
+          </Routes>
+        </BrowserRouter >
+      </ThemeProvider>
     </>
   );
 };

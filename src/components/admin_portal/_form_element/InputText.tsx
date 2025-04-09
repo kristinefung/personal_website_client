@@ -10,6 +10,7 @@ interface InputTextProps {
   errorMsg?: string; // Optional prop
   isDisabled?: boolean; // Optional prop with default value
   flex?: number;
+  type?: string;
 }
 const InputText: React.FC<InputTextProps> = ({
   label,
@@ -18,6 +19,7 @@ const InputText: React.FC<InputTextProps> = ({
   errorMsg,
   isDisabled = false,
   flex = 1,
+  type = "",
 }) => {
   const id = 'text-' + getRandomString(10);
 
@@ -29,7 +31,9 @@ const InputText: React.FC<InputTextProps> = ({
         defaultValue={value}
         disabled={isDisabled}
         error={(errorMsg !== undefined && errorMsg.length !== 0)}
-        helperText={errorMsg}
+        helperText={(errorMsg !== undefined && errorMsg.length !== 0) ? errorMsg : " "}
+        onChange={onChange}
+        type={type}
         sx={{ flex: flex }}
       />
     </>

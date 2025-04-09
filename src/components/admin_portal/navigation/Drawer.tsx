@@ -46,15 +46,13 @@ const Drawer: React.FC<DrawerProps> = (props) => {
                     </Typography>
 
                     <List sx={{ ml: 1 }}>
-                        {navItems.map((navItem) => (
-                            <>
-                                <ListItem disablePadding>
-                                    <ListItemButton
-                                        onClick={() => handleOnClickNavItem(navItem.path)}>
-                                        <ListItemText primary={navItem.displayName} />
-                                    </ListItemButton>
-                                </ListItem>
-                            </>
+                        {navItems.map((navItem, i) => (
+                            <ListItem key={i} disablePadding>
+                                <ListItemButton
+                                    onClick={() => handleOnClickNavItem(navItem.path)}>
+                                    <ListItemText primary={navItem.displayName} />
+                                </ListItemButton>
+                            </ListItem>
                         ))}
                     </List>
                 </>

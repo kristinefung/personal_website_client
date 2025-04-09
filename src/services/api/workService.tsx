@@ -13,6 +13,17 @@ export interface IWork {
     createdAt?: Date;
 }
 
+export type WorkError = {
+    title?: string;
+    companyName?: string;
+    description?: string;
+    startMonth?: string;
+    startYear?: string;
+    endMonth?: string;
+    endYear?: string;
+    isCurrent?: string;
+}
+
 const WorkService = () => {
     // const workApi = WorkApi(baseUrl);
     // const tokenStorage = TokenStorage();

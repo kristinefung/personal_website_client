@@ -5,16 +5,17 @@ import Alert from '@mui/material/Alert';
 import { Snackbar as MuiSnackbar } from '@mui/material';
 import { clearSnackbar } from 'src/reducer/ui';
 
+import useUiStore from 'src/store/uiStore';
+
 interface SnackbarProps {
 }
 
 const Snackbar: React.FC<SnackbarProps> = ({
 }) => {
-    const { open, severity, message } = useSelector((state: RootState) => state.ui);
+    const { open, severity, message, clearSnackbar } = useUiStore();
 
-    const dispatch = useDispatch<AppDispatch>();
     const handleSnackbarClose = () => {
-        dispatch(clearSnackbar());
+        clearSnackbar();
     };
 
     return (

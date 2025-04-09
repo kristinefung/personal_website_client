@@ -28,9 +28,16 @@ const adminTheme = createTheme({
             },
             styleOverrides: {
                 root: {
-                    margin: '10px 0px',
+                    margin: '5px 0px 0px 0px',
                 }
             }
+        },
+        MuiCheckbox: {
+            styleOverrides: {
+                root: {
+                    padding: '0px 9px', // Adjust padding as needed
+                },
+            },
         },
         MuiInputBase: {
             styleOverrides: {
@@ -79,6 +86,28 @@ const adminTheme = createTheme({
                     color: '#d4d4d4',
                     "&.Mui-focused": {
                         color: '#d4d4d4',
+                    }
+                }
+            },
+        },
+        MuiList: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#242528'
+                }
+            },
+        },
+        MuiMenuItem: {
+            styleOverrides: {
+                root: {
+                    '&:hover': {
+                        backgroundColor: '#37373f', // Change color on hover
+                    },
+                    "&.Mui-selected": {
+                        backgroundColor: "#37373f",
+                        "&:hover": {
+                            backgroundColor: "#37373f"
+                        }
                     }
                 }
             },

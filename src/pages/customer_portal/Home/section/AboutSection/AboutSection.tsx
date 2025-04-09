@@ -44,7 +44,7 @@ const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
           title: work.title,
           subTitle: work.companyName,
           date: readableDate(work.startMonth, work.startYear, work.endMonth, work.endYear, work.isCurrent === 1),
-          description: work.description
+          description: work.description ? work.description.replace(/\n/g, "<br />") : ""
         })
       );
 

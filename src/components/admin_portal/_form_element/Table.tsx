@@ -1,6 +1,7 @@
 import * as React from 'react';
 import EditIcon from '@mui/icons-material/Edit';
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
+import MoreOptionButton from '../MoreOptionButton';
 import adminTheme from 'src/theme';
 
 import {
@@ -33,6 +34,7 @@ interface Props {
     columns: Column[];
     data: Row[];
     handleOnClickEdit: (id: number | null) => void;
+    handleOnClickCreate: () => void;
 }
 
 const Table: React.FC<Props> = (props) => {
@@ -41,12 +43,6 @@ const Table: React.FC<Props> = (props) => {
         <>
             <TableContainer component={Paper} sx={{ backgroundColor: adminTheme.palette.primary.main, color: '#fff' }}>
                 <Toolbar
-                    sx={[
-                        {
-                            pl: { sm: 2 },
-                            pr: { xs: 1, sm: 1 },
-                        },
-                    ]}
                 >
                     <Typography
                         sx={{ flex: '1 1 100%' }}
@@ -56,11 +52,11 @@ const Table: React.FC<Props> = (props) => {
                     >
                         {props.title}
                     </Typography>
-                    <Tooltip title="More">
-                        <IconButton>
-                            <MoreHorizIcon />
-                        </IconButton>
-                    </Tooltip>
+                    <MoreOptionButton
+                        options={[
+                            { name: "Create", onClick: () => props.handleOnClickCreate() }
+                        ]}
+                    />
                 </Toolbar>
                 <MuiTable sx={{ minWidth: 650 }} aria-label="table">
                     <TableHead>

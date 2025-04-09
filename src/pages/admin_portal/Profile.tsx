@@ -18,7 +18,7 @@ interface ProfileProps {
 
 const Profile: React.FC<ProfileProps> = () => {
 
-    const { works, worksLoading, workFormId, fetchAllWorks, setWorkFormId } = useWorkStore();
+    const { works, worksLoading, workFormId, fetchAllWorks, setWorkFormId, clearWork } = useWorkStore();
 
     const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
 
@@ -27,6 +27,11 @@ const Profile: React.FC<ProfileProps> = () => {
     const handleEditPopup = async (id: number | null) => {
         setAction('UPDATE');
         setWorkFormId(id);
+        setWorkFormOpen(true);
+    }
+
+    const handleCreatePopup = async () => {
+        setAction('CREATE');
         setWorkFormOpen(true);
     }
 
@@ -51,81 +56,15 @@ const Profile: React.FC<ProfileProps> = () => {
     })
     ) : [];
 
-    // const workTable = (
-    //     <table className='dashboard-table  w-full border-separate border-spacing-x-[30px] border-spacing-y-[10px] border-none mx-[-30px]'>
-    //         <tbody>
-    //             <tr>
-    //                 <th className="text-left border-none">Company name</th>
-    //                 <th className="text-left border-none">Title</th>
-    //                 <th className="text-left border-none">Date</th>
-    //                 <th className="text-left border-none">Created at</th>
-    //                 <th className="text-left border-none">Action</th>
-    //             </tr>
-    //             {
-    //                 worksLoading ? (
-    //                     Array.from(new Array(5)).map((_, index) => (
-    //                         <tr key={index}>
-    //                             <td><Skeleton variant="text" width="100%" /></td>
-    //                             <td><Skeleton variant="text" width="100%" /></td>
-    //                             <td><Skeleton variant="text" width="100%" /></td>
-    //                             <td><Skeleton variant="text" width="100%" /></td>
-    //                             <td><Skeleton variant="text" width="100%" /></td>
-    //                         </tr>
-    //                     ))
-    //                 ) : (
-    //                     works && works.map((work) => {
-    //                         return (
-    //                             <tr key={work.id}>
-    //                                 <td>
-    //                                     {work.companyName}
-    //                                 </td>
-    //                                 <td>
-    //                                     {work.title}
-    //                                 </td>
-    //                                 <td>
-    //                                     {readableDate(work.startMonth!, work.startYear!, work.endMonth!, work.endYear!, work.isCurrent === 1)}
-    //                                 </td>
-    //                                 <td>
-    //                                     {work.createdAt!.toString()}
-    //                                 </td>
-    //                                 <td>
-    //                                     <IconButton
-    //                                         style={{ color: '#FFFFFF', padding: '5px' }}
-    //                                         onClick={() => handlePopup(work, "UPDATE")}>
-    //                                         <EditIcon />
-    //                                     </IconButton>
-    //                                 </td>
-    //                             </tr>
-    //                         )
-    //                     })
-    //                 )
-    //             }
-    //         </tbody>
-    //     </table>
-    // )
-
     return (
         <>
-            {/* <Card
-                title='Work'
-                buttonGroup={(
-                    <>
-                        <MoreOptionButton
-                            options={[
-                                { name: "Create", onClick: () => handlePopup({}, "CREATE") }
-                            ]}
-                        />
-                    </>
-                )}
-                body={workTable}
-                flex={1}
-            /> */}
             <Table
                 title='Work'
                 isLoading={worksLoading}
                 columns={columns}
                 data={data}
                 handleOnClickEdit={handleEditPopup}
+                handleOnClickCreate={handleCreatePopup}
             />
             <WorkForm
                 action={action}

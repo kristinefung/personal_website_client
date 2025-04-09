@@ -17,9 +17,16 @@ body#dashboard-page {
 }
 
 body#login-page {
-    background: linear-gradient(to right, #376ae3, #03287c);
+    background: #242528;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
+}
+
+.form-row {
+    display: 'flex';
+    flex-direction: 'row';
+    align-items: 'end';
+    justify-content: 'space-between';
 }

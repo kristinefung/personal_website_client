@@ -6,7 +6,8 @@ const workService = WorkService();
 type State = {
     workLoading: boolean;
     worksLoading: boolean;
-    work: IWork | null;
+    updateWorkLoading: boolean;
+    work: IWork | Partial<IWork>;
     works: IWork[] | null;
     workFormId: number | null;
     fetchWorkById: (id: number) => Promise<void>;
@@ -14,13 +15,26 @@ type State = {
     fetchUpdateWork: (work: IWork) => Promise<void>;
     fetchCreateWork: (work: IWork) => Promise<void>;
     setWork: (work: IWork) => void;
+    clearWork: () => void;
     setWorkFormId: (id: number | null) => void;
 }
 
 const useWorkStore = create<State>((set) => ({
     workLoading: false,
     worksLoading: false,
-    work: null,
+    updateWorkLoading: false,
+    work: {
+        id: undefined,
+        title: undefined,
+        companyName: undefined,
+        description: undefined,
+        startMonth: undefined,
+        startYear: undefined,
+        endMonth: undefined,
+        endYear: undefined,
+        isCurrent: 0,
+        createdAt: undefined,
+    },
     works: null,
     workFormId: null,
     fetchAllWorks: async () => {
@@ -50,7 +64,7 @@ const useWorkStore = create<State>((set) => ({
         }
     },
     fetchUpdateWork: async (work) => {
-        // set({ worksLoading: true });
+        set({ updateWorkLoading: true });
         try {
             const response = await workService.updateWorkById(work.id!, work);
         }
@@ -58,7 +72,7 @@ const useWorkStore = create<State>((set) => ({
             // TODO
         }
         finally {
-            // set({ worksLoading: false });
+            set({ updateWorkLoading: false });
         }
     },
     fetchCreateWork: async (work) => {
@@ -75,6 +89,22 @@ const useWorkStore = create<State>((set) => ({
     },
     setWork: (work) => {
         set({ work: work });
+    },
+    clearWork: () => {
+        set({
+            work: {
+                id: undefined,
+                title: undefined,
+                companyName: undefined,
+                description: undefined,
+                startMonth: undefined,
+                startYear: undefined,
+                endMonth: undefined,
+                endYear: undefined,
+                isCurrent: 0,
+                createdAt: undefined,
+            },
+        });
     },
     setWorkFormId: (id) => {
         console.log(id);

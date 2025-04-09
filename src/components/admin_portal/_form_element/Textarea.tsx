@@ -30,7 +30,8 @@ const Textarea: React.FC<TextareaProps> = ({
                 defaultValue={value}
                 disabled={isDisabled}
                 error={(errorMsg !== undefined && errorMsg.length !== 0)}
-                helperText={errorMsg}
+                helperText={(errorMsg !== undefined && errorMsg.length !== 0) ? errorMsg : " "}
+                onChange={onChange}
                 multiline
                 minRows={6}
                 maxRows={6}
