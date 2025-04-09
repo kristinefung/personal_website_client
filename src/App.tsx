@@ -8,6 +8,7 @@ import Home from './pages/customer_portal/Home/Home';
 import Login from './pages/admin_portal/Login';
 import Dashboard from './pages/admin_portal/Dashboard';
 import Profile from './pages/admin_portal/Profile';
+import Enquiry from './pages/admin_portal/Enquiry';
 
 import Layout from './components/admin_portal/navigation/Layout';
 
@@ -39,6 +40,7 @@ const App: React.FC = () => {
                 < Navigate to="/login" replace />
             } >
               <Route path='profile' element={<Profile />} />
+              <Route path='enquiry' element={<Enquiry />} />
             </Route>
           </Routes>
         </BrowserRouter >
