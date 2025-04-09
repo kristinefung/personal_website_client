@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Outlet, useNavigate } from 'react-router-dom';
 
-import { AppBar, Box, Typography, Paper, IconButton, Toolbar, BottomNavigation, BottomNavigationAction } from '@mui/material';
-
-import UserService from 'src/services/api/userService';
+import { AppBar, Box, Typography, Paper, IconButton, Toolbar, BottomNavigation, BottomNavigationAction, useTheme, useMediaQuery } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import PersonIcon from '@mui/icons-material/Person';
 import HomeIcon from '@mui/icons-material/Home';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { Tooltip } from '@mui/material';
 
+import UserService from 'src/services/api/userService';
 import Drawer from './Drawer';
 import adminTheme from 'src/theme';
 
@@ -20,10 +21,11 @@ interface LayoutProps {
 }
 
 const Layout: React.FC<LayoutProps> = (props) => {
-
     const userService = UserService();
-
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+    const navigate = useNavigate();
 
     const [isClosing, setIsClosing] = React.useState(false);
 
@@ -34,11 +36,15 @@ const Layout: React.FC<LayoutProps> = (props) => {
         } catch (err) {
             localStorage.removeItem("token");
             props.setAuth(false);
+            navigate('/login');
         }
     };
 
     const handleDrawerTransitionEnd = () => {
         setIsClosing(false);
+        if (isMobile) {
+            setMobileOpen(false);
+        }
     };
 
     const handleDrawerClose = () => {
@@ -47,9 +53,12 @@ const Layout: React.FC<LayoutProps> = (props) => {
     };
 
     const handleDrawerToggle = () => {
-        if (!isClosing) {
-            setMobileOpen(!mobileOpen);
-        }
+        setMobileOpen(!mobileOpen);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        navigate('/login');
     };
 
     useEffect(() => {
@@ -58,7 +67,6 @@ const Layout: React.FC<LayoutProps> = (props) => {
 
     document.body.setAttribute('id', 'dashboard-page');
     return (
-
         <>
             <AppBar
                 position="fixed"
@@ -69,7 +77,7 @@ const Layout: React.FC<LayoutProps> = (props) => {
                     ml: { sm: `${drawerWidth}px` }
                 }}
             >
-                <Toolbar>
+                <Toolbar sx={{ justifyContent: 'space-between' }}>
                     <IconButton
                         color="inherit"
                         aria-label="open drawer"
@@ -79,6 +87,15 @@ const Layout: React.FC<LayoutProps> = (props) => {
                     >
                         <MenuIcon />
                     </IconButton>
+                    <Tooltip title="Logout">
+                        <IconButton
+                            color="inherit"
+                            onClick={handleLogout}
+                            sx={{ ml: 'auto' }}
+                        >
+                            <LogoutIcon />
+                        </IconButton>
+                    </Tooltip>
                 </Toolbar>
             </AppBar>
 
@@ -91,10 +108,8 @@ const Layout: React.FC<LayoutProps> = (props) => {
                     component="main"
                     sx={{ flexGrow: 1, p: 3, mt: `${appbarHeight}px`, mb: `${bottomNavigationHeight}px`, width: { sm: `calc(100% - ${drawerWidth}px)` } }}>
                     <Outlet />
-
                 </Box>
             </Box>
-
         </>
     );
 }
