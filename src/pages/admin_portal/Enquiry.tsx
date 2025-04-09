@@ -1,13 +1,16 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import useEnquiryStore, { enquiryActions } from 'src/store/enquiryStore';
 import Table, { Column, Row } from 'src/components/admin_portal/_form_element/Table';
+import EnquiryForm from 'src/components/admin_portal/_form/EnquiryForm';
 
 const Enquiry: React.FC = () => {
     const {
         list: enquiries,
         action: enquiryFormAction
     } = useEnquiryStore();
+
+    const [enquiryFormOpen, setEnquiryFormOpen] = useState(false);
 
     useEffect(() => {
         enquiryActions.fetchAllEnquiries();
@@ -32,26 +35,27 @@ const Enquiry: React.FC = () => {
     })) : [];
 
     const handleEditEnquiry = (id: number | null) => {
-        // Edit functionality will be implemented later
-        console.log('Edit enquiry:', id);
-    };
-
-    const handleCreateEnquiry = () => {
-        // Create functionality will be implemented later
-        console.log('Create enquiry');
+        enquiryActions.setFormState({ id, action: 'UPDATE' });
+        setEnquiryFormOpen(true);
     };
 
     return (
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-            <Table
-                title='Enquiries'
-                isLoading={useEnquiryStore.getState().isLoadingEnquiries}
-                columns={enquiryColumns}
-                data={enquiryData}
-                handleOnClickEdit={handleEditEnquiry}
-                handleOnClickCreate={handleCreateEnquiry}
+        <>
+            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+                <Table
+                    title='Enquiries'
+                    isLoading={useEnquiryStore.getState().isLoadingEnquiries}
+                    columns={enquiryColumns}
+                    data={enquiryData}
+                    handleOnClickEdit={handleEditEnquiry}
+                    handleOnClickCreate={() => { }}
+                />
+            </Box>
+            <EnquiryForm
+                setOpen={setEnquiryFormOpen}
+                open={enquiryFormOpen}
             />
-        </Box>
+        </>
     );
 }
 
