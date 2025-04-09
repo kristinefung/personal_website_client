@@ -11,7 +11,18 @@ export interface IEducation {
     endMonth: number;
     endYear: number;
     isCurrent: number;
+}
 
+export type EducationError = {
+    degree?: string;
+    subject?: string;
+    schoolName?: string;
+    description?: string;
+    startMonth?: string;
+    startYear?: string;
+    endMonth?: string;
+    endYear?: string;
+    isCurrent?: string;
 }
 
 const EducationService = () => {
@@ -19,7 +30,6 @@ const EducationService = () => {
     // const tokenStorage = TokenStorage();
 
     const getAllEducations = async (): Promise<IEducation[]> => {
-
         const response = await fetch(`${API_BASE_URL}/educations`, {
             method: 'GET',
             headers: {
@@ -35,47 +45,85 @@ const EducationService = () => {
         return educationsResp.data.educations;
     };
 
-    // const getEducationById = async (id: number): Promise<Education> => {
-    //     const educationResp: ApiResponse<Education> = await educationApi.getEducationById(id);
-    //     if (educationResp.status !== 0) {
-    //         throw new Error(educationResp.message);
-    //     }
-    //     return educationResp.data;
-    // };
+    const getEducationById = async (id: number): Promise<IEducation> => {
+        const response = await fetch(`${API_BASE_URL}/educations/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
 
-    // const updateEducationById = async (id: number, education: Education): Promise<Education> => {
-    //     const authToken = await tokenStorage.getAuthToken();
-    //     const educationResp: ApiResponse<Education> = await educationApi.updateEducationById(authToken, id, education);
-    //     if (educationResp.status !== 0) {
-    //         throw new Error(educationResp.message);
-    //     }
-    //     return educationResp.data;
-    // };
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
 
-    // const createEducation = async (education: Education): Promise<{ data: Education | null; errMsg: string | null }> => {
-    //     const authToken = await tokenStorage.getAuthToken();
-    //     const educationResp: ApiResponse<Education> = await educationApi.createEducation(authToken, education);
-    //     if (educationResp.status !== 0) {
-    //         return { data: null, errMsg: educationResp.message };
-    //     }
-    //     return { data: educationResp.data, errMsg: null };
-    // };
+        const educationResp = await response.json();
+        return educationResp.data.education;
+    };
 
-    // const deleteEducationById = async (id: number): Promise<Education> => {
-    //     const authToken = await tokenStorage.getAuthToken();
-    //     const educationResp: ApiResponse<Education> = await educationApi.deleteEducationById(authToken, id);
-    //     if (educationResp.status !== 0) {
-    //         throw new Error(educationResp.message);
-    //     }
-    //     return educationResp.data;
-    // };
+    const updateEducationById = async (id: number, education: IEducation): Promise<void> => {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`${API_BASE_URL}/educations/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(education),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+
+        return;
+    };
+
+    const createEducation = async (education: IEducation): Promise<IEducation> => {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`${API_BASE_URL}/educations`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(education),
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+
+        const educationResp = await response.json();
+        return educationResp.data.education;
+    };
+
+    const deleteEducationById = async (id: number): Promise<void> => {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(`${API_BASE_URL}/educations/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+
+        return;
+    };
 
     return {
         getAllEducations,
-        // getEducationById,
-        // updateEducationById,
-        // createEducation,
-        // deleteEducationById
+        getEducationById,
+        updateEducationById,
+        createEducation,
+        deleteEducationById
     };
 };
 
