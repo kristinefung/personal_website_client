@@ -10,42 +10,57 @@ export interface IEnquiry {
 }
 
 const EnquiryService = () => {
-    // const enquiryApi = EnquiryApi(baseUrl);
-    // const tokenStorage = TokenStorage();
+    const getAllEnquiries = async (): Promise<IEnquiry[]> => {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/enquiries`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-    // const getAllEnquiries = async (): Promise<Enquiry[]> => {
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
 
-    //     const response = await fetch(`${baseUrl}/enquiries`, {
-    //         method: 'GET',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         }
-    //     });
+        const enquiriesResp = await response.json();
+        return enquiriesResp.data.enquiries;
+    };
 
-    //     if (!response.ok) {
-    //         throw new Error(`HTTP error ${response.status}`);
-    //     }
+    const getEnquiryById = async (id: number): Promise<IEnquiry> => {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/enquiries/${id}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
 
-    //     const enquiriesResp = await response.json();
-    //     return enquiriesResp.data.enquiries;
-    // };
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
 
-    // const getEnquiryById = async (id: number): Promise<Enquiry> => {
-    //     const enquiryResp: ApiResponse<Enquiry> = await enquiryApi.getEnquiryById(id);
-    //     if (enquiryResp.status !== 0) {
-    //         throw new Error(enquiryResp.message);
-    //     }
-    //     return enquiryResp.data;
-    // };
+        const enquiryResp = await response.json();
+        return enquiryResp.data.enquiry;
+    };
 
-    // const updateEnquiryById = async (id: number, enquiry: Enquiry): Promise<Enquiry> => {
-    //     const authToken = await tokenStorage.getAuthToken();
-    //     const enquiryResp: ApiResponse<Enquiry> = await enquiryApi.updateEnquiryById(authToken, id, enquiry);
-    //     if (enquiryResp.status !== 0) {
-    //         throw new Error(enquiryResp.message);
-    //     }
-    //     return enquiryResp.data;
-    // };
+    const updateEnquiryById = async (id: number, enquiry: IEnquiry): Promise<void> => {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/enquiries/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            },
+            body: JSON.stringify(enquiry)
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+    };
 
     const createEnquiry = async (enquiry: IEnquiry): Promise<void> => {
         const response = await fetch(`${API_BASE_URL}/enquiries`, {
@@ -59,24 +74,29 @@ const EnquiryService = () => {
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
         }
-
     };
 
-    // const deleteEnquiryById = async (id: number): Promise<Enquiry> => {
-    //     const authToken = await tokenStorage.getAuthToken();
-    //     const enquiryResp: ApiResponse<Enquiry> = await enquiryApi.deleteEnquiryById(authToken, id);
-    //     if (enquiryResp.status !== 0) {
-    //         throw new Error(enquiryResp.message);
-    //     }
-    //     return enquiryResp.data;
-    // };
+    const deleteEnquiryById = async (id: number): Promise<void> => {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`${API_BASE_URL}/enquiries/${id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error ${response.status}`);
+        }
+    };
 
     return {
+        getAllEnquiries,
+        getEnquiryById,
+        updateEnquiryById,
         createEnquiry,
-        // getEnquiryById,
-        // updateEnquiryById,
-        // createEnquiry,
-        // deleteEnquiryById
+        deleteEnquiryById
     };
 };
 
