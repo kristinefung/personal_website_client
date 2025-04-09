@@ -7,6 +7,7 @@ import MoreOptionButton from 'src/components/admin_portal/MoreOptionButton';
 import Card from 'src/components/admin_portal/Card';
 import PopupForm from 'src/components/admin_portal/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
+import EducationForm from 'src/components/admin_portal/_form/EducationForm';
 import { IWork } from 'src/services/api/workService';
 import { IEducation } from 'src/services/api/educationService';
 import { readableDate } from 'src/utils/common';
@@ -21,11 +22,12 @@ interface ProfileProps {
 const Profile: React.FC<ProfileProps> = () => {
     const {
         list: works,
-        action: formAction
+        action: workFormAction
     } = useWorkStore();
 
     const {
-        list: educations
+        list: educations,
+        action: educationFormAction
     } = useEducationStore();
 
     const [workFormOpen, setWorkFormOpen] = useState(false);
@@ -42,12 +44,12 @@ const Profile: React.FC<ProfileProps> = () => {
     }
 
     const handleEditEducationPopup = async (id: number | null) => {
-        // TODO: Implement education form actions
+        educationActions.setFormState({ id, action: 'UPDATE' });
         setEducationFormOpen(true);
     }
 
     const handleCreateEducationPopup = async () => {
-        // TODO: Implement education form actions
+        educationActions.setFormState({ id: null, action: 'CREATE' });
         setEducationFormOpen(true);
     }
 
@@ -101,7 +103,7 @@ const Profile: React.FC<ProfileProps> = () => {
                 handleOnClickCreate={handleCreateWorkPopup}
             />
             <WorkForm
-                action={formAction ?? 'CREATE'}
+                action={workFormAction ?? 'CREATE'}
                 setOpen={setWorkFormOpen}
                 open={workFormOpen}
             />
@@ -113,7 +115,11 @@ const Profile: React.FC<ProfileProps> = () => {
                 handleOnClickEdit={handleEditEducationPopup}
                 handleOnClickCreate={handleCreateEducationPopup}
             />
-            {/* TODO: Add EducationForm component */}
+            <EducationForm
+                action={educationFormAction ?? 'CREATE'}
+                setOpen={setEducationFormOpen}
+                open={educationFormOpen}
+            />
         </>
     );
 }
