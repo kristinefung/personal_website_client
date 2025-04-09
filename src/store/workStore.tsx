@@ -3,27 +3,32 @@ import WorkService, { IWork } from 'src/services/api/workService';
 
 const workService = WorkService();
 
-type State = {
-    workLoading: boolean;
-    worksLoading: boolean;
-    updateWorkLoading: boolean;
-    work: IWork | Partial<IWork>;
-    works: IWork[] | null;
-    workFormId: number | null;
-    fetchWorkById: (id: number) => Promise<void>;
-    fetchAllWorks: () => Promise<void>;
-    fetchUpdateWork: (work: IWork) => Promise<void>;
-    fetchCreateWork: (work: IWork) => Promise<void>;
-    setWork: (work: IWork) => void;
-    clearWork: () => void;
-    setWorkFormId: (id: number | null) => void;
+interface LoadingState {
+    isLoadingWork: boolean;
+    isLoadingWorks: boolean;
+    isUpdatingWork: boolean;
+    isCreatingWork: boolean;
 }
 
-const useWorkStore = create<State>((set) => ({
-    workLoading: false,
-    worksLoading: false,
-    updateWorkLoading: false,
-    work: {
+interface WorkFormState {
+    id: number | null;
+    action: 'CREATE' | 'UPDATE' | null;
+}
+
+interface WorkState {
+    current: IWork | Partial<IWork>;
+    list: IWork[] | null;
+}
+
+const initialLoadingState: LoadingState = {
+    isLoadingWork: false,
+    isLoadingWorks: false,
+    isUpdatingWork: false,
+    isCreatingWork: false
+};
+
+const initialWorkState: WorkState = {
+    current: {
         id: undefined,
         title: undefined,
         companyName: undefined,
@@ -35,81 +40,101 @@ const useWorkStore = create<State>((set) => ({
         isCurrent: 0,
         createdAt: undefined,
     },
-    works: null,
-    workFormId: null,
-    fetchAllWorks: async () => {
-        set({ worksLoading: true });
-        try {
-            const response = await workService.getAllWorks();
-            set({ works: response });
-        }
-        catch (error: unknown) {
-            // TODO
-        }
-        finally {
-            set({ worksLoading: false });
-        }
-    },
+    list: null
+};
+
+const initialFormState: WorkFormState = {
+    id: null,
+    action: null
+};
+
+const useWorkStore = create<WorkState & WorkFormState & LoadingState>((set) => ({
+    ...initialWorkState,
+    ...initialFormState,
+    ...initialLoadingState,
+}));
+
+export const workActions = {
+    setLoading: (key: keyof LoadingState, value: boolean) =>
+        useWorkStore.setState((state) => ({
+            [key]: value
+        })),
+
+    setCurrentWork: (work: IWork) =>
+        useWorkStore.setState({ current: work }),
+
+    setWorkList: (works: IWork[]) =>
+        useWorkStore.setState({ list: works }),
+
+    clearCurrentWork: () =>
+        useWorkStore.setState({ current: initialWorkState.current }),
+
+    setFormState: (state: Partial<WorkFormState>) =>
+        useWorkStore.setState((prev) => ({
+            ...prev,
+            ...state
+        })),
+
+    resetFormState: () =>
+        useWorkStore.setState({ ...initialFormState }),
+
     fetchWorkById: async (id: number) => {
-        set({ workLoading: true });
+        useWorkStore.setState({ isLoadingWork: true });
         try {
             const response = await workService.getWorkById(id);
-            set({ work: response });
+            useWorkStore.setState({ current: response });
         }
         catch (error: unknown) {
-            // TODO
+            // TODO: Handle error properly
+            console.error('Error fetching work:', error);
         }
         finally {
-            set({ workLoading: false });
+            useWorkStore.setState({ isLoadingWork: false });
         }
     },
-    fetchUpdateWork: async (work) => {
-        set({ updateWorkLoading: true });
+
+    fetchAllWorks: async () => {
+        useWorkStore.setState({ isLoadingWorks: true });
         try {
-            const response = await workService.updateWorkById(work.id!, work);
+            const response = await workService.getAllWorks();
+            useWorkStore.setState({ list: response });
         }
         catch (error: unknown) {
-            // TODO
+            // TODO: Handle error properly
+            console.error('Error fetching works:', error);
         }
         finally {
-            set({ updateWorkLoading: false });
+            useWorkStore.setState({ isLoadingWorks: false });
         }
     },
-    fetchCreateWork: async (work) => {
-        // set({ worksLoading: true });
+
+    updateWork: async (work: IWork) => {
+        useWorkStore.setState({ isUpdatingWork: true });
         try {
-            const response = await workService.createWork(work);
+            await workService.updateWorkById(work.id!, work);
         }
         catch (error: unknown) {
-            // TODO
+            // TODO: Handle error properly
+            console.error('Error updating work:', error);
         }
         finally {
-            // set({ worksLoading: false });
+            useWorkStore.setState({ isUpdatingWork: false });
         }
     },
-    setWork: (work) => {
-        set({ work: work });
-    },
-    clearWork: () => {
-        set({
-            work: {
-                id: undefined,
-                title: undefined,
-                companyName: undefined,
-                description: undefined,
-                startMonth: undefined,
-                startYear: undefined,
-                endMonth: undefined,
-                endYear: undefined,
-                isCurrent: 0,
-                createdAt: undefined,
-            },
-        });
-    },
-    setWorkFormId: (id) => {
-        console.log(id);
-        set({ workFormId: id });
-    },
-}));
+
+    createWork: async (work: IWork) => {
+        useWorkStore.setState({ isCreatingWork: true });
+        try {
+            await workService.createWork(work);
+        }
+        catch (error: unknown) {
+            // TODO: Handle error properly
+            console.error('Error creating work:', error);
+        }
+        finally {
+            useWorkStore.setState({ isCreatingWork: false });
+        }
+    }
+};
 
 export default useWorkStore;

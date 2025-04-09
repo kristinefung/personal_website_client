@@ -9,7 +9,7 @@ import PopupForm from 'src/components/admin_portal/PopupForm';
 import WorkForm from 'src/components/admin_portal/_form/WorkForm';
 import { IWork } from 'src/services/api/workService';
 import { readableDate } from 'src/utils/common';
-import useWorkStore from 'src/store/workStore';
+import useWorkStore, { workActions } from 'src/store/workStore';
 
 import Table, { Column, Row } from 'src/components/admin_portal/_form_element/Table';
 
@@ -17,26 +17,25 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = () => {
-
-    const { works, worksLoading, workFormId, fetchAllWorks, setWorkFormId, clearWork } = useWorkStore();
-
-    const [action, setAction] = useState<"CREATE" | "UPDATE">("CREATE");
+    const {
+        list: works,
+        action: formAction
+    } = useWorkStore();
 
     const [workFormOpen, setWorkFormOpen] = useState(false);
 
     const handleEditPopup = async (id: number | null) => {
-        setAction('UPDATE');
-        setWorkFormId(id);
+        workActions.setFormState({ id, action: 'UPDATE' });
         setWorkFormOpen(true);
     }
 
     const handleCreatePopup = async () => {
-        setAction('CREATE');
+        workActions.setFormState({ id: null, action: 'CREATE' });
         setWorkFormOpen(true);
     }
 
     useEffect(() => {
-        fetchAllWorks();
+        workActions.fetchAllWorks();
     }, []);
 
     const columns: Column[] = [
@@ -60,18 +59,17 @@ const Profile: React.FC<ProfileProps> = () => {
         <>
             <Table
                 title='Work'
-                isLoading={worksLoading}
+                isLoading={useWorkStore.getState().isLoadingWorks}
                 columns={columns}
                 data={data}
                 handleOnClickEdit={handleEditPopup}
                 handleOnClickCreate={handleCreatePopup}
             />
             <WorkForm
-                action={action}
+                action={formAction ?? 'CREATE'}
                 setOpen={setWorkFormOpen}
                 open={workFormOpen}
             />
-
         </>
     );
 }
