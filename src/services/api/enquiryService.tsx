@@ -1,7 +1,75 @@
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
+// Base response type
+interface BaseResponse {
+    statusCode: string;
+    traceId: string;
+    message: string;
+}
+
+// Enquiry interface
 export interface IEnquiry {
     id?: number;
+    name: string;
+    email: string;
+    companyName?: string;
+    phoneNo?: string;
+    comment: string;
+    createdAt?: Date;
+}
+
+// Request and Response types for each endpoint
+interface GetAllEnquiriesRequest {
+    orderBy?: string;
+    orderDirection?: 'asc' | 'desc';
+}
+
+interface GetAllEnquiriesResponse extends BaseResponse {
+    data: {
+        enquiries: IEnquiry[];
+        total: number;
+    };
+}
+
+interface GetEnquiryByIdResponse extends BaseResponse {
+    data: {
+        enquiry: IEnquiry;
+    };
+}
+
+interface CreateEnquiryRequest {
+    name: string;
+    email: string;
+    companyName?: string;
+    phoneNo?: string;
+    comment: string;
+}
+
+interface CreateEnquiryResponse extends BaseResponse {
+    data: {
+        id: number;
+    };
+}
+
+interface UpdateEnquiryRequest {
+    name?: string;
+    email?: string;
+    companyName?: string;
+    phoneNo?: string;
+    comment?: string;
+}
+
+interface UpdateEnquiryResponse extends BaseResponse {
+    data: {
+        enquiry: IEnquiry;
+    };
+}
+
+interface DeleteEnquiryResponse extends BaseResponse {
+    data: Record<string, never>;
+}
+
+export type EnquiryError = {
     name?: string;
     email?: string;
     companyName?: string;
@@ -10,9 +78,13 @@ export interface IEnquiry {
 }
 
 const EnquiryService = () => {
-    const getAllEnquiries = async (): Promise<IEnquiry[]> => {
+    const getAllEnquiries = async (params?: GetAllEnquiriesRequest): Promise<GetAllEnquiriesResponse> => {
         const token = localStorage.getItem("token");
-        const response = await fetch(`${API_BASE_URL}/enquiries`, {
+        const queryParams = new URLSearchParams();
+        if (params?.orderBy) queryParams.append('orderBy', params.orderBy);
+        if (params?.orderDirection) queryParams.append('orderDirection', params.orderDirection);
+
+        const response = await fetch(`${API_BASE_URL}/enquiries?${queryParams.toString()}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -24,11 +96,10 @@ const EnquiryService = () => {
             throw new Error(`HTTP error ${response.status}`);
         }
 
-        const enquiriesResp = await response.json();
-        return enquiriesResp.data.enquiries;
+        return await response.json();
     };
 
-    const getEnquiryById = async (id: number): Promise<IEnquiry> => {
+    const getEnquiryById = async (id: number): Promise<GetEnquiryByIdResponse> => {
         const token = localStorage.getItem("token");
         const response = await fetch(`${API_BASE_URL}/enquiries/${id}`, {
             method: 'GET',
@@ -42,11 +113,10 @@ const EnquiryService = () => {
             throw new Error(`HTTP error ${response.status}`);
         }
 
-        const enquiryResp = await response.json();
-        return enquiryResp.data.enquiry;
+        return await response.json();
     };
 
-    const updateEnquiryById = async (id: number, enquiry: IEnquiry): Promise<void> => {
+    const updateEnquiryById = async (id: number, enquiry: UpdateEnquiryRequest): Promise<UpdateEnquiryResponse> => {
         const token = localStorage.getItem("token");
         const response = await fetch(`${API_BASE_URL}/enquiries/${id}`, {
             method: 'PUT',
@@ -60,9 +130,11 @@ const EnquiryService = () => {
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
         }
+
+        return await response.json();
     };
 
-    const createEnquiry = async (enquiry: IEnquiry): Promise<void> => {
+    const createEnquiry = async (enquiry: CreateEnquiryRequest): Promise<CreateEnquiryResponse> => {
         const response = await fetch(`${API_BASE_URL}/enquiries`, {
             method: 'POST',
             headers: {
@@ -74,9 +146,11 @@ const EnquiryService = () => {
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
         }
+
+        return await response.json();
     };
 
-    const deleteEnquiryById = async (id: number): Promise<void> => {
+    const deleteEnquiryById = async (id: number): Promise<DeleteEnquiryResponse> => {
         const token = localStorage.getItem("token");
         const response = await fetch(`${API_BASE_URL}/enquiries/${id}`, {
             method: 'DELETE',
@@ -89,6 +163,8 @@ const EnquiryService = () => {
         if (!response.ok) {
             throw new Error(`HTTP error ${response.status}`);
         }
+
+        return await response.json();
     };
 
     return {

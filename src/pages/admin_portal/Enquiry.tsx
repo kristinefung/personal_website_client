@@ -1,19 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
-import useEnquiryStore, { enquiryActions } from 'src/store/enquiryStore';
+import { observer } from 'mobx-react-lite';
+import enquiryStore from 'src/store/enquiryStore';
 import Table, { Column, Row } from 'src/components/admin_portal/_form_element/Table';
 import EnquiryForm from 'src/components/admin_portal/_form/EnquiryForm';
 
 const Enquiry: React.FC = () => {
-    const {
-        list: enquiries,
-        action: enquiryFormAction
-    } = useEnquiryStore();
-
     const [enquiryFormOpen, setEnquiryFormOpen] = useState(false);
+    const [enquiryFormAction, setEnquiryFormAction] = useState<'CREATE' | 'UPDATE'>('CREATE');
 
     useEffect(() => {
-        enquiryActions.fetchAllEnquiries();
+        enquiryStore.fetchEnquiries();
     }, []);
 
     const enquiryColumns: Column[] = [
@@ -25,17 +22,18 @@ const Enquiry: React.FC = () => {
         { id: 'action', label: 'Action' },
     ];
 
-    const enquiryData: Row[] = enquiries ? enquiries.map((enquiry) => ({
+    const enquiryData: Row[] = enquiryStore.enquiries.map((enquiry) => ({
         name: enquiry.name ?? '',
         email: enquiry.email ?? '',
         companyName: enquiry.companyName ?? '',
         phoneNo: enquiry.phoneNo ?? '',
         comment: enquiry.comment ?? '',
         action: enquiry.id ?? 0
-    })) : [];
+    }));
 
     const handleEditEnquiry = (id: number | null) => {
-        enquiryActions.setFormState({ id, action: 'UPDATE' });
+        enquiryStore.setCurrentEnquiry(null);
+        setEnquiryFormAction('UPDATE');
         setEnquiryFormOpen(true);
     };
 
@@ -44,7 +42,7 @@ const Enquiry: React.FC = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <Table
                     title='Enquiries'
-                    isLoading={useEnquiryStore.getState().isLoadingEnquiries}
+                    isLoading={enquiryStore.loading}
                     columns={enquiryColumns}
                     data={enquiryData}
                     handleOnClickEdit={handleEditEnquiry}
@@ -52,6 +50,7 @@ const Enquiry: React.FC = () => {
                 />
             </Box>
             <EnquiryForm
+                action={enquiryFormAction}
                 setOpen={setEnquiryFormOpen}
                 open={enquiryFormOpen}
             />
@@ -59,4 +58,4 @@ const Enquiry: React.FC = () => {
     );
 }
 
-export default Enquiry; 
+export default observer(Enquiry); 

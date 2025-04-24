@@ -1,41 +1,37 @@
 import { useState, useEffect } from 'react';
 import { Button, Backdrop, CircularProgress, Box } from '@mui/material';
+import { observer } from 'mobx-react-lite';
 
 import InputText from '../_form_element/InputText';
 import Textarea from '../_form_element/Textarea';
 import PopupForm from '../PopupForm';
-import useEnquiryStore, { enquiryActions } from 'src/store/enquiryStore';
+import enquiryStore from 'src/store/enquiryStore';
 import useStyles from 'src/style';
 import useUiStore from 'src/store/uiStore';
 
 interface EnquiryFormProps {
     setOpen: (open: boolean) => void;
     open: boolean;
+    action: 'CREATE' | 'UPDATE';
 }
 
 const EnquiryForm: React.FC<EnquiryFormProps> = (props) => {
     const classes = useStyles();
     const { showSnackbar } = useUiStore();
 
-    const {
-        current: enquiry,
-        isLoadingEnquiry,
-        id: enquiryFormId
-    } = useEnquiryStore();
-
     const handleOnClickClose = async () => {
-        enquiryActions.clearCurrentEnquiry();
+        enquiryStore.setCurrentEnquiry(null);
         props.setOpen(false);
     }
 
     useEffect(() => {
-        if (props.open) {
-            enquiryActions.fetchEnquiryById(enquiryFormId!);
+        if (props.open && props.action === 'UPDATE') {
+            enquiryStore.fetchEnquiryById(enquiryStore.currentEnquiry?.id!);
         }
-    }, [props.open]);
+    }, [props.open, props.action]);
 
     const loadingCompo = (
-        <Backdrop open={isLoadingEnquiry}>
+        <Backdrop open={enquiryStore.loading}>
             <CircularProgress color="secondary" />
         </Backdrop>
     )
@@ -52,13 +48,13 @@ const EnquiryForm: React.FC<EnquiryFormProps> = (props) => {
             <Box className={classes.formRow} sx={{ gap: 2 }}>
                 <InputText
                     label={"Name"}
-                    value={enquiry?.name ?? ''}
+                    value={enquiryStore.currentEnquiry?.name ?? ''}
                     isDisabled={true}
                     onChange={() => { }}
                 />
                 <InputText
                     label={"Email"}
-                    value={enquiry?.email ?? ''}
+                    value={enquiryStore.currentEnquiry?.email ?? ''}
                     isDisabled={true}
                     onChange={() => { }}
                 />
@@ -66,13 +62,13 @@ const EnquiryForm: React.FC<EnquiryFormProps> = (props) => {
             <Box className={classes.formRow} sx={{ gap: 2 }}>
                 <InputText
                     label={"Company name"}
-                    value={enquiry?.companyName ?? ''}
+                    value={enquiryStore.currentEnquiry?.companyName ?? ''}
                     isDisabled={true}
                     onChange={() => { }}
                 />
                 <InputText
                     label={"Phone no."}
-                    value={enquiry?.phoneNo ?? ''}
+                    value={enquiryStore.currentEnquiry?.phoneNo ?? ''}
                     isDisabled={true}
                     onChange={() => { }}
                 />
@@ -80,7 +76,7 @@ const EnquiryForm: React.FC<EnquiryFormProps> = (props) => {
             <Box className={classes.formRow} sx={{ gap: 2 }}>
                 <Textarea
                     label={"Comment"}
-                    value={enquiry?.comment ?? ''}
+                    value={enquiryStore.currentEnquiry?.comment ?? ''}
                     isDisabled={true}
                     onChange={() => { }}
                 />
@@ -107,10 +103,10 @@ const EnquiryForm: React.FC<EnquiryFormProps> = (props) => {
                 onClose={handleOnClickClose}
                 setOpen={props.setOpen}
                 title="View enquiry"
-                form={<>{isLoadingEnquiry ? (loadingCompo) : (formCompo)}</>}
+                form={<>{enquiryStore.loading ? (loadingCompo) : (formCompo)}</>}
             />
         </>
     );
 };
 
-export default EnquiryForm; 
+export default observer(EnquiryForm); 

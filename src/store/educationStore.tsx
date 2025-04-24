@@ -17,8 +17,12 @@ class EducationStore {
         this.educations = educations;
     };
 
-    setCurrentEducation = (education: IEducation | null) => {
-        this.currentEducation = education;
+    setCurrentEducation = (education: Partial<IEducation> | null) => {
+        if (education === null) {
+            this.currentEducation = null;
+        } else {
+            this.currentEducation = { ...this.currentEducation, ...education } as IEducation;
+        }
     };
 
     setLoading = (loading: boolean) => {
