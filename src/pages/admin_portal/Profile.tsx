@@ -13,7 +13,7 @@ import { IWork } from 'src/services/api/workService';
 import { IEducation } from 'src/services/api/educationService';
 import { readableDate } from 'src/utils/common';
 import workStore from 'src/store/workStore';
-import useEducationStore, { educationActions } from 'src/store/educationStore';
+import educationStore from 'src/store/educationStore';
 
 import Table, { Column, Row } from 'src/components/admin_portal/_form_element/Table';
 
@@ -24,11 +24,7 @@ const Profile: React.FC<ProfileProps> = () => {
     const [workFormOpen, setWorkFormOpen] = useState(false);
     const [educationFormOpen, setEducationFormOpen] = useState(false);
     const [workFormAction, setWorkFormAction] = useState<'CREATE' | 'UPDATE'>('CREATE');
-
-    const {
-        list: educations,
-        action: educationFormAction
-    } = useEducationStore();
+    const [educationFormAction, setEducationFormAction] = useState<'CREATE' | 'UPDATE'>('CREATE');
 
     const handleEditWorkPopup = async (id: number | null) => {
         workStore.setCurrentWork(null);
@@ -43,18 +39,20 @@ const Profile: React.FC<ProfileProps> = () => {
     }
 
     const handleEditEducationPopup = async (id: number | null) => {
-        educationActions.setFormState({ id, action: 'UPDATE' });
+        educationStore.setCurrentEducation(null);
+        setEducationFormAction('UPDATE');
         setEducationFormOpen(true);
     }
 
     const handleCreateEducationPopup = async () => {
-        educationActions.setFormState({ id: null, action: 'CREATE' });
+        educationStore.setCurrentEducation(null);
+        setEducationFormAction('CREATE');
         setEducationFormOpen(true);
     }
 
     useEffect(() => {
         workStore.fetchWorks();
-        educationActions.fetchAllEducations();
+        educationStore.fetchEducations();
     }, []);
 
     const workColumns: Column[] = [
@@ -81,14 +79,13 @@ const Profile: React.FC<ProfileProps> = () => {
         { id: 'action', label: 'Action' },
     ];
 
-    const educationData: Row[] = educations ? educations.map((education) => ({
+    const educationData: Row[] = educationStore.educations.map((education) => ({
         schoolName: education.schoolName ?? '',
         degree: education.degree ?? '',
         subject: education.subject ?? '',
-        date: readableDate(education.startMonth, education.startYear, education.endMonth, education.endYear, education.isCurrent === 1) ?? '',
+        date: readableDate(education.startMonth, education.startYear, education.endMonth, education.endYear, education.isCurrent) ?? '',
         action: education.id ?? 0
-    })
-    ) : [];
+    }));
 
     return (
         <>
@@ -103,7 +100,7 @@ const Profile: React.FC<ProfileProps> = () => {
                 />
                 <Table
                     title='Education'
-                    isLoading={useEducationStore.getState().isLoadingEducations}
+                    isLoading={educationStore.loading}
                     columns={educationColumns}
                     data={educationData}
                     handleOnClickEdit={handleEditEducationPopup}
@@ -116,7 +113,7 @@ const Profile: React.FC<ProfileProps> = () => {
                 open={workFormOpen}
             />
             <EducationForm
-                action={educationFormAction ?? 'CREATE'}
+                action={educationFormAction}
                 setOpen={setEducationFormOpen}
                 open={educationFormOpen}
             />
