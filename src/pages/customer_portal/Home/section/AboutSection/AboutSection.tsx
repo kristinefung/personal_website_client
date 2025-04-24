@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { observer } from 'mobx-react-lite';
 
 import imageProfilePic from 'src/assets/profile_pic.jpeg';
 import Timeline from 'src/components/customer_portal/Timeline/Timeline';
 import ImageWithBorder from 'src/components/customer_portal/ImageWithBorder/ImageWithBorder';
-import WorkService from 'src/services/api/workService';
 import EducationService from 'src/services/api/educationService';
 import { readableDate } from 'src/utils/common';
+import workStore from 'src/store/workStore';
+import { IWork } from 'src/services/api/workService';
 
 import './AboutSection.css';
 
@@ -21,45 +23,11 @@ type TimelineData = {
 }
 
 const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
-
-  const [works, setWorks] = useState<TimelineData[]>([]);
-  const [isLoadingWork, setIsLoadingWork] = useState<boolean>(true);
-  const [workError, setWorkError] = useState<string | null>(null);
-
   const [educations, setEducations] = useState<TimelineData[]>([]);
   const [isLoadingEducation, setIsLoadingEducation] = useState<boolean>(true);
   const [educationError, setEducationError] = useState<string | null>(null);
 
-  const workService = WorkService();
   const educationService = EducationService();
-
-  const fetchWorks = async () => {
-    setIsLoadingWork(true);
-    try {
-      const worksResp = await workService.getAllWorks();
-      const timelineDatas: TimelineData[] = [];
-
-      worksResp.map(
-        (work) => timelineDatas.push({
-          title: work.title,
-          subTitle: work.companyName,
-          date: readableDate(work.startMonth, work.startYear, work.endMonth, work.endYear, work.isCurrent === 1),
-          description: work.description ? work.description.replace(/\n/g, "<br />") : ""
-        })
-      );
-
-      setWorks(timelineDatas);
-
-    } catch (err) {
-      if (err instanceof Error) {
-        setWorkError(err.message);
-      } else {
-        setWorkError("An unknown error occurred");
-      }
-    } finally {
-      setIsLoadingWork(false);
-    }
-  };
 
   const fetchEducations = async () => {
     setIsLoadingEducation(true);
@@ -90,9 +58,22 @@ const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
   };
 
   useEffect(() => {
-    fetchWorks();
+    workStore.fetchWorks();
     fetchEducations();
   }, []);
+
+  const works: TimelineData[] = workStore.works.map((work: IWork) => ({
+    title: work.title || '',
+    subTitle: work.companyName || '',
+    date: readableDate(
+      work.startMonth || 0,
+      work.startYear || 0,
+      work.endMonth || 0,
+      work.endYear || 0,
+      work.isCurrent || false
+    ),
+    description: work.description ? work.description.replace(/\n/g, "<br />") : ""
+  }));
 
   return (
     <section ref={aboutRef} id='about-section'>
@@ -125,4 +106,4 @@ const AboutSection: React.FC<AboutSectionProps> = ({ aboutRef }) => {
   );
 }
 
-export default AboutSection;
+export default observer(AboutSection);

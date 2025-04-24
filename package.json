@@ -19,6 +19,8 @@
     "@mui/joy": "^5.0.0-beta.52",
     "@mui/material": "^6.3.0",
     "@mui/styles": "^6.4.10",
+    "mobx": "^6.13.7",
+    "mobx-react-lite": "^4.1.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-router-dom": "^7.0.2",

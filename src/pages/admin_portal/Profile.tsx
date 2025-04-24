@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { IconButton, Skeleton, Box } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
+import { observer } from 'mobx-react-lite';
 
 import MoreOptionButton from 'src/components/admin_portal/MoreOptionButton';
 import Card from 'src/components/admin_portal/Card';
@@ -11,7 +12,7 @@ import EducationForm from 'src/components/admin_portal/_form/EducationForm';
 import { IWork } from 'src/services/api/workService';
 import { IEducation } from 'src/services/api/educationService';
 import { readableDate } from 'src/utils/common';
-import useWorkStore, { workActions } from 'src/store/workStore';
+import workStore from 'src/store/workStore';
 import useEducationStore, { educationActions } from 'src/store/educationStore';
 
 import Table, { Column, Row } from 'src/components/admin_portal/_form_element/Table';
@@ -20,26 +21,24 @@ interface ProfileProps {
 }
 
 const Profile: React.FC<ProfileProps> = () => {
-    const {
-        list: works,
-        action: workFormAction
-    } = useWorkStore();
+    const [workFormOpen, setWorkFormOpen] = useState(false);
+    const [educationFormOpen, setEducationFormOpen] = useState(false);
+    const [workFormAction, setWorkFormAction] = useState<'CREATE' | 'UPDATE'>('CREATE');
 
     const {
         list: educations,
         action: educationFormAction
     } = useEducationStore();
 
-    const [workFormOpen, setWorkFormOpen] = useState(false);
-    const [educationFormOpen, setEducationFormOpen] = useState(false);
-
     const handleEditWorkPopup = async (id: number | null) => {
-        workActions.setFormState({ id, action: 'UPDATE' });
+        workStore.setCurrentWork(null);
+        setWorkFormAction('UPDATE');
         setWorkFormOpen(true);
     }
 
     const handleCreateWorkPopup = async () => {
-        workActions.setFormState({ id: null, action: 'CREATE' });
+        workStore.setCurrentWork(null);
+        setWorkFormAction('CREATE');
         setWorkFormOpen(true);
     }
 
@@ -54,7 +53,7 @@ const Profile: React.FC<ProfileProps> = () => {
     }
 
     useEffect(() => {
-        workActions.fetchAllWorks();
+        workStore.fetchWorks();
         educationActions.fetchAllEducations();
     }, []);
 
@@ -66,14 +65,13 @@ const Profile: React.FC<ProfileProps> = () => {
         { id: 'action', label: 'Action' },
     ];
 
-    const workData: Row[] = works ? works.map((work) => ({
+    const workData: Row[] = workStore.works.map((work) => ({
         companyName: work.companyName ?? '',
         title: work.title ?? '',
-        date: readableDate(work.startMonth!, work.startYear!, work.endMonth!, work.endYear!, work.isCurrent === 1) ?? '',
+        date: readableDate(work.startMonth!, work.startYear!, work.endMonth!, work.endYear!, Boolean(work.isCurrent)) ?? '',
         createdAt: work.createdAt!.toString() ?? '',
         action: work.id ?? 0
-    })
-    ) : [];
+    }));
 
     const educationColumns: Column[] = [
         { id: 'schoolName', label: 'School name' },
@@ -97,7 +95,7 @@ const Profile: React.FC<ProfileProps> = () => {
             <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
                 <Table
                     title='Work'
-                    isLoading={useWorkStore.getState().isLoadingWorks}
+                    isLoading={workStore.loading}
                     columns={workColumns}
                     data={workData}
                     handleOnClickEdit={handleEditWorkPopup}
@@ -113,7 +111,7 @@ const Profile: React.FC<ProfileProps> = () => {
                 />
             </Box>
             <WorkForm
-                action={workFormAction ?? 'CREATE'}
+                action={workFormAction}
                 setOpen={setWorkFormOpen}
                 open={workFormOpen}
             />
@@ -126,4 +124,4 @@ const Profile: React.FC<ProfileProps> = () => {
     );
 }
 
-export default Profile;
+export default observer(Profile);

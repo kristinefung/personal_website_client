@@ -1,140 +1,134 @@
-import { create } from 'zustand';
-import WorkService, { IWork } from 'src/services/api/workService';
+import { makeAutoObservable, runInAction } from 'mobx';
+import WorkService, { IWork, WorkError } from '../services/api/workService';
 
-const workService = WorkService();
+class WorkStore {
+    works: IWork[] = [];
+    currentWork: IWork | null = null;
+    loading: boolean = false;
+    error: WorkError | null = null;
+    total: number = 0;
 
-interface LoadingState {
-    isLoadingWork: boolean;
-    isLoadingWorks: boolean;
-    isUpdatingWork: boolean;
-    isCreatingWork: boolean;
-}
-
-interface WorkFormState {
-    id: number | null;
-    action: 'CREATE' | 'UPDATE' | null;
-}
-
-interface WorkState {
-    current: IWork | Partial<IWork>;
-    list: IWork[] | null;
-}
-
-const initialLoadingState: LoadingState = {
-    isLoadingWork: false,
-    isLoadingWorks: false,
-    isUpdatingWork: false,
-    isCreatingWork: false
-};
-
-const initialWorkState: WorkState = {
-    current: {
-        id: undefined,
-        title: undefined,
-        companyName: undefined,
-        description: undefined,
-        startMonth: undefined,
-        startYear: undefined,
-        endMonth: undefined,
-        endYear: undefined,
-        isCurrent: 0,
-        createdAt: undefined,
-    },
-    list: null
-};
-
-const initialFormState: WorkFormState = {
-    id: null,
-    action: null
-};
-
-const useWorkStore = create<WorkState & WorkFormState & LoadingState>((set) => ({
-    ...initialWorkState,
-    ...initialFormState,
-    ...initialLoadingState,
-}));
-
-export const workActions = {
-    setLoading: (key: keyof LoadingState, value: boolean) =>
-        useWorkStore.setState((state) => ({
-            [key]: value
-        })),
-
-    setCurrentWork: (work: IWork) =>
-        useWorkStore.setState({ current: work }),
-
-    setWorkList: (works: IWork[]) =>
-        useWorkStore.setState({ list: works }),
-
-    clearCurrentWork: () =>
-        useWorkStore.setState({ current: initialWorkState.current }),
-
-    setFormState: (state: Partial<WorkFormState>) =>
-        useWorkStore.setState((prev) => ({
-            ...prev,
-            ...state
-        })),
-
-    resetFormState: () =>
-        useWorkStore.setState({ ...initialFormState }),
-
-    fetchWorkById: async (id: number) => {
-        useWorkStore.setState({ isLoadingWork: true });
-        try {
-            const response = await workService.getWorkById(id);
-            useWorkStore.setState({ current: response });
-        }
-        catch (error: unknown) {
-            // TODO: Handle error properly
-            console.error('Error fetching work:', error);
-        }
-        finally {
-            useWorkStore.setState({ isLoadingWork: false });
-        }
-    },
-
-    fetchAllWorks: async () => {
-        useWorkStore.setState({ isLoadingWorks: true });
-        try {
-            const response = await workService.getAllWorks();
-            useWorkStore.setState({ list: response });
-        }
-        catch (error: unknown) {
-            // TODO: Handle error properly
-            console.error('Error fetching works:', error);
-        }
-        finally {
-            useWorkStore.setState({ isLoadingWorks: false });
-        }
-    },
-
-    updateWork: async (work: IWork) => {
-        useWorkStore.setState({ isUpdatingWork: true });
-        try {
-            await workService.updateWorkById(work.id!, work);
-        }
-        catch (error: unknown) {
-            // TODO: Handle error properly
-            console.error('Error updating work:', error);
-        }
-        finally {
-            useWorkStore.setState({ isUpdatingWork: false });
-        }
-    },
-
-    createWork: async (work: IWork) => {
-        useWorkStore.setState({ isCreatingWork: true });
-        try {
-            await workService.createWork(work);
-        }
-        catch (error: unknown) {
-            // TODO: Handle error properly
-            console.error('Error creating work:', error);
-        }
-        finally {
-            useWorkStore.setState({ isCreatingWork: false });
-        }
+    constructor() {
+        makeAutoObservable(this);
     }
-};
 
-export default useWorkStore;
+    // Actions
+    setWorks = (works: IWork[]) => {
+        this.works = works;
+    };
+
+    setCurrentWork = (work: IWork | null) => {
+        this.currentWork = work;
+    };
+
+    setLoading = (loading: boolean) => {
+        this.loading = loading;
+    };
+
+    setError = (error: WorkError | null) => {
+        this.error = error;
+    };
+
+    setTotal = (total: number) => {
+        this.total = total;
+    };
+
+    // Async actions
+    fetchWorks = async (orderBy?: string, orderDirection?: 'asc' | 'desc') => {
+        try {
+            this.setLoading(true);
+            this.setError(null);
+            const workService = WorkService();
+            const response = await workService.getAllWorks({ orderBy, orderDirection });
+            runInAction(() => {
+                this.setWorks(response.data.works);
+                this.setTotal(response.data.total);
+            });
+        } catch (error) {
+            runInAction(() => {
+                this.setError({ title: 'Failed to fetch works' });
+            });
+        } finally {
+            runInAction(() => {
+                this.setLoading(false);
+            });
+        }
+    };
+
+    fetchWorkById = async (id: number) => {
+        try {
+            this.setLoading(true);
+            this.setError(null);
+            const workService = WorkService();
+            const response = await workService.getWorkById(id);
+            runInAction(() => {
+                this.setCurrentWork(response.data.work);
+            });
+        } catch (error) {
+            runInAction(() => {
+                this.setError({ title: 'Failed to fetch work' });
+            });
+        } finally {
+            runInAction(() => {
+                this.setLoading(false);
+            });
+        }
+    };
+
+    createWork = async (work: Omit<IWork, 'id' | 'createdAt'>) => {
+        try {
+            this.setLoading(true);
+            this.setError(null);
+            const workService = WorkService();
+            await workService.createWork(work as any);
+            await this.fetchWorks();
+        } catch (error) {
+            runInAction(() => {
+                this.setError({ title: 'Failed to create work' });
+            });
+        } finally {
+            runInAction(() => {
+                this.setLoading(false);
+            });
+        }
+    };
+
+    updateWork = async (id: number, work: Partial<IWork>) => {
+        try {
+            this.setLoading(true);
+            this.setError(null);
+            const workService = WorkService();
+            await workService.updateWorkById(id, work as any);
+            await this.fetchWorks();
+        } catch (error) {
+            runInAction(() => {
+                this.setError({ title: 'Failed to update work' });
+            });
+        } finally {
+            runInAction(() => {
+                this.setLoading(false);
+            });
+        }
+    };
+
+    deleteWork = async (id: number) => {
+        try {
+            this.setLoading(true);
+            this.setError(null);
+            const workService = WorkService();
+            await workService.deleteWorkById(id);
+            await this.fetchWorks();
+        } catch (error) {
+            runInAction(() => {
+                this.setError({ title: 'Failed to delete work' });
+            });
+        } finally {
+            runInAction(() => {
+                this.setLoading(false);
+            });
+        }
+    };
+}
+
+export const workStore = new WorkStore();
+export default workStore; 
